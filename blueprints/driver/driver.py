@@ -1,7 +1,10 @@
 from flask import Blueprint, jsonify, request
-import mysql.connector as db
+import pymysql as db
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
-connection = db.connect(host="localhost", user='root', password='12345678', database="ride_share")
+connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="ride_share")
 cursor = connection.cursor()
 
 driver_bp = Blueprint("driver", __name__)
@@ -56,7 +59,7 @@ def main():
         {
             "message": "success",
             "contents": [
-                ["D1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"],
+                ["1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"],
                 ...
             ]
         }
@@ -68,7 +71,7 @@ def main():
         <p><strong>Request Body:</strong> JSON containing the driver ID.</p>
         <pre>
         {
-            "id": "D1"
+            "id": "1"
         }
         </pre>
         <p><strong>Response:</strong> JSON containing a message and the contents of the driver record, or a failure message if no match is found.</p>
@@ -79,7 +82,6 @@ def main():
         <p><strong>Request Body:</strong> JSON containing the driver details.</p>
         <pre>
         {
-            "id": "D1",
             "name": "ABC",
             "cab_id": "CB1",
             "email": "abc@gmail.com",
@@ -144,13 +146,12 @@ def add_driver():
     data = request.json
     
     try:
-        id = data.get('id')
         name = data.get('name')
         cab_id = data.get('cab_id')
         email = data.get('email')
         dob = data.get('dob')
         location = data.get('location')
-        cursor.execute(f"insert into drivers values ('{id}','{name}','{cab_id}','{email}','{dob}','{location}')")
+        cursor.execute(f"insert into drivers values (NULL, '{name}','{cab_id}','{email}','{dob}','{location}')")
         cursor.execute('commit')
 
         return jsonify({
