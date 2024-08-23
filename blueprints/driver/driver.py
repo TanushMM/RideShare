@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 import mysql.connector as db
 
-connection = db.connect(host="localhost", user='root', password='Tanush@2004MYSQL', database="ride_share")
+connection = db.connect(host="localhost", user='root', password='12345678', database="ride_share")
 cursor = connection.cursor()
 
 driver_bp = Blueprint("driver", __name__)
