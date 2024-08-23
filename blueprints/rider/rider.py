@@ -1,21 +1,82 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify, request, render_template
+import pymysql as db
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
-rider_bp = Blueprint("rider", __name__)
+connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="ride_share")
+cursor = connection.cursor()
+
+rider_bp = Blueprint("rider", __name__, template_folder='templates')
 
 
 @rider_bp.route('/')
 def main():
-    return "<h1>This is the <i>/rider</i> endpoint</h1>"
-    pass
+    return render_template('rider.html')
 
 
 
-@rider_bp.route('/getRider')
+@rider_bp.route('/riderData')
 def get_rider():
-    return "<h1>/getRider</h1>"
+    try:
+        cursor.execute('select * from riders')
+        data = cursor.fetchall()
+        return jsonify({
+            "message": "success",
+            "contents": data
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "message": "fail",
+            "contents": f"Database Error - {str(e)}"
+        }), 500
 
+@rider_bp.route('/getRider', methods=['POST'])
+def get_driver():
+    '''
+    Send the ID of the Rider via the contents of the HTTP request
+    eg:
+    {"id": "1"}
+    '''
+    try:
+        id = request.json.get('id')
+        cursor.execute(f"select * from riders where id = '{id}'")
+        data = cursor.fetchall()
+        
+        #handling the condition where the db return success but there is no record that matches the given driverID
+        if len(data) == 0: 
+            return jsonify({
+            "message": "fail",
+            "contents": f"No Match"
+        }), 404
+        return jsonify({
+            "message": "success",
+            "contents": data
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "message": "fail",
+            "contents": f"{str(e)}"
+        }), 500
 
-
-@rider_bp.route("/addRider")
+@rider_bp.route("/addRider", methods=['POST'])
 def add_rider():
-    return "<h1>Rider added</h1>"
+    data = request.json
+    
+    try:
+        name = data.get('name')
+        email = data.get('email')
+        
+        cursor.execute("INSERT INTO riders (name, email) VALUES (%s, %s)", (name, email))
+        # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
+        connection.commit()
+
+        return jsonify({
+            "message": "success",
+            "contents": None
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "message": "fail",
+            "contents": f"{str(e)}"
+        }), 500

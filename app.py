@@ -7,4 +7,4 @@ app.register_blueprint(driver_bp, url_prefix='/driver')
 app.register_blueprint(rider_bp, url_prefix='/rider')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

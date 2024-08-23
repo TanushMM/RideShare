@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 import pymysql as db
 from dotenv import load_dotenv
 load_dotenv()
@@ -7,93 +7,11 @@ import os
 connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="ride_share")
 cursor = connection.cursor()
 
-driver_bp = Blueprint("driver", __name__)
+driver_bp = Blueprint("driver", __name__, template_folder='templates')
 
 @driver_bp.route('/')
 def main():
-    return '''
-    <html>
-    <head>
-        <title>Driver Endpoint Documentation</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 40px;
-            }
-            h1 {
-                color: #2c3e50;
-            }
-            h2 {
-                color: #2980b9;
-            }
-            p {
-                font-size: 16px;
-                line-height: 1.6;
-            }
-            code {
-                background-color: #f4f4f4;
-                padding: 2px 4px;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            pre {
-                background-color: #f4f4f4;
-                padding: 10px;
-                border-radius: 4px;
-                font-size: 14px;
-            }
-            ul {
-                margin-left: 20px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Driver API Documentation</h1>
-        <p>Welcome to the documentation for the <code>/driver</code> endpoint. Below are the details of the available routes and how to use them.</p>
-
-        <h2>1. /driverData (GET)</h2>
-        <p>Retrieves all driver data from the database.</p>
-        <p><strong>Method:</strong> GET</p>
-        <p><strong>Response:</strong> JSON containing a message and the contents of the driver table.</p>
-        <pre>
-        {
-            "message": "success",
-            "contents": [
-                ["1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"],
-                ...
-            ]
-        }
-        </pre>
-
-        <h2>2. /getDriver (POST)</h2>
-        <p>Retrieves the data of a specific driver based on the provided ID in the request body.</p>
-        <p><strong>Method:</strong> POST</p>
-        <p><strong>Request Body:</strong> JSON containing the driver ID.</p>
-        <pre>
-        {
-            "id": "1"
-        }
-        </pre>
-        <p><strong>Response:</strong> JSON containing a message and the contents of the driver record, or a failure message if no match is found.</p>
-
-        <h2>3. /addDriver (POST)</h2>
-        <p>Adds a new driver to the database using the details provided in the request body.</p>
-        <p><strong>Method:</strong> POST</p>
-        <p><strong>Request Body:</strong> JSON containing the driver details.</p>
-        <pre>
-        {
-            "name": "ABC",
-            "cab_id": "CB1",
-            "email": "abc@gmail.com",
-            "dob": "2000-10-12",
-            "location": "Chennai"
-        }
-        </pre>
-        <p><strong>Response:</strong> JSON containing a success message if the driver is added successfully, or a failure message if an error occurs.</p>
-
-    </body>
-    </html>
-    '''
+    return render_template('driver.html')
 
 
 @driver_bp.route('/driverData')
@@ -116,7 +34,7 @@ def get_driver():
     '''
     Send the ID of the Driver via the contents of the HTTP request
     eg:
-    {"id": "D1"}
+    {"id": "1"}
     '''
     try:
         id = request.json.get('id')
@@ -152,7 +70,7 @@ def add_driver():
         dob = data.get('dob')
         location = data.get('location')
         cursor.execute(f"insert into drivers values (NULL, '{name}','{cab_id}','{email}','{dob}','{location}')")
-        cursor.execute('commit')
+        connection.commit()
 
         return jsonify({
             "message": "success",
