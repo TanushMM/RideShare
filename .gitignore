@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Custom
+/Trash 
+hours.txt
+/Test_Service
+cert.pem
+key.pem
+signature.py
 # C extensions
 *.so
 
