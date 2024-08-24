@@ -28,8 +28,6 @@ def get_rider():
         cursor = connection.cursor()
         cursor.execute('select * from riders')
         data = cursor.fetchall()
-        cursor.close()
-        connection.close()
         return jsonify({
             "message": "success",
             "contents": data
@@ -39,6 +37,9 @@ def get_rider():
             "message": "fail",
             "contents": f"Database Error - {str(e)}"
         }), 500
+    finally:
+        cursor.close()
+        connection.close()
 
 @rider_bp.route('/getRider', methods=['POST'])
 @jwt_required()
@@ -54,8 +55,6 @@ def get_driver():
         _id = request.json.get('_id')
         cursor.execute(f"select * from riders where _id = '{_id}'")
         data = cursor.fetchall()
-        cursor.close()
-        connection.close()
         
         #handling the condition where the db return success but there is no record that matches the given driverID
         if len(data) == 0: 
@@ -72,6 +71,9 @@ def get_driver():
             "message": "fail",
             "contents": f"{str(e)}"
         }), 500
+    finally:
+        cursor.close()
+        connection.close()
 
 @rider_bp.route("/addRider", methods=['POST'])
 @jwt_required()
@@ -88,8 +90,6 @@ def add_rider():
         cursor.execute("INSERT INTO riders VALUES (%s, %s, %s)", (_id, name, email))
         # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
         connection.commit()
-        cursor.close()
-        connection.close()
 
         return jsonify({
             "message": "success",
@@ -100,3 +100,6 @@ def add_rider():
             "message": "fail",
             "contents": f"{str(e)}"
         }), 500
+    finally:
+        cursor.close()
+        connection.close()
