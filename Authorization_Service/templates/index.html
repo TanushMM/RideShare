@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      h2 {
+        color: #2980b9;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      ul {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Documentation</h1>
+    <p>
+      Welcome to the API documentation for this application. Below are the
+      details of the available routes and how to use them.
+    </p>
+
+    <!-- <h2>Base URL</h2>
+    <p>
+      The API is accessible at the following base URL:
+    </p>
+    <pre>
+    http://localhost:5000
+    </pre>
+
+    <h2>1. Endpoints</h2> -->
+
+    <h2>1. / (GET)</h2>
+    <p>
+      Base endpoint for the application. It renders the <code>index.html</code>
+      template.
+    </p>
+    <p><strong>Method:</strong> GET</p>
+    <p>
+      <strong>Response:</strong> Renders the <code>index.html</code> template.
+    </p>
+
+    <h2>2. /getJWT (POST)</h2>
+    <p>
+      Generates a JWT token based on the provided JWT from the login service.
+    </p>
+    <p><strong>Method:</strong> POST</p>
+    <p>
+      <strong>Request Body:</strong> JSON containing the JWT from the login
+      service.
+    </p>
+    <pre>
+    {
+        "jwt": "token_from_login_service"
+    }
+    </pre>
+    <p>
+      <strong>Response:</strong> JSON containing a success message and the
+      generated JWT token.
+    </p>
+    <pre>
+    {
+        "message": "success",
+        "total_server_access_token": "generated_jwt_token"
+    }
+    </pre>
+    <p>
+      <strong>Error Response:</strong> JSON containing an error message if an
+      exception occurs.
+    </p>
+    <pre>
+    {
+        "message": "Error message"
+    }
+    </pre>
+
+    <!-- <h2>Authentication</h2>
+    <p>
+      The API endpoints require SSL/TLS encryption as they are served over HTTPS. 
+      Ensure to access the API via `https://localhost:5000` with proper SSL certificates.
+    </p> -->
+  </body>
+</html>

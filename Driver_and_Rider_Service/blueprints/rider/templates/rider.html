@@ -5,45 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rider Endpoint Documentation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        h2 {
-            color: #2980b9;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        code {
-            background-color: #f4f4f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        pre {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        ul {
-            margin-left: 20px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      h2 {
+        color: #2980b9;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      ul {
+        margin-left: 20px;
+      }
     </style>
 </head>
 <body>
     <h1>Rider API Documentation</h1>
-    <p>Welcome to the documentation for the <code>/rider</code> endpoint. Below are the details of the available routes and how to use them.</p>
+    <p>
+      Welcome to the documentation for the <code>/rider</code> endpoint. Below
+      are the details of the available routes and how to use them.
+    </p>
+
+    <p><strong>Note:</strong> All endpoints require a valid JWT token to be included in the Authorization header as a Bearer token. Example:
+    <pre>
+    Authorization: Bearer {your_jwt_token}
+    </pre>
+    </p>
 
     <h2>1. / (GET)</h2>
-    <p>Base endpoint for the rider module.</p>
+    <p>
+      Base endpoint for the rider module.
+    </p>
     <p><strong>Method:</strong> GET</p>
-    <p><strong>Response:</strong> A simple HTML message indicating the base endpoint.</p>
+    <p>
+      <strong>Response:</strong> Renders the <code>rider.html</code> template.
+    </p>
     <pre>
     {
         "message": "success",
@@ -54,19 +67,25 @@
     <h2>2. /riderData (GET)</h2>
     <p>Retrieves all rider data from the database.</p>
     <p><strong>Method:</strong> GET</p>
-    <p><strong>Response:</strong> JSON containing a message and the contents of the rider table.</p>
+    <p>
+      <strong>Response:</strong> JSON containing a message and the contents of
+      the rider table.
+    </p>
     <pre>
     {
         "message": "success",
         "contents": [
-            [1, "John Doe", "john.doe@example.com"],
-            [2, "Jane Smith", "jane.smith@example.com"]
+            ["1", "John Doe", "john.doe@example.com"],
+            ...
         ]
     }
     </pre>
 
     <h2>3. /getRider (POST)</h2>
-    <p>Retrieves the data of a specific rider based on the provided ID in the request body.</p>
+    <p>
+      Retrieves the data of a specific rider based on the provided ID in the
+      request body.
+    </p>
     <p><strong>Method:</strong> POST</p>
     <p><strong>Request Body:</strong> JSON containing the rider ID.</p>
     <pre>
@@ -74,11 +93,14 @@
         "id": "1"
     }
     </pre>
-    <p><strong>Response:</strong> JSON containing a message and the contents of the rider record, or a failure message if no match is found.</p>
+    <p>
+      <strong>Response:</strong> JSON containing a message and the contents of
+      the rider record, or a failure message if no match is found.
+    </p>
     <pre>
     {
         "message": "success",
-        "contents": [1, "John Doe", "john.doe@example.com"]
+        "contents": ["1", "John Doe", "john.doe@example.com"]
     }
     </pre>
     <pre>
@@ -95,16 +117,22 @@
     </pre>
 
     <h2>4. /addRider (POST)</h2>
-    <p>Adds a new rider to the database using the details provided in the request body.</p>
+    <p>
+      Adds a new rider to the database using the details provided in the
+      request body.
+    </p>
     <p><strong>Method:</strong> POST</p>
     <p><strong>Request Body:</strong> JSON containing the rider details.</p>
     <pre>
     {
-        "name": "XYZ",
-        "email": "XYZCusto@gmail.com"
+        "name": "John Doe",
+        "email": "john.doe@example.com"
     }
     </pre>
-    <p><strong>Response:</strong> JSON containing a success message if the rider is added successfully, or a failure message if an error occurs.</p>
+    <p>
+      <strong>Response:</strong> JSON containing a success message if the rider
+      is added successfully, or a failure message if an error occurs.
+    </p>
     <pre>
     {
         "message": "success",

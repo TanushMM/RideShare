@@ -1,5 +1,8 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Endpoint Documentation</title>
     <style>
       body {
@@ -32,15 +35,36 @@
         margin-left: 20px;
       }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <h1>Driver API Documentation</h1>
     <p>
       Welcome to the documentation for the <code>/driver</code> endpoint. Below
       are the details of the available routes and how to use them.
     </p>
 
-    <h2>1. /driverData (GET)</h2>
+    <p><strong>Note:</strong> All endpoints require a valid JWT token to be included in the Authorization header as a Bearer token. Example:
+    <pre>
+    Authorization: Bearer {your_jwt_token}
+    </pre>
+    </p>
+
+    <h2>1. / (GET)</h2>
+    <p>
+      Base endpoint for the driver module.
+    </p>
+    <p><strong>Method:</strong> GET</p>
+    <p>
+      <strong>Response:</strong> Renders the <code>driver.html</code> template.
+    </p>
+    <pre>
+    {
+        "message": "success",
+        "contents": "This is the <i>/driver</i> endpoint"
+    }
+    </pre>
+
+    <h2>2. /driverData (GET)</h2>
     <p>Retrieves all driver data from the database.</p>
     <p><strong>Method:</strong> GET</p>
     <p>
@@ -48,17 +72,16 @@
       the driver table.
     </p>
     <pre>
-        {
-            "message": "success",
-            "contents": [
-                ["1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"],
-                ...
-            ]
-        }
-        </pre
-    >
+    {
+        "message": "success",
+        "contents": [
+            ["1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"],
+            ...
+        ]
+    }
+    </pre>
 
-    <h2>2. /getDriver (POST)</h2>
+    <h2>3. /getDriver (POST)</h2>
     <p>
       Retrieves the data of a specific driver based on the provided ID in the
       request body.
@@ -66,17 +89,34 @@
     <p><strong>Method:</strong> POST</p>
     <p><strong>Request Body:</strong> JSON containing the driver ID.</p>
     <pre>
-        {
-            "id": "1"
-        }
-        </pre
-    >
+    {
+        "id": "1"
+    }
+    </pre>
     <p>
       <strong>Response:</strong> JSON containing a message and the contents of
       the driver record, or a failure message if no match is found.
     </p>
+    <pre>
+    {
+        "message": "success",
+        "contents": ["1", "ABC", "CB1", "abc@gmail.com", "2000-10-12", "Chennai"]
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "No Match"
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "Database Error - {error_message}"
+    }
+    </pre>
 
-    <h2>3. /addDriver (POST)</h2>
+    <h2>4. /addDriver (POST)</h2>
     <p>
       Adds a new driver to the database using the details provided in the
       request body.
@@ -84,18 +124,29 @@
     <p><strong>Method:</strong> POST</p>
     <p><strong>Request Body:</strong> JSON containing the driver details.</p>
     <pre>
-        {
-            "name": "ABC",
-            "cab_id": "CB1",
-            "email": "abc@gmail.com",
-            "dob": "2000-10-12",
-            "location": "Chennai"
-        }
-        </pre
-    >
+    {
+        "name": "ABC",
+        "cab_id": "CB1",
+        "email": "abc@gmail.com",
+        "dob": "2000-10-12",
+        "location": "Chennai"
+    }
+    </pre>
     <p>
       <strong>Response:</strong> JSON containing a success message if the driver
       is added successfully, or a failure message if an error occurs.
     </p>
-  </body>
+    <pre>
+    {
+        "message": "success",
+        "contents": null
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "Database Error - {error_message}"
+    }
+    </pre>
+</body>
 </html>
