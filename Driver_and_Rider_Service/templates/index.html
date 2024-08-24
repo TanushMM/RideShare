@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      h2 {
+        color: #2980b9;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      ul {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Documentation</h1>
+    <p>
+      Welcome to the API documentation. This API is designed to handle requests
+      for both drivers and riders. The primary endpoints provided by this API
+      are accessible under the <code>/driver</code> and
+      <code>/rider</code> prefixes.
+    </p>
+
+    <h2>Authorization</h2>
+    <p>
+      This API uses JSON Web Tokens (JWT) for authentication. Every request to
+      the <code>/driver</code> and <code>/rider</code> endpoints must include a
+      valid JWT in the header.
+    </p>
+    <p>
+      To obtain a JWT, you can use the <code>/getJWT</code> endpoint with a POST
+      request. The JWT should be included in the Authorization header as a
+      Bearer token:
+    </p>
+    <pre>
+        Authorization: Bearer &lt;your-token-here&gt;
+    </pre>
+
+    <h2>Endpoints</h2>
+    <ul>
+      <li><strong>/driver</strong>: Access driver-related functionalities.</li>
+      <li><strong>/rider</strong>: Access rider-related functionalities.</li>
+    </ul>
+
+    <h2>Further Documentation</h2>
+    <p>
+      For detailed information on how to use the <code>/driver</code> and
+      <code>/rider</code> endpoints, please refer to their specific
+      documentation:
+    </p>
+    <ul>
+      <li><a href="/driver/">Driver API Documentation</a></li>
+      <li><a href="/rider/">Rider API Documentation</a></li>
+    </ul>
+  </body>
+</html>

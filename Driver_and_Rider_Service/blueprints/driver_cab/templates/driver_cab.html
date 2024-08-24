@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Cab API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      h2 {
+        color: #2980b9;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      ul {
+        margin-left: 20px;
+      }
+    </style>
+</head>
+<body>
+    <h1>Driver Cab API Documentation</h1>
+    <p>
+      Welcome to the documentation for the <code>/driver/cab</code> endpoint. Below
+      are the details of the available routes and how to use them.
+    </p>
+
+    <p><strong>Note:</strong> All endpoints require a valid JWT token to be included in the Authorization header as a Bearer token. Example:
+    <pre>
+    Authorization: Bearer {your_jwt_token}
+    </pre>
+    </p>
+
+    <h2>1. / (GET)</h2>
+    <p>
+      Base endpoint for the driver cab module.
+    </p>
+    <p><strong>Method:</strong> GET</p>
+    <p>
+      <strong>Response:</strong> Renders a simple HTML response indicating the base endpoint.
+    </p>
+    <pre>
+    <h1>Hello from /driver/cab/</h1>
+    </pre>
+
+    <h2>2. /cabData (GET)</h2>
+    <p>Retrieves all cab data from the database.</p>
+    <p><strong>Method:</strong> GET</p>
+    <p>
+      <strong>Response:</strong> JSON containing a message and the contents of
+      the cabs table.
+    </p>
+    <pre>
+    {
+        "message": "success",
+        "contents": [
+            ["1", "AADHAR123", "TN10AXXXXX", "Sedan", "Honda City"],
+            ...
+        ]
+    }
+    </pre>
+
+    <h2>3. /getCab (POST)</h2>
+    <p>
+      Retrieves the data of a specific cab based on the provided ID in the
+      request body.
+    </p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong> JSON containing the cab ID.</p>
+    <pre>
+    {
+        "id": "1"
+    }
+    </pre>
+    <p>
+      <strong>Response:</strong> JSON containing a message and the contents of
+      the cab record, or a failure message if no match is found.
+    </p>
+    <pre>
+    {
+        "message": "success",
+        "contents": ["1", "AADHAR123", "TN10AXXXXX", "Sedan", "Honda City"]
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "No Match"
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "Database Error - {error_message}"
+    }
+    </pre>
+
+    <h2>4. /addCab (POST)</h2>
+    <p>
+      Adds a new cab to the database using the details provided in the
+      request body.
+    </p>
+    <p><strong>Method:</strong> POST</p>
+    <p><strong>Request Body:</strong> JSON containing the cab details.</p>
+    <pre>
+    {
+        "_id": "2",
+        "aadhar_id": "AADHAR456",
+        "vehicle_number": "TN10BXXXX",
+        "vehicle_type": "SUV",
+        "vehicle_model": "Toyota Fortuner"
+    }
+    </pre>
+    <p>
+      <strong>Response:</strong> JSON containing a success message if the cab
+      is added successfully, or a failure message if an error occurs.
+    </p>
+    <pre>
+    {
+        "message": "success",
+        "contents": null
+    }
+    </pre>
+    <pre>
+    {
+        "message": "fail",
+        "contents": "Database Error - {error_message}"
+    }
+    </pre>
+</body>
+</html>

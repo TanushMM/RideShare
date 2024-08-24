@@ -4,3 +4,4 @@ pymongo
 pyrebase4
 python-dotenv
 flask_jwt_extended
+flask-cors

@@ -4,9 +4,14 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 from flask_jwt_extended import jwt_required
+from pymongo import MongoClient
 
-connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="ride_share")
+connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
 cursor = connection.cursor()
+
+client = MongoClient("mongodb://3.111.198.198:27017/")
+db = client['rideshare']
+collection = db['riders']
 
 rider_bp = Blueprint("rider", __name__, template_folder='templates')
 
@@ -40,8 +45,8 @@ def get_driver():
     {"id": "1"}
     '''
     try:
-        id = request.json.get('id')
-        cursor.execute(f"select * from riders where id = '{id}'")
+        _id = request.json.get('_id')
+        cursor.execute(f"select * from riders where _id = '{_id}'")
         data = cursor.fetchall()
         
         #handling the condition where the db return success but there is no record that matches the given driverID
@@ -66,10 +71,11 @@ def add_rider():
     data = request.json
     
     try:
+        _id = data.get('_id')
         name = data.get('name')
         email = data.get('email')
         
-        cursor.execute("INSERT INTO riders (name, email) VALUES (%s, %s)", (name, email))
+        cursor.execute("INSERT INTO riders VALUES (%s, %s, %s)", (_id, name, email))
         # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
         connection.commit()
 

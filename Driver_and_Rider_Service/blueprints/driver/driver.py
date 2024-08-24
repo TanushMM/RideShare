@@ -6,7 +6,7 @@ import os
 from flask_jwt_extended import jwt_required
 
 
-connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="ride_share")
+connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
 cursor = connection.cursor()
 
 driver_bp = Blueprint("driver", __name__, template_folder='templates')
@@ -35,14 +35,9 @@ def driver_data():
 @driver_bp.route('/getDriver/', methods=['POST'])
 @jwt_required()
 def get_driver():
-    '''
-    Send the ID of the Driver via the contents of the HTTP request
-    eg:
-    {"id": "1"}
-    '''
     try:
-        id = request.json.get('id')
-        cursor.execute(f"select * from drivers where id = '{id}'")
+        _id = request.json.get('_id')
+        cursor.execute(f"select * from drivers where _id = '{id}'")
         data = cursor.fetchall()
         
         #handling the condition where the db return success but there is no record that matches the given driverID
@@ -67,12 +62,13 @@ def add_driver():
     data = request.json
     
     try:
+        _id = data.get('_id')
         name = data.get('name')
         cab_id = data.get('cab_id')
         email = data.get('email')
         dob = data.get('dob')
         location = data.get('location')
-        cursor.execute(f"insert into drivers values (NULL, '{name}','{cab_id}','{email}','{dob}','{location}')")
+        cursor.execute(f"insert into drivers values ('{_id}', '{name}','{cab_id}','{email}','{dob}','{location}')")
         connection.commit()
 
         return jsonify({
