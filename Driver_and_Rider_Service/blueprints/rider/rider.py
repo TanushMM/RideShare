@@ -84,12 +84,12 @@ def add_rider():
         _id = data.get('_id')
         name = data.get('name')
         email = data.get('email')
-        cursor.close()
-        connection.close()
         
         cursor.execute("INSERT INTO riders VALUES (%s, %s, %s)", (_id, name, email))
         # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
         connection.commit()
+        cursor.close()
+        connection.close()
 
         return jsonify({
             "message": "success",
