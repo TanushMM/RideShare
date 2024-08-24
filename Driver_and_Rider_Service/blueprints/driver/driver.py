@@ -6,8 +6,8 @@ import os
 from flask_jwt_extended import jwt_required
 
 
-connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
-cursor = connection.cursor()
+def get_db_connection():
+    return db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
 
 driver_bp = Blueprint("driver", __name__, template_folder='templates')
 
@@ -20,8 +20,12 @@ def main():
 @jwt_required()
 def driver_data():
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         cursor.execute('select * from drivers')
         data = cursor.fetchall()
+        cursor.close()
+        connection.close()
         return jsonify({
             "message": "success",
             "contents": data
@@ -36,9 +40,13 @@ def driver_data():
 @jwt_required()
 def get_driver():
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         _id = request.json.get('_id')
         cursor.execute(f"select * from drivers where _id = '{id}'")
         data = cursor.fetchall()
+        cursor.close()
+        connection.close()
         
         #handling the condition where the db return success but there is no record that matches the given driverID
         if len(data) == 0: 
@@ -62,6 +70,8 @@ def add_driver():
     data = request.json
     
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         _id = data.get('_id')
         name = data.get('name')
         cab_id = data.get('cab_id')
@@ -70,6 +80,8 @@ def add_driver():
         location = data.get('location')
         cursor.execute(f"insert into drivers values ('{_id}', '{name}','{cab_id}','{email}','{dob}','{location}')")
         connection.commit()
+        cursor.close()
+        connection.close()
 
         return jsonify({
             "message": "success",

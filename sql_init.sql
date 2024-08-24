@@ -30,3 +30,6 @@ vehicle_model varchar(60) not null
 );
 
 insert into cabs values('66c9a2da52e0a18f8c3b0639', '123412341234', 'TN22AB4321', 'Sedan', 'BMW 750d');
+
+
+

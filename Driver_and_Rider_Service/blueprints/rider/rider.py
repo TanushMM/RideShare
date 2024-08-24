@@ -6,8 +6,8 @@ import os
 from flask_jwt_extended import jwt_required
 from pymongo import MongoClient
 
-connection = db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
-cursor = connection.cursor()
+def get_db_connection():
+    return db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
 
 client = MongoClient("mongodb://3.111.198.198:27017/")
 db = client['rideshare']
@@ -24,8 +24,12 @@ def main():
 @jwt_required()
 def get_rider():
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         cursor.execute('select * from riders')
         data = cursor.fetchall()
+        cursor.close()
+        connection.close()
         return jsonify({
             "message": "success",
             "contents": data
@@ -45,9 +49,13 @@ def get_driver():
     {"id": "1"}
     '''
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         _id = request.json.get('_id')
         cursor.execute(f"select * from riders where _id = '{_id}'")
         data = cursor.fetchall()
+        cursor.close()
+        connection.close()
         
         #handling the condition where the db return success but there is no record that matches the given driverID
         if len(data) == 0: 
@@ -71,9 +79,13 @@ def add_rider():
     data = request.json
     
     try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
         _id = data.get('_id')
         name = data.get('name')
         email = data.get('email')
+        cursor.close()
+        connection.close()
         
         cursor.execute("INSERT INTO riders VALUES (%s, %s, %s)", (_id, name, email))
         # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
