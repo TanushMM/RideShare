@@ -5,16 +5,13 @@ load_dotenv()
 import os
 from flask_jwt_extended import jwt_required
 from pymongo import MongoClient
-
-def get_db_connection():
-    return db.connect(host="localhost", user='root', password=os.getenv('MYSQL_PASSWORD'), database="rideshare")
-
-client = MongoClient("mongodb://3.111.198.198:27017/")
-db = client['rideshare']
-collection = db['riders']
+from bson.objectid import ObjectId
 
 rider_bp = Blueprint("rider", __name__, template_folder='templates')
 
+client = MongoClient("mongodb://127.0.0.1:27017/")
+db = client['rideshare']
+collection = db['riders']
 
 @rider_bp.route('/')
 def main():
@@ -23,83 +20,60 @@ def main():
 @rider_bp.route('/riderData')
 @jwt_required()
 def get_rider():
+    response = ""
     try:
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute('select * from riders')
-        data = cursor.fetchall()
-        return jsonify({
+        data = collection.find()
+        response_data = []
+        for record in data:
+            record['_id'] = str(record['_id'])
+            response_data.append(record)
+        response = jsonify({
             "message": "success",
-            "contents": data
+            "contents": response_data
         }), 200
     except Exception as e:
-        return jsonify({
+        response =  jsonify({
             "message": "fail",
             "contents": f"Database Error - {str(e)}"
         }), 500
-    finally:
-        cursor.close()
-        connection.close()
+    return response
 
 @rider_bp.route('/getRider', methods=['POST'])
 @jwt_required()
 def get_driver():
-    '''
-    Send the ID of the Rider via the contents of the HTTP request
-    eg:
-    {"id": "1"}
-    '''
+    response = ""
     try:
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        _id = request.json.get('_id')
-        cursor.execute(f"select * from riders where _id = '{_id}'")
-        data = cursor.fetchall()
-        
-        #handling the condition where the db return success but there is no record that matches the given driverID
-        if len(data) == 0: 
-            return jsonify({
-            "message": "fail",
-            "contents": f"No Match"
-        }), 404
-        return jsonify({
+        _id_from_Authentication_Server = request.json.get('_id')
+        response_data = collection.find_one({'_id': ObjectId(_id_from_Authentication_Server)})
+        response_data['_id'] = str(response_data['_id'])
+
+        response = jsonify({
             "message": "success",
-            "contents": data
+            "contents": response_data
         }), 200
     except Exception as e:
-        return jsonify({
+        response = jsonify({
             "message": "fail",
             "contents": f"{str(e)}"
         }), 500
-    finally:
-        cursor.close()
-        connection.close()
+
+    return response
 
 @rider_bp.route("/addRider", methods=['POST'])
 @jwt_required()
 def add_rider():
-    data = request.json
-    
+    response = ""
     try:
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        _id = data.get('_id')
-        name = data.get('name')
-        email = data.get('email')
+        data = request.json
+        data['_id'] = ObjectId(data['_id'])
+        collection.insert_one(data)
         
-        cursor.execute("INSERT INTO riders VALUES (%s, %s, %s)", (_id, name, email))
-        # cursor.execute(f"insert into riders values (NULL, '{name}','{email}')")
-        connection.commit()
-
-        return jsonify({
-            "message": "success",
-            "contents": None
+        response = jsonify({
+            "message": "Rider added successfully"
         }), 200
     except Exception as e:
-        return jsonify({
+        response = jsonify({
             "message": "fail",
             "contents": f"{str(e)}"
         }), 500
-    finally:
-        cursor.close()
-        connection.close()
+    return response
