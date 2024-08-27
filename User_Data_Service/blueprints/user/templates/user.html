@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation - /user Endpoint</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .endpoint {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .code-block {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-left: 3px solid #28a745;
+        margin-top: 10px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>API Documentation - /user Endpoint</h1>
+
+      <div class="section">
+        <div class="endpoint">GET /user</div>
+        <p>
+          This endpoint serves the main HTML page for user operations. It
+          renders the `user.html` template and does not return any JSON data.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Request</h2>
+        <p><strong>Method:</strong> GET</p>
+        <p>
+          <strong>URL:</strong> <code>http://your-server-ip:5050/user/</code>
+        </p>
+      </div>
+      <div class="section">
+        <h2>Response</h2>
+        <p>
+          The response is an HTML page rendered from the `user.html` template.
+        </p>
+        <div class="code-block">
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <!-- Meta and CSS -->
+            </head>
+            <body>
+              <!-- Rendered HTML content -->
+            </body>
+          </html>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="endpoint">GET /user/userData</div>
+        <p>
+          This endpoint retrieves all user data from the database and returns it
+          in JSON format.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Request</h2>
+        <p><strong>Method:</strong> GET</p>
+        <p>
+          <strong>URL:</strong>
+          <code>http://your-server-ip:5050/user/userData</code>
+        </p>
+        <p><strong>Headers:</strong></p>
+        <div class="code-block">Authorization: Bearer &lt;JWT_TOKEN&gt;</div>
+      </div>
+      <div class="section">
+        <h2>Response</h2>
+        <p>
+          A successful response returns a JSON object containing a message and
+          the user data.
+        </p>
+        <div class="code-block">
+          { "message": "success", "contents": [ { "_id":
+          "60d21b4667d0d8992e610c85", "name": "John Doe", "email":
+          "john.doe@example.com" // Other fields... } ] }
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="endpoint">POST /user/getUser</div>
+        <p>
+          This endpoint retrieves a specific user's data based on the provided
+          ID.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Request</h2>
+        <p><strong>Method:</strong> POST</p>
+        <p>
+          <strong>URL:</strong>
+          <code>http://your-server-ip:5050/user/getUser</code>
+        </p>
+        <p><strong>Headers:</strong></p>
+        <div class="code-block">
+          Content-Type: application/json<br />
+          Authorization: Bearer &lt;JWT_TOKEN&gt;
+        </div>
+        <p><strong>Body:</strong></p>
+        <div class="code-block">{ "_id": "60d21b4667d0d8992e610c85" }</div>
+      </div>
+      <div class="section">
+        <h2>Response</h2>
+        <p>
+          A successful response returns a JSON object containing the user's
+          data.
+        </p>
+        <div class="code-block">
+          { "message": "success", "contents": { "_id":
+          "60d21b4667d0d8992e610c85", "name": "John Doe", "email":
+          "john.doe@example.com" // Other fields... } }
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="endpoint">POST /user/addUser</div>
+        <p>This endpoint adds a new user to the database.</p>
+      </div>
+      <div class="section">
+        <h2>Request</h2>
+        <p><strong>Method:</strong> POST</p>
+        <p>
+          <strong>URL:</strong>
+          <code>http://your-server-ip:5050/user/addUser</code>
+        </p>
+        <p><strong>Headers:</strong></p>
+        <div class="code-block">
+          Content-Type: application/json<br />
+          Authorization: Bearer &lt;JWT_TOKEN&gt;
+        </div>
+        <p><strong>Body:</strong></p>
+        <div class="code-block">
+          { "_id": "60d21b4667d0d8992e610c85", "name": "John Doe", "email":
+          "john.doe@example.com" // Other fields... }
+        </div>
+      </div>
+      <div class="section">
+        <h2>Response</h2>
+        <p>A successful response returns a confirmation message.</p>
+        <div class="code-block">
+          { "message": "Admin/User added successfully" }
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

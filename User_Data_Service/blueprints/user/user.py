@@ -1,22 +1,21 @@
-from flask import Blueprint, request, jsonify, render_template
-import pymysql as db
+from flask import Blueprint, jsonify, request, render_template
+from bson.objectid import ObjectId
 from flask_jwt_extended import jwt_required
 from pymongo import MongoClient
-from bson.objectid import ObjectId
 
 client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
-collection = db['cabs']
+collection = db['users']
 
-driver_cab_bp = Blueprint('driver_cab', __name__, template_folder='templates')
+user_bp = Blueprint("user", __name__, template_folder='templates')
 
-@driver_cab_bp.route('/')
+@user_bp.route('/')
 def main():
-    return render_template('driver_cab.html')
+    return render_template('user.html')
 
-@driver_cab_bp.route('/cabData')
+@user_bp.route('/userData')
 @jwt_required()
-def cab_data():
+def user_data():
     response = ""
     try:
         data = collection.find()
@@ -35,9 +34,9 @@ def cab_data():
         }), 500
     return response
 
-@driver_cab_bp.route('/getCab', methods=['POST'])
+@user_bp.route('/getUser', methods=['POST'])
 @jwt_required()
-def get_cab():
+def get_user():
     response = ""
     try:
         _id_from_Authentication_Server = request.json.get('_id')
@@ -56,9 +55,9 @@ def get_cab():
 
     return response
 
-@driver_cab_bp.route("/addCab", methods=['POST'])
+@user_bp.route("/addUser", methods=['POST'])
 @jwt_required()
-def add_cab():
+def add_user():
     response = ""
     try:
         data = request.json
@@ -66,7 +65,7 @@ def add_cab():
         collection.insert_one(data)
         
         response = jsonify({
-            "message": "Cab added successfully"
+            "message": "Admin/User added successfully"
         }), 200
     except Exception as e:
         response = jsonify({
