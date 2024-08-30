@@ -1,0 +1,34 @@
+/* LandingPage.css */
+
+.ripple-button {
+    transition: background-color 0.3s ease;
+  }
+  
+  .ripple-button:hover {
+    background-color: #283593; /* Darker blue on hover */
+  }
+  
+  /* Ripple effect */
+  .ripple-button:active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: inherit;
+    animation: ripple-animation 0.6s ease;
+  }
+  
+  @keyframes ripple-animation {
+    from {
+      transform: scale(0);
+      opacity: 1;
+    }
+    to {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
