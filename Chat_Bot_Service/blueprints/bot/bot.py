@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
 bot_bp = Blueprint('bot', __name__)
@@ -8,7 +8,14 @@ def main():
     pass
 
 
-@bot_bp.route('/chat')
-@jwt_required
+@bot_bp.route('/chat', methods=['POST'])
+# @jwt_required
 def chat():
-    pass
+    print('Entered the function')
+    response = ""
+    try:
+        data = request.json
+        print(data)
+        return jsonify({'data': data}), 200
+    except Exception as e:
+        return jsonify({'error':str(e)}), 500
