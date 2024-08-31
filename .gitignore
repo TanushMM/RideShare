@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+/Authentication_Service/node_modules
 # Custom
 /Trash 
 /Gouri_Frontend_and_Backend/Frontend
