@@ -10,20 +10,19 @@ function Header() {
       name: 'Search Ride',
       icon: LocalTaxiIcon,
       path: '/search-ride',
-      style: { backgroundColor: '#405D72', color: 'white', borderColor: '#405D72'}, // Grey background for Join Ride
+      style: { backgroundColor: '#405D72', color: 'white', borderColor: '#405D72'},
     },
     {
       id: 2,
       name: 'Post Ride',
       icon: LocalTaxiIcon,
       path: '/postride',
-      style: { backgroundColor: 'white', color: '#021526', borderColor: '#021526' }, // White background for Post Ride
+      style: { backgroundColor: 'white', color: '#021526', borderColor: '#021526' }, 
     },
   ];
 
-  // Function to check JWT presence
   const isLoggedIn = () => {
-    return !!sessionStorage.getItem('jwt'); // Check if JWT exists
+    return !!sessionStorage.getItem('jwt'); 
   };
 
   return (

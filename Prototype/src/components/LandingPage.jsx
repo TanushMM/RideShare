@@ -4,14 +4,12 @@ import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  // Animation for the heading (fade-in effect)
   const headingAnimation = useSpring({
     from: { opacity: 0, transform: 'translateX(-50px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
     config: { duration: 1000 },
   });
 
-  // Animation for the button (slide in from the right)
   const buttonAnimation = useSpring({
     from: { opacity: 0, transform: 'translateX(50px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
@@ -44,7 +42,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#052f54', // Light blue background
+    backgroundColor: '#052f54',
     color: '#fff',
     position: 'relative',
     overflow: 'hidden',

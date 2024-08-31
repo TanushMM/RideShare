@@ -26,7 +26,6 @@ import {
 import { Link } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// Sample data for charts
 const rideData = [
   { name: 'Jan', rides: 40 },
   { name: 'Feb', rides: 30 },
@@ -67,7 +66,7 @@ const Dashboard = () => {
         open={sidebarOpen}
         onClose={toggleSidebar}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, 
         }}
         sx={{
           '& .MuiDrawer-paper': {
@@ -114,7 +113,6 @@ const Dashboard = () => {
         </List>
       </Drawer>
 
-      {/* Main content */}
       <Box
         sx={{
           flexGrow: 1,
@@ -127,7 +125,6 @@ const Dashboard = () => {
         <Divider sx={{ mb: 3 }} />
 
         <Grid container spacing={3}>
-          {/* Summary Cards */}
           <Grid item xs={12} md={6} lg={3}>
             <Card sx={{ bgcolor: '#f5f5f5', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
               <CardContent>
@@ -161,7 +158,6 @@ const Dashboard = () => {
             </Card>
           </Grid>
 
-          {/* Charts */}
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" gutterBottom>Monthly Ride Activity</Typography>
             <ResponsiveContainer width="100%" height={300}>
@@ -176,7 +172,6 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </Grid>
 
-          {/* Another Chart or Component */}
           <Grid item xs={12} lg={6}>
             <Typography variant="h6" gutterBottom>Issues Over Time</Typography>
             <ResponsiveContainer width="100%" height={300}>

@@ -1,20 +1,18 @@
-// src/context/UserContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Create a context with default values
+
 const UserContext = createContext({
   user: null,
   setUser: () => {},
 });
 
-// Create a provider component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     // Fetch user data from the API
     const fetchUserData = async () => {
-      const token = sessionStorage.getItem('jst'); // Retrieve the JWT token from sessionStorage
+      const token = sessionStorage.getItem('jwt'); 
       if (!token) {
         console.error('No JWT token found in sessionStorage');
         return;
@@ -24,7 +22,7 @@ export const UserProvider = ({ children }) => {
         const response = await fetch('http://3.110.16.132:5050/user', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
@@ -41,7 +39,7 @@ export const UserProvider = ({ children }) => {
     };
 
     fetchUserData();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -50,7 +48,6 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-// Custom hook for using the UserContext
 export const useUser = () => {
   return useContext(UserContext);
 };

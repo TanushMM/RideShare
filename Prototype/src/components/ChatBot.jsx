@@ -105,7 +105,6 @@ const Chatbot = () => {
 
   const handleSendMessage = async () => {
     if (message.trim()) {
-      // Add the user's message to the messages array
       const newMessage = { text: message, isUser: true };
       setMessages([...messages, newMessage]);
 
@@ -123,17 +122,15 @@ const Chatbot = () => {
         });
   
         const data = await response.json();
-        // console.log('Message Received:', data.data.text);
 
-        // Add the bot's response to the messages array
         const botMessage = { text: data.data.text, isUser: false };
-        // console.log("Bot: ", botMessage);
+
         setMessages([...messages, newMessage, botMessage]);
       } catch (error) {
         console.error('Error sending message:', error);
       }
 
-      setMessage(''); // Clear the input field
+      setMessage('');
     }
   };
 

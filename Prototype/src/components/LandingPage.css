@@ -1,14 +1,11 @@
-/* LandingPage.css */
-
 .ripple-button {
     transition: background-color 0.3s ease;
   }
   
   .ripple-button:hover {
-    background-color: #283593; /* Darker blue on hover */
+    background-color: #283593; 
   }
   
-  /* Ripple effect */
   .ripple-button:active::after {
     content: "";
     display: block;

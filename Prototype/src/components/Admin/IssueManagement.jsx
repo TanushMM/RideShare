@@ -19,7 +19,7 @@ const IssueManagement = () => {
   useEffect(() => {
     // Fetch issues from the backend
     const fetchIssues = async () => {
-      const response = await axios.get("http://yourapi.com/issues");
+      const response = await axios.get("");
       setIssues(response.data);
     };
     fetchIssues();

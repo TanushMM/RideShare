@@ -5,20 +5,19 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the JWT is present in sessionStorage and navigate if necessary
     if (sessionStorage.getItem("privilage") === "admin" && sessionStorage.getItem("jwt") != null) {
       navigate('/admin');
     } else if (sessionStorage.getItem("privilage") === "user" && sessionStorage.getItem("jwt") != null) {
       navigate('/home');
     }
-  }, [navigate]); // Dependency array ensures this runs only when navigate changes
+  }, [navigate]); 
 
   const handleAdminClick = () => {
-    navigate("/login/admin"); // Navigate to /login/admin when Admin button is clicked
+    navigate("/login/admin"); 
   };
 
   const handleUserClick = () => {
-    navigate("/login/user"); // Navigate to /login/user when User button is clicked
+    navigate("/login/user"); 
   };
 
   const containerStyle = {

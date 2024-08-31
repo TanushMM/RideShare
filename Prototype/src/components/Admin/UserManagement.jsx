@@ -21,17 +21,17 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = sessionStorage.getItem("jwt"); // Replace 'jwt' with the actual key used in sessionStorage
+        const token = sessionStorage.getItem("jwt"); 
         const response = await axios.get("http://3.110.16.132:5050/user/userData", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUsers(response.data.contents); // Update the state with the fetched data
-        console.log(response.data.contents); // Print the data to the console
+        setUsers(response.data.contents); 
+        console.log(response.data.contents); 
         data = response.data.contents;
       } catch (error) {
-        setError(error.message); // Set the error message if the request fails
+        setError(error.message); 
         console.error("Error fetching users:", error);
       }
     };

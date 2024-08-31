@@ -26,11 +26,11 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center; 
+  align-items: center; 
   min-width: 320px;
   min-height: 100vh;
-  text-align: center; /* Center text content */
+  text-align: center; 
   font-family: 'Karla', Poppins, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; /* Update font for body */
 }
 
@@ -48,7 +48,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  color: #ffffff; /* Make button text color visible on dark background */
+  color: #ffffff; 
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -70,6 +70,6 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
-    color: #000000; /* Make button text color visible on light background */
+    color: #000000; 
   }
 }

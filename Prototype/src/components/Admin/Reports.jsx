@@ -8,7 +8,7 @@ import {
   Grid,
 } from "@mui/material";
 import { Download } from "@mui/icons-material";
-import Chart from "react-apexcharts"; // Assuming you use ApexCharts for charts
+import Chart from "react-apexcharts";
 
 const Reports = () => {
   const handleGenerateReport = () => {

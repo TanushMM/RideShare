@@ -6,7 +6,7 @@ const HomePage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Check if the JWT is present in sessionStorage and navigate if necessary
+        // Check if the JWT is present in sessionStorage and navigate accordingly
         if (sessionStorage.getItem("privilage") == "admin" && sessionStorage.getItem("jwt") != null) {
           navigate('/admin')
       } else if (sessionStorage.getItem("privilage") == "user" && sessionStorage.getItem("jwt") != null) {
@@ -49,7 +49,7 @@ const HomePage = () => {
             </div>
             <div className="upcoming-rides">
                 <h2>Upcoming Rides</h2>
-                {/* Display list of upcoming rides here */}
+                {/* placeholder for list of upcoming rides */}
             </div>
             <div className="user-profile">
                 <button onClick={handleProfile}>Profile</button>

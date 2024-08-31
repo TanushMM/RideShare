@@ -20,7 +20,7 @@ function InputItem({ type }) {
             lat: place.geometry.location.lat(),
             lng: place.geometry.location.lng(),
           };
-          updateMarkerPosition(location);  // Update position in context
+          updateMarkerPosition(location);  
         }
       });
     } else {

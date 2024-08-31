@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Layout/Header'; // Assuming you have a Header component
+import Header from './Layout/Header';
 
 const RideDetailsPage = ({ ride }) => {
     return (

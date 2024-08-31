@@ -1,6 +1,6 @@
 import React from 'react';
 import RideDetails from './RideResult';
-import Header from './Layout/Header'; // Adjust the import path as necessary
+import Header from './Layout/Header';
 
 const RideResultsPage = () => {
     const rides = [

@@ -6,9 +6,8 @@ const RideMonitoringDashboard = () => {
   const [activeRides, setActiveRides] = useState([]);
 
   useEffect(() => {
-    // Fetch active rides from the backend
     const fetchActiveRides = async () => {
-      const response = await axios.get("http://yourapi.com/active-rides");
+      const response = await axios.get("");
       setActiveRides(response.data);
     };
     fetchActiveRides();

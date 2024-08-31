@@ -28,8 +28,6 @@ import Profile from './components/UserContext/Profile';
 
 import Layout from './components/Layout/Layout';
 
-// import Map from './components/Map/Map';
-
 const App = () => {
     return (
             <Router>
@@ -44,10 +42,10 @@ const App = () => {
                         <Route path="/login/admin" element={<Admin />} />
                         <Route path="/logout" element={<Logout />} />
 
+                        // User Routes
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/search-ride" element={<SearchRidePage />} />
                         <Route path="/ride-results" element={<RideResultsPage />} />
-                        // -------------
                         <Route path="/ride-details" element={<RideDetailsPage />} />
                         <Route path="/trip-details" element={<TripDetailsPage />} />
                         <Route path="/payment-summary" element={<PaymentSummaryPage />} />
@@ -63,9 +61,6 @@ const App = () => {
                         <Route path="/admin/reports" element={<Reports />} />
                         <Route path="/admin/ride-monitoring" element={<RideMonitoring />} />
                         <Route path="/admin/user-management" element={<UserManagement />} />
-
-
-                        {/* <Route path="/map" element={<Map />} /> */}
 
                     </Routes>
                 </Layout>

@@ -21,7 +21,7 @@ const PolicyManagement = () => {
   useEffect(() => {
     // Fetch policies from the backend
     const fetchPolicies = async () => {
-      const response = await axios.get("http://yourapi.com/policies");
+      const response = await axios.get("");
       setPolicies(response.data);
     };
     fetchPolicies();

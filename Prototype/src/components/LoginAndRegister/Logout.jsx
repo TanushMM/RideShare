@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 
 const Logout = () => {
-  // Clear sessionStorage
   sessionStorage.removeItem('jwt');
   sessionStorage.removeItem('privilage');
 

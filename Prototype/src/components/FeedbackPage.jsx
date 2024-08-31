@@ -6,7 +6,7 @@ const FeedbackPage = () => {
     const [comments, setComments] = useState('');
 
     const handleSubmit = () => {
-        // Handle feedback submission logic here
+        // feedback submission logic goes here
         console.log('Feedback submitted:', { rating, comments });
     };
 
