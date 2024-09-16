@@ -16,7 +16,7 @@ function Header() {
       id: 2,
       name: 'Post Ride',
       icon: LocalTaxiIcon,
-      path: '/postride',
+      path: '/post-ride',
       style: { backgroundColor: 'white', color: '#021526', borderColor: '#021526' }, 
     },
   ];
@@ -46,7 +46,8 @@ function Header() {
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1200, mx: 'auto' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <img
-            src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/rideshare_icon.png"
+            src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/Logo_2.png"
+            // src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/rideshare_icon.png"
             alt="Rideshare Icon"
             style={{ width: 48, height: 48, marginRight: 8 }}
           />

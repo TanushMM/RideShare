@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Container,
   Box,
@@ -9,23 +9,27 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
+  IconButton,
+  Divider
 } from "@mui/material";
-import { Edit } from "@mui/icons-material";
-import axios from "axios";
+import { Edit, Menu } from "@mui/icons-material";
+import axios from 'axios'; // Import axios
+import Sidebar from './Siras/Sidebar';
 
 const PolicyManagement = () => {
-  const [policies, setPolicies] = useState([]);
-  const [editPolicy, setEditPolicy] = useState(null);
-  const [policyText, setPolicyText] = useState("");
+  const [policies, setPolicies] = useState([
+    { id: 1, name: "Privacy Policy", text: "This is our privacy policy." },
+    { id: 2, name: "Terms of Service", text: "These are our terms of service." },
+    { id: 3, name: "Refund Policy", text: "This is our refund policy." },
+  ]);
 
-  useEffect(() => {
-    // Fetch policies from the backend
-    const fetchPolicies = async () => {
-      const response = await axios.get("");
-      setPolicies(response.data);
-    };
-    fetchPolicies();
-  }, []);
+  const [policyText, setPolicyText] = useState("");
+  const [editPolicy, setEditPolicy] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   const handleEditPolicy = (policyId) => {
     const policy = policies.find((p) => p.id === policyId);
@@ -33,70 +37,112 @@ const PolicyManagement = () => {
     setPolicyText(policy.text);
   };
 
-  const handleSavePolicy = () => {
-    // Logic to save policy updates
-    console.log("Saving policy with ID:", editPolicy);
-    setEditPolicy(null);
-    setPolicyText("");
+  const handleSavePolicy = async () => {
+    const policyData = {
+      id: editPolicy,
+      text: policyText,
+    };
+
+    try {
+      await axios.post('/api/policies', policyData);
+      alert("Policy saved successfully!"); // Windows alert for success
+    } catch (error) {
+      alert("Failed to save policy"); // Windows alert for error
+    }
   };
 
   return (
-    <Container>
-      <Box sx={{ mt: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          Policy Management
-        </Typography>
-        <List>
-          {policies.map((policy) => (
-            <ListItem key={policy.id}>
-              <ListItemText primary={policy.name} secondary={policy.text} />
-              <ListItemSecondaryAction>
+    <Box sx={{ display: 'flex' }}>
+      <Sidebar open={sidebarOpen} onClose={toggleSidebar} onOpen={toggleSidebar} />
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 4, // Increased padding
+          marginLeft: sidebarOpen ? '240px' : '0',
+          transition: 'margin-left 0.3s',
+          marginTop: '80px',
+          backgroundColor: 'background.default',
+          minHeight: '100vh',
+        }}
+      >
+        <IconButton
+          onClick={toggleSidebar}
+          sx={{ position: 'fixed', top: 16, left: 16, zIndex: 1100, fontSize: '2rem' }} // Larger icon
+        >
+          <Menu />
+        </IconButton>
+
+        <Container>
+          <Typography variant="h3" gutterBottom sx={{ mb: 4, fontFamily: "Poppins" }}> {/* Larger header */}
+            Policy Management
+          </Typography>
+          <Divider sx={{ my: 2 }} />
+          <List sx={{ mb: 4 }}>
+            {policies.map((policy) => (
+              <ListItem key={policy.id} sx={{ mb: 3 }}>
+                <ListItemText
+                  primary={policy.name}
+                  secondary={policy.text}
+                  primaryTypographyProps={{ fontWeight: 'bold', fontSize: '1.7rem', fontFamily: "Poppins" }} // Larger primary text
+                  secondaryTypographyProps={{ fontSize: '1.3rem', fontFamily: "Lato" }} // Larger secondary text
+                />
+                <ListItemSecondaryAction>
+                  <Button
+                    startIcon={<Edit />}
+                    onClick={() => handleEditPolicy(policy.id)}
+                    variant="contained" // Changed to contained for better visibility
+                    color="primary"
+                    sx={{ fontSize: '1rem', px: 3, py: 1.5 }} // Larger button
+                  >
+                    Edit
+                  </Button>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+
+          {editPolicy && (
+            <Box>
+              <Typography variant="h5" gutterBottom> {/* Larger sub-header */}
+                Edit Policy
+              </Typography>
+              <TextField
+                label="Policy Text"
+                multiline
+                rows={6} // Increased rows for larger input area
+                variant="outlined"
+                fullWidth
+                value={policyText}
+                onChange={(e) => setPolicyText(e.target.value)}
+                sx={{ mb: 4, '& .MuiOutlinedInput-input': { fontSize: '1.25rem' } }} // Larger input text
+              />
+              <Box>
                 <Button
-                  startIcon={<Edit />}
-                  onClick={() => handleEditPolicy(policy.id)}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSavePolicy}
+                  sx={{ mr: 3, fontSize: '1.1rem', px: 4, py: 2 }} // Larger button
                 >
-                  Edit
+                  Save
                 </Button>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
-        {editPolicy && (
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="h6">Edit Policy</Typography>
-            <TextField
-              label="Policy Text"
-              multiline
-              rows={4}
-              variant="outlined"
-              fullWidth
-              value={policyText}
-              onChange={(e) => setPolicyText(e.target.value)}
-              sx={{ mb: 3 }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSavePolicy}
-              sx={{ mr: 2 }}
-            >
-              Save
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setEditPolicy(null);
-                setPolicyText("");
-              }}
-            >
-              Cancel
-            </Button>
-          </Box>
-        )}
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setEditPolicy(null);
+                    setPolicyText("");
+                  }}
+                  sx={{ fontSize: '1.1rem', px: 4, py: 2 }} // Larger button
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Box>
+          )}
+        </Container>
       </Box>
-    </Container>
+    </Box>
   );
 };
 
 export default PolicyManagement;
-

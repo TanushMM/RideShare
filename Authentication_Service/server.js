@@ -99,31 +99,6 @@ app.post("/login", async (req, res) => {
 });
 
 
-// // Route to handle login
-// // When a login is initiated, the logic is that it must contact /getJWT and get a JWT 
-// // which is stoed in the browser itself and it can used for further calls to the backend
-// app.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     let user = null;
-
-//     if (email.includes("@hexaware.admin")) {
-//       user = await Admin.findOne({ email, password });
-//     } else if (email.includes("@hexaware.user")) {
-//       user = await User.findOne({ email, password });
-//     }
-
-//     if (!user) {
-//       return res.status(400).json({ message: "Invalid credentials" });
-//     }
-
-//     res.json({ message: "Login successful", user });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
 // Route to handle registration
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;

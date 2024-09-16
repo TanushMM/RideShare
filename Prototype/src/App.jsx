@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 
 import HomePage from './components/HomePage';
-import SearchRidePage from './components/SearchRidePage';
+// import SearchRidePage from './components/SearchRidePage';
 import RideResultsPage from './components/RideResultsPage';
 import RideDetailsPage from './components/RideDetailsPage';
 import TripDetailsPage from './components/TripDetailsPage';
@@ -28,6 +28,11 @@ import Profile from './components/UserContext/Profile';
 
 import Layout from './components/Layout/Layout';
 
+import SearchMap from './components/Map/SearchMap';
+import PostMap from './components/Map/PostMap';
+
+import Developers from './Developers';
+
 const App = () => {
     return (
             <Router>
@@ -42,16 +47,20 @@ const App = () => {
                         <Route path="/login/admin" element={<Admin />} />
                         <Route path="/logout" element={<Logout />} />
 
+                        <Route path="/profile" element={<Profile />} />
+
                         // User Routes
                         <Route path="/home" element={<HomePage />} />
-                        <Route path="/search-ride" element={<SearchRidePage />} />
+                        <Route path="/search-ride" element={<SearchMap />} />
                         <Route path="/ride-results" element={<RideResultsPage />} />
                         <Route path="/ride-details" element={<RideDetailsPage />} />
                         <Route path="/trip-details" element={<TripDetailsPage />} />
                         <Route path="/payment-summary" element={<PaymentSummaryPage />} />
                         <Route path="/feedback" element={<FeedbackPage />} />
 
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/post-ride" element={<PostMap />} />
+                        
+                        <Route path="/dev" element={<Developers />} />
 
 
                         // Admin Routes
