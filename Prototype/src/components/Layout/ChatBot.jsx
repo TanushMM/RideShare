@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const ChatbotContainer = styled.div`
@@ -98,10 +98,19 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const messageEndRef = useRef(null);
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
   };
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (message.trim()) {
@@ -110,8 +119,6 @@ const Chatbot = () => {
 
       try {
         const token = sessionStorage.getItem('jwt');
-        // console.log(token);
-  
         const response = await fetch('http://3.110.16.132:5150/bot/chat', {
           method: 'POST',
           headers: {
@@ -120,12 +127,9 @@ const Chatbot = () => {
           },
           body: JSON.stringify({ text: message }),
         });
-  
+
         const data = await response.json();
-        // console.log(data.data);
-
         const botMessage = { text: data.data, isUser: false };
-
         setMessages([...messages, newMessage, botMessage]);
       } catch (error) {
         console.error('Error sending message:', error);
@@ -147,13 +151,14 @@ const Chatbot = () => {
         <img src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/chatbot_icon.png" alt="Chatbot" width={50} />
       </ChatbotButton>
       <ChatbotPopup open={isOpen}>
-        <ChatbotHeader>Chat with us</ChatbotHeader>
+        <ChatbotHeader>Chat with Bot</ChatbotHeader>
         <ChatbotBody>
           {messages.map((msg, index) => (
             <MessageContainer key={index} isUser={msg.isUser}>
               <MessageBubble isUser={msg.isUser}>{msg.text}</MessageBubble>
             </MessageContainer>
           ))}
+          <div ref={messageEndRef} />
         </ChatbotBody>
         <ChatbotInputContainer>
           <ChatbotInput

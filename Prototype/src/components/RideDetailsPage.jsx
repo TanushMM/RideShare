@@ -1,18 +1,29 @@
 import React from 'react';
 import Header from './Layout/Header';
+import { useLocation } from 'react-router-dom';
 
-const RideDetailsPage = ({ ride }) => {
+const RideDetailsPage = () => {
+    const location = useLocation();
+    const { ride } = location.state || {};  // Get the ride data from location.state
+
     return (
         <div>
             <Header />
             <div style={{ padding: '20px' }}>
                 <h1>Ride Details</h1>
-                <p><strong>Driver Name:</strong> {ride?.driverName || 'John Doe'}</p>
-                <p><strong>Car Type:</strong> {ride?.carType || 'Sedan'}</p>
-                <p><strong>Seats Available:</strong> {ride?.seatsAvailable || 3}</p>
-                <p><strong>Pickup Location:</strong> {ride?.pickupLocation || '123 Main St'}</p>
-                <p><strong>Dropoff Location:</strong> {ride?.dropoffLocation || '456 Elm St'}</p>
-                <p><strong>Estimated Time:</strong> {ride?.estimatedTime || '15 mins'}</p>
+                {ride ? (
+                    <>
+                        <p><strong>Driver Name:</strong> {ride.email}</p>
+                        <p><strong>Seats Available:</strong> {ride.seats}</p>
+                        <p><strong>Pickup Location:</strong> {ride.from.location}</p>
+                        <p><strong>Dropoff Location:</strong> {ride.to.location}</p>
+                        <p><strong>Driving Style:</strong> {ride.drivingStyle}</p>
+                        <p><strong>Date:</strong> {ride.date}</p>
+                        <p><strong>Time:</strong> {ride.time}</p>
+                    </>
+                ) : (
+                    <p>No ride details available.</p>
+                )}
             </div>
         </div>
     );
