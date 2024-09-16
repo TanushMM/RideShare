@@ -24,10 +24,10 @@ def main():
 def post():
     try:
         email = get_jwt_identity()
-        if collection.count_documents({"email": email}) >= 1:
-            return jsonify({
-                "message": "Ride already exists, cannot add new one"
-            })
+        # if collection.count_documents({"email": email}) >= 1:
+        #     return jsonify({
+        #         "message": "Ride already exists, cannot add new one"
+        #     })
 
         request_body = request.json
         request_body['email'] = email

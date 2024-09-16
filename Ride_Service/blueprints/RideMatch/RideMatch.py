@@ -30,7 +30,7 @@ def get_recommendation(search_route, posted_rides):
     Available Rides:
     {''.join([f"{i+1}. Ride from {ride['from']['coordinates']} to {ride['to']['coordinates']} with _id {ride['_id']}" for i, ride in enumerate(posted_rides)])}
     
-    Please provide a recommendation on which of the available rides best matches the search route. Just give me the _id in descending order [best to worst]. give me only the _id [in full] no other words.
+    Please provide a recommendation [based on the cosine similary] on which of the available rides best matches the search route. Just give me the entire _id in descending order [best to worst]. give me only the _id [in full] no other words.
     
     Give it in the format of JSON as in the following:
     """ + r"""
@@ -71,7 +71,7 @@ def match():
         recommendation = get_recommendation(search_data, list_of_post_data)
         
         json_formatted_result = json.loads(recommendation.choices[0].message.content) 
-        
+        print(json_formatted_result)
         
         return jsonify({"search_data": search_data, "post_data": list_of_post_data, "match_result": json_formatted_result}), 200
     
