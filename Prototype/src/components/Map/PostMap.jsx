@@ -65,7 +65,7 @@ const PostRidePage = () => {
             };
 
             // Making the POST request to the backend service
-            const response = await axios.post("http://127.0.0.1:5100/post-ride/post", data, config);
+            const response = await axios.post("http://3.110.16.132:5100/post-ride/post", data, config);
             console.log("Response:", response.data);
 
             // If the response is successful, navigate to the ride results page

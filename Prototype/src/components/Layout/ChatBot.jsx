@@ -112,7 +112,7 @@ const Chatbot = () => {
         const token = sessionStorage.getItem('jwt');
         // console.log(token);
   
-        const response = await fetch('http://127.0.0.1:5150/bot/chat', {
+        const response = await fetch('http://3.110.16.132:5150/bot/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

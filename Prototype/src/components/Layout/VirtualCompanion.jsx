@@ -261,7 +261,7 @@ const VirtualCompanion = () => {
       try {
         const token = sessionStorage.getItem('jwt');
 
-        const response = await fetch('http://127.0.0.1:5150/vc/chat', {
+        const response = await fetch('http://3.110.16.132:5150/vc/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
