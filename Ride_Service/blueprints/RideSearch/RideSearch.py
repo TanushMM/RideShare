@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pymongo import MongoClient
-from bson.objectid import ObjectId
 
 client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
@@ -18,6 +17,22 @@ def main():
         data_array.append(record)
     return jsonify(data_array), 200
 
+
+@ridesearch_bp.route('/find', methods=['GET'])
+@jwt_required()
+def find():
+    try:
+        email = get_jwt_identity()
+        if collection.count_documents({'email': email}) >= 1:
+            data = collection.find_one({'email': email})
+            data['_id'] = str(data['_id'])
+            return jsonify(data), 200
+        else {
+            return jsonify({"message": "User has not searched anything"}), 200
+        }
+
+    except Exception as e:
+        return jsonify({"Error": str(e)}), 500
 
 @ridesearch_bp.route('/post', methods=['GET','POST'])
 @jwt_required()

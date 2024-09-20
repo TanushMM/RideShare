@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-client = MongoClient("mongodb://127.0.0.1:27017/") # Keep it as local host in the production 
+client = MongoClient("mongodb://3.110.16.132:27017/") # Keep it as local host in the production 
 db = client['rideshare']
 search_collection = db['search_ride']
 post_collection = db['post_ride']
