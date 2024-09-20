@@ -6,7 +6,7 @@ const developers = [
   {
     name: "Tanush M M",
     role: "Lead Backend Engineer and Data Scientist",
-    skills: ["Python", "MongoDB", "AWS", "Git"],
+    skills: ["Python [Flask, SciKit-Learn, Seaborn]", "MongoDB", "Docker", "Cloud - AWS", "Git", "SQL", "Java", "Machine Learning"],
     description: "Tanush is an expert in backend engineering and data science, specializing in building scalable systems and optimizing performance. With extensive experience in cloud platforms like AWS, he ensures seamless deployment and management of complex applications.",
     portfolio: "https://tanushmm.github.io/tanush-portfolio/",
     image: "https://rideshare-s3.s3.ap-south-1.amazonaws.com/Tanush_Latest.JPG"
@@ -14,7 +14,7 @@ const developers = [
   {
     name: "Sirasudeen P",
     role: "Fullstack Developer",
-    skills: ["React", "Node.js", "MongoDB", "GraphQL"],
+    skills: ["React", "Node.js", "MUI", "MongoDB", "Cloud - AWS"],
     description: "Sirasudeen is a versatile fullstack developer with a strong background in frontend and backend technologies. He brings complex ideas to life with efficient, well-architected solutions while ensuring a smooth and intuitive user experience.",
     portfolio: "https://www.linkedin.com/in/sirasudeen-p-4512b4221/",
     image: "https://rideshare-s3.s3.ap-south-1.amazonaws.com/Sirasudeen_Latest.jpg"
@@ -69,6 +69,7 @@ const styles = {
     padding: '4rem 2rem',
     backgroundColor: '#f5f5f5',
     textAlign: 'center',
+    marginTop: '75px'
   },
   heading: {
     marginBottom: '3rem',
