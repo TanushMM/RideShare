@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const RideResultsPage = () => {
     const [rides, setRides] = useState([]);
+    const [data, setData] = useState([]);
     const [selectedRide, setSelectedRide] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null);
     const navigate = useNavigate();
@@ -17,6 +18,9 @@ const RideResultsPage = () => {
             try {
                 const response = await axios.get('http://3.110.16.132:5100/match-ride/match'); 
                 setRides(response.data.post_data); 
+                setData(response.data);
+                console.log(response.data);
+
             } catch (error) {
                 console.error('Error fetching rides:', error);
             }

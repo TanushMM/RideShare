@@ -13,8 +13,10 @@ const SearchRidePage = () => {
     const [date, setDate] = useState(null);
     const [time, setTime] = useState(null);
 
-    const [fromCoords, setFromCoords] = useState(null); // For storing 'From' coordinates
+    const [fromCoords, setFromCoords] = useState(null); 
     const [toCoords, setToCoords] = useState(null);     
+    const [distance, setDistance] = useState(null); 
+    const [travelTime, setTravelTime] = useState(null); // Store travel time based on traffic
 
     const fromInputRef = useRef(null);
     const toInputRef = useRef(null);
@@ -22,16 +24,46 @@ const SearchRidePage = () => {
     const navigate = useNavigate();
 
     const mapContainerStyle = {
-        width: '100vw',   // Full width map
-        height: '100vh',  // Full height map
+        width: '100vw',
+        height: '100vh',
+    };
+
+    const getDistance = async () => {
+        if (fromCoords && toCoords) {
+            const service = new window.google.maps.DistanceMatrixService();
+            const now = new Date(); // Use the current time for traffic data
+
+            const response = await service.getDistanceMatrix({
+                origins: [{ lat: fromCoords.lat, lng: fromCoords.lng }],
+                destinations: [{ lat: toCoords.lat, lng: toCoords.lng }],
+                travelMode: window.google.maps.TravelMode.DRIVING,
+                drivingOptions: {
+                    departureTime: now,  // Use current time or user-defined time for traffic data
+                    trafficModel: 'bestguess', // Traffic models: 'optimistic', 'pessimistic', 'bestguess'
+                },
+                unitSystem: window.google.maps.UnitSystem.METRIC, // Get distance in meters
+            });
+
+            if (response && response.rows[0].elements[0].status === "OK") {
+                const distanceValue = response.rows[0].elements[0].distance.value; 
+                const distanceText = response.rows[0].elements[0].distance.text;   
+                const travelTimeValue = response.rows[0].elements[0].duration_in_traffic.value; // Travel time based on traffic
+                const travelTimeText = response.rows[0].elements[0].duration_in_traffic.text;   // Human-readable travel time
+                setDistance(distanceValue);
+                setTravelTime(travelTimeValue);
+                console.log('Distance:', distanceText, 'Travel Time:', travelTimeText);
+            } else {
+                console.error('Distance calculation failed:', response);
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Check if all fields are filled
-        if (!from || !to || !date || !time || !fromCoords || !toCoords) {
-            alert("Please fill all the fields");
+        if (!from || !to || !date || !time || !fromCoords || !toCoords || !distance || !travelTime) {
+            alert("Please fill all the fields and ensure the distance and travel time are calculated.");
             return;
         }
 
@@ -51,6 +83,8 @@ const SearchRidePage = () => {
             },
             date: formattedDate,   // Send formatted date
             time: formattedTime,   // Send formatted time
+            distance: distance,    // Send the distance in meters
+            travelTime: travelTime, // Send the travel time in seconds (based on traffic)
         };
 
         // Fetch the JWT token from session storage
@@ -79,10 +113,9 @@ const SearchRidePage = () => {
         }
     };
 
-    // Initialize Google Places Autocomplete and handle marker placements
     useEffect(() => {
         if (sessionStorage.getItem("jwt") === null) {
-            alert("Not Logged in")
+            alert("Not Logged in");
             navigate("/");
         }
 
@@ -116,13 +149,17 @@ const SearchRidePage = () => {
             }
         };
 
-        // Wait for the Google Maps script to be loaded before initializing autocomplete
         if (window.google) {
             loadAutocomplete();
         }
-    }, []);  // Empty dependency array to only initialize autocomplete once
+    }, []);
 
-    // Remove the marker when input is cleared
+    useEffect(() => {
+        if (fromCoords && toCoords) {
+            getDistance();
+        }
+    }, [fromCoords, toCoords]);
+
     useEffect(() => {
         if (!from) setFromCoords(null);
         if (!to) setToCoords(null);
@@ -134,10 +171,9 @@ const SearchRidePage = () => {
             <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['places']}>
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
-                    center={fromCoords || { lat: 12.979154, lng: 80.199172 }} // Default center
+                    center={fromCoords || { lat: 12.979154, lng: 80.199172 }} 
                     zoom={10}
                 >
-                    {/* Place markers dynamically if coordinates are available */}
                     {fromCoords && <Marker position={fromCoords} />}
                     {toCoords && <Marker position={toCoords} />}
                 </GoogleMap>
@@ -146,7 +182,7 @@ const SearchRidePage = () => {
             {/* Floating Form Section */}
             <Box sx={{ position: 'absolute', top: '55%', left: '80%', transform: 'translate(-50%, -50%)', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '20px', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', zIndex: 10, width: { xs: '100%', sm: '24rem' }, border: '1px solid', borderColor: 'grey.300' }}>
                 <Typography variant="h6" sx={{fontSize:30 , fontFamily:'Poppins', fontWeight: 500}} gutterBottom>
-                SEEK A RIDE
+                    SEEK A RIDE
                 </Typography>
                 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
