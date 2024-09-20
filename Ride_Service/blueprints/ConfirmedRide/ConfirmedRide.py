@@ -22,8 +22,9 @@ def main():
 @jwt_required()
 def post():
     try: 
+        email = get_jwt_identity()
         data = request.json
-        if collection.count_documents({"amount": 259.19}) >= 1:
+        if collection.count_documents({"searcher": email}) >= 1:
             return jsonify({
                 "message": "Ride already exists, cannot add new one"
             })

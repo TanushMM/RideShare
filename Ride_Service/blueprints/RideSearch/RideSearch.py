@@ -27,9 +27,9 @@ def find():
             data = collection.find_one({'email': email})
             data['_id'] = str(data['_id'])
             return jsonify(data), 200
-        else {
+        else:
             return jsonify({"message": "User has not searched anything"}), 200
-        }
+
 
     except Exception as e:
         return jsonify({"Error": str(e)}), 500
@@ -39,10 +39,10 @@ def find():
 def post():
     try:
         email = get_jwt_identity()
-        # if collection.count_documents({"email": email}) >= 1:
-        #     return jsonify({
-        #         "message": "Ride already exists, cannot add new one"
-        #     })
+        if collection.count_documents({"email": email}) >= 1:
+            return jsonify({
+                "message": "Ride already exists, cannot add new one"
+            })
 
         request_body = request.json
         request_body['email'] = email

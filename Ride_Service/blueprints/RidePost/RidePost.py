@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pymongo import MongoClient
-from bson.objectid import ObjectId
 
 client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
@@ -25,10 +24,10 @@ def post():
     print("Hello World")
     try:
         email = get_jwt_identity()
-        # if collection.count_documents({"email": email}) >= 1:
-        #     return jsonify({
-        #         "message": "Ride already exists, cannot add new one"
-        #     })
+        if collection.count_documents({"email": email}) >= 1:
+            return jsonify({
+                "message": "Ride already exists, cannot add new one"
+            })
 
         request_body = request.json
         request_body['email'] = email
