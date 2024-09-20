@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import  { useState, useEffect, useMemo } from 'react';
 import { Box, Typography, List, ListItem, Button, Card, CardContent, Divider } from '@mui/material';
 import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
@@ -8,26 +8,32 @@ import axios from 'axios';
 
 const RideResultsPage = () => {
     const [rides, setRides] = useState([]);
-    const [data, setData] = useState([]);
     const [selectedRide, setSelectedRide] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null);
+    const[amount, setamount] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRides = async () => {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('jwt')}`, 
+                },
+            };
             try {
-                const response = await axios.get('http://3.110.16.132:5100/match-ride/match'); 
-                setRides(response.data.post_data); 
-                setData(response.data.match_result);
-                console.log(response.data);
-
+                const response = await axios.get('http://3.110.16.132:5100/match-ride/match', config); 
+                console.log('API response:', response); 
+                console.log('Match Result:', JSON.stringify(response.data.match_result.amount, null, 2));
+                setRides(response.data.post_data);
+                setamount(response.data.match_result.amount);
             } catch (error) {
                 console.error('Error fetching rides:', error);
             }
         };
-
+    
         fetchRides();
     }, []);
+    
 
     useEffect(() => {
         if (selectedRide) {
@@ -141,13 +147,13 @@ const RideResultsPage = () => {
                                     <strong>Driving Style:</strong> {selectedRide.drivingStyle}
                                 </Typography>
                                 <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Price:</strong> {data.amount}
+                                    <strong>Amount:</strong> {amount}
                                 </Typography>
                             </Box>
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() => navigate(`/ride-details/`, { state: { selectedRide, data } })}
+                                onClick={() => navigate(`/ride-details/`, { state: { selectedRide, amount} })}
                                 sx={{
                                     mt: 2,
                                     alignSelf: 'center',

@@ -50,10 +50,16 @@ const Profile = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 6, marginTop: 20 }}>
+    <Box
+    sx={{
+      background: '#528ec1',
+      padding : 12
+    }}
+    >
+    <Container maxWidth="lg" >
       <Grid container spacing={4}>
         {/* Left Side: Profile Details */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} padding='2px'>
           <Paper
             elevation={3}
             sx={{
@@ -61,6 +67,7 @@ const Profile = () => {
               height: '100%',
               backgroundColor: '#fafafa', // Very light grey background
               color: '#000', // Black text color to match the header
+              boxShadow: 5,
             }}
           >
             <Box display="flex" alignItems="center" mb={2}>
@@ -79,7 +86,7 @@ const Profile = () => {
                 variant="h4"
                 component="div"
                 fontWeight="bold"
-                sx={{ color: '#021526' }} // Black for the name
+                sx={{ color: '#021526',  }} // Black for the name
               >
                 {user.name}
               </Typography>
@@ -114,7 +121,6 @@ const Profile = () => {
                 elevation={3}
                 sx={{
                   p: 4,
-                  textAlign: 'center',
                   backgroundColor: '#F6F5F5', // Light yellow background
                   color: '#021526', // Black text color to match the header
                 }}
@@ -124,6 +130,11 @@ const Profile = () => {
                   Total Drives
                 </Typography>
                 <AnimatedCounter value={user.drives} />
+                <LocalTaxiIcon sx={{ fontSize: 60, color: '#021526' }} />
+                <Typography variant="h6" component="div" mt={2} sx={{ color: '#021526' }}>
+                  Total Rides
+                </Typography>
+                <AnimatedCounter value={user.rides} />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -136,17 +147,14 @@ const Profile = () => {
                   color: '#021526', // Black text color to match the header
                 }}
               >
-                <LocalTaxiIcon sx={{ fontSize: 60, color: '#021526' }} />
-                <Typography variant="h6" component="div" mt={2} sx={{ color: '#021526' }}>
-                  Total Rides
-                </Typography>
-                <AnimatedCounter value={user.rides} />
+                
               </Paper>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
     </Container>
+    </Box>
   );
 };
 

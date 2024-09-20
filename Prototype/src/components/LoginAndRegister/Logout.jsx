@@ -5,20 +5,21 @@ import { Box, Typography, Button } from '@mui/material';
 const Logout = () => {
   sessionStorage.removeItem('jwt');
   sessionStorage.removeItem('privilage');
+  sessionStorage.removeItem('email');
 
   return (
     <Box
-    //   sx={{
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    //     height: '100vh',
-    //     backgroundColor: '#f5f5f5',
-    //     color: '#333',
-    //     textAlign: 'center',
-    //     p: 3,
-    //   }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        backgroundColor: '#528ec1',
+        color: '#333',
+        textAlign: 'center',
+        p: 3,
+      }}
     >
       <Typography variant="h4" sx={{ mb: 2, fontFamily: 'New Amsterdam, sans-serif'}}>
         You have successfully logged out

@@ -39,6 +39,7 @@ const Admin = () => {
 
           sessionStorage.setItem("jwt", token);
           sessionStorage.setItem("privilage", "admin");
+          sessionStorage.setItem("email", email);
           console.log("JWT stored in sessionStorage:", token);
 
           navigate("/admin");
