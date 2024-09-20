@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-client = MongoClient("mongodb://3.110.16.132:27017/")
+client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
 search_collection = db['search_ride']
 post_collection = db['post_ride']
@@ -43,9 +43,10 @@ def get_recommendation(search_ride, posted_rides):
         Give it in the format of JSON as in the following:
         """ + r"""
         {
-            "1": [<_id of best match>, <price of the ride>],
-            "2": [<_id of next best match>, <price of the ride>],
-            ...... until the end
+            "1": <_id of best match>,
+            "2": <_id of next best match>,
+            ...... until the end,
+            "amount": <amount - amount is same because the search ride is same irrespective of the ride posts>
         }
 
         I want the above format, I don't need any other extra words, just the output in the above format. Strictly no other words.
@@ -84,7 +85,7 @@ def match():
         recommendation = get_recommendation(search_data, list_of_post_data)
         
         json_formatted_result = json.loads(recommendation.choices[0].message.content) 
-        print(json_formatted_result)
+        # print(json_formatted_result)
         
         return jsonify({"search_data": search_data, "post_data": list_of_post_data}, {"match_result": json_formatted_result}), 200
     

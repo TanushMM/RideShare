@@ -10,7 +10,7 @@ const containerStyle = {
 
 const RideDetailsPage = () => {
     const location = useLocation();
-    const { selectedRide } = location.state || {};  
+    const { selectedRide, data } = location.state || {};  
     
     if (!selectedRide) {
         return (
@@ -45,6 +45,7 @@ const RideDetailsPage = () => {
                 <p><strong>Driving Style:</strong> {selectedRide.drivingStyle}</p>
                 <p><strong>Date:</strong> {selectedRide.date}</p>
                 <p><strong>Time:</strong> {selectedRide.time}</p>
+                <p><strong>Amount:</strong> {data.amount}</p>
             </div>
 
             {/* Right Section for Map */}

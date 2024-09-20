@@ -18,8 +18,8 @@ const RideResultsPage = () => {
             try {
                 const response = await axios.get('http://3.110.16.132:5100/match-ride/match'); 
                 setRides(response.data.post_data); 
-                setData(response.data);
-                console.log(response.data);
+                setData(response.data.match_result);
+                console.log(response.data.match_result);
 
             } catch (error) {
                 console.error('Error fetching rides:', error);
@@ -140,11 +140,14 @@ const RideResultsPage = () => {
                                 <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
                                     <strong>Driving Style:</strong> {selectedRide.drivingStyle}
                                 </Typography>
+                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
+                                    <strong>Price:</strong> {data.amount}
+                                </Typography>
                             </Box>
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() => navigate(`/ride-details/`, { state: { selectedRide } })}
+                                onClick={() => navigate(`/ride-details/`, { state: { selectedRide, data } })}
                                 sx={{
                                     mt: 2,
                                     alignSelf: 'center',
