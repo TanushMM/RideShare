@@ -1,13 +1,12 @@
 from flask import Blueprint, jsonify, json
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pymongo import MongoClient
-from bson.objectid import ObjectId
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
-client = MongoClient("mongodb://127.0.0.1:27017/")
+client = MongoClient("mongodb://127.0.0.1:27017/") # Keep it as local host in the production 
 db = client['rideshare']
 search_collection = db['search_ride']
 post_collection = db['post_ride']
@@ -53,7 +52,6 @@ def get_recommendation(search_ride, posted_rides):
         """
     }]
 
-    # Call the OpenAI API for recommendation generation
     response = llm.chat.completions.create(
         model="gpt-4o-mini",
         messages=prompt,
@@ -64,11 +62,10 @@ def get_recommendation(search_ride, posted_rides):
 
     
 @ridematch_bp.route("/match")
-# @jwt_required
+@jwt_required()
 def match():
     try: 
-        # email = get_jwt_identity()
-        email = "user@hexaware.user"
+        email = get_jwt_identity()
         search_data = search_collection.find_one({"email": email})
         
         if not search_data:
@@ -85,7 +82,6 @@ def match():
         recommendation = get_recommendation(search_data, list_of_post_data)
         
         json_formatted_result = json.loads(recommendation.choices[0].message.content) 
-        # print(json_formatted_result)
         
         return jsonify({"search_data": search_data, "post_data": list_of_post_data, "match_result": json_formatted_result}), 200
     
