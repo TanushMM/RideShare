@@ -19,7 +19,7 @@ const RideResultsPage = () => {
                 const response = await axios.get('http://3.110.16.132:5100/match-ride/match'); 
                 setRides(response.data.post_data); 
                 setData(response.data.match_result);
-                console.log(response.data.match_result);
+                console.log(response.data);
 
             } catch (error) {
                 console.error('Error fetching rides:', error);

@@ -87,7 +87,7 @@ def match():
         json_formatted_result = json.loads(recommendation.choices[0].message.content) 
         # print(json_formatted_result)
         
-        return jsonify({"search_data": search_data, "post_data": list_of_post_data}, {"match_result": json_formatted_result}), 200
+        return jsonify({"search_data": search_data, "post_data": list_of_post_data, "match_result": json_formatted_result}), 200
     
     except Exception as e:
         return jsonify({"Error": str(e)}), 500
