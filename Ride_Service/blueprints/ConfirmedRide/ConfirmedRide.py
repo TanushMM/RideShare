@@ -18,6 +18,22 @@ confirmed_ride_bp = Blueprint('confirmedride',__name__)
 def main():
     return jsonify({"Message": "Hello from Confirmed Rides Endpoint from Ride_Service"})
 
+@confirmed_ride_bp.route('/find', methods=['GET'])
+@jwt_required()
+def find():
+    try:
+        email = get_jwt_identity()
+        if collection.count_documents({'searcher': email}) >= 1:
+            data = collection.find_one({'searcher': email})
+            data['_id'] = str(data['_id'])
+            return jsonify(data), 200
+        else:
+            return jsonify({"message": "User has not searched anything"}), 200
+
+
+    except Exception as e:
+        return jsonify({"Error": str(e)}), 500
+
 @confirmed_ride_bp.route("/post", methods=['POST'])
 @jwt_required()
 def post():
