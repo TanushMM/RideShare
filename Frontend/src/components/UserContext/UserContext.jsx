@@ -10,7 +10,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch user data from the API
     const fetchUserData = async () => {
       const token = sessionStorage.getItem('jwt'); 
       if (!token) {

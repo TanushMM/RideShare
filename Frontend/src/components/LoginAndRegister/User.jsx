@@ -23,13 +23,13 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://3.110.16.132:9000/login", {
+      const response = await axios.post("http://127.0.0.1:8000/authentication/login", {
         email,
         password,
       });
 
       if (response.status === 200) {
-        const jwtResponse = await axios.post("http://3.110.16.132:5000/getJWT", {
+        const jwtResponse = await axios.post("http://127.0.0.1:8000/authorization/getJWT", {
           jwt: email,
         });
 

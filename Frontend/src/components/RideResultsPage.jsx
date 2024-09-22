@@ -21,7 +21,7 @@ const RideResultsPage = () => {
                 },
             };
             try {
-                const response = await axios.get('http://3.110.16.132:5100/match-ride/match', config); 
+                const response = await axios.get('http://127.0.0.1:8000/ride/match-ride/match', config); 
                 console.log('API response:', response); 
                 console.log('Match Result:', JSON.stringify(response.data.match_result.amount, null, 2));
                 setRides(response.data.post_data);

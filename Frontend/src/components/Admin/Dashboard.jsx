@@ -3,7 +3,7 @@ import MinorCrashRoundedIcon from '@mui/icons-material/MinorCrashRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import BugReportRoundedIcon from '@mui/icons-material/BugReportRounded';
 import PolicyRoundedIcon from '@mui/icons-material/PolicyRounded';  
-import Sidebar from './Siras/Sidebar';
+import Sidebar from './Sidebar';
 import {
   Box,
   Typography,

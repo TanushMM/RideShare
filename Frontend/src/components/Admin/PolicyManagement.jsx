@@ -13,8 +13,8 @@ import {
   Divider
 } from "@mui/material";
 import { Edit, Menu } from "@mui/icons-material";
-import axios from 'axios'; // Import axios
-import Sidebar from './Siras/Sidebar';
+import axios from 'axios'; 
+import Sidebar from './Sidebar';
 
 const PolicyManagement = () => {
   const [policies, setPolicies] = useState([

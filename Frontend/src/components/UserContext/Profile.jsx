@@ -58,15 +58,14 @@ const Profile = () => {
     >
     <Container maxWidth="lg" >
       <Grid container spacing={4}>
-        {/* Left Side: Profile Details */}
         <Grid item xs={12} md={6} padding='2px'>
           <Paper
             elevation={3}
             sx={{
               p: 4,
               height: '100%',
-              backgroundColor: '#fafafa', // Very light grey background
-              color: '#000', // Black text color to match the header
+              backgroundColor: '#fafafa', 
+              color: '#000', 
               boxShadow: 5,
             }}
           >
@@ -76,8 +75,8 @@ const Profile = () => {
                   width: 80,
                   height: 80,
                   mr: 3,
-                  bgcolor: '#e3f2fd', // Light blue background for avatar
-                  color: '#021526', // Black text color for contrast
+                  bgcolor: '#e3f2fd', 
+                  color: '#021526', 
                 }}
               >
                 {user.name[0]}
@@ -86,12 +85,12 @@ const Profile = () => {
                 variant="h4"
                 component="div"
                 fontWeight="bold"
-                sx={{ color: '#021526',  }} // Black for the name
+                sx={{ color: '#021526',  }} 
               >
                 {user.name}
               </Typography>
             </Box>
-            <Divider sx={{ my: 2, bgcolor: '#cfd8dc' }} /> {/* Light grey divider */}
+            <Divider sx={{ my: 2, bgcolor: '#cfd8dc' }} /> 
             <Box display="flex" alignItems="center" mb={1}>
               <EmailIcon sx={{ mr: 2, color: '#000' }} />
               <Typography variant="body1" sx={{ fontSize: '1.1rem', color: '#021526' }}>
@@ -113,7 +112,6 @@ const Profile = () => {
           </Paper>
         </Grid>
 
-        {/* Right Side: Rides and Drives Counters */}
         <Grid item xs={12} md={6}>
           <Grid container spacing={4}>
             <Grid item xs={12}>
@@ -121,8 +119,8 @@ const Profile = () => {
                 elevation={3}
                 sx={{
                   p: 4,
-                  backgroundColor: '#F6F5F5', // Light yellow background
-                  color: '#021526', // Black text color to match the header
+                  backgroundColor: '#F6F5F5', 
+                  color: '#021526',
                 }}
               >
                 <DirectionsCarIcon sx={{ fontSize: 60, color: '#021526' }} />
@@ -143,8 +141,8 @@ const Profile = () => {
                 sx={{
                   p: 4,
                   textAlign: 'center',
-                  backgroundColor: '#F6F5F5', // Light green background
-                  color: '#021526', // Black text color to match the header
+                  backgroundColor: '#F6F5F5', 
+                  color: '#021526', 
                 }}
               >
                 

@@ -18,8 +18,8 @@ const SearchRidePage = () => {
     const [distance, setDistance] = useState(null); 
     const [travelTime, setTravelTime] = useState(null);
 
-    const [rideExists, setRideExists] = useState(false); // Track if a ride exists
-    const [rideId, setRideId] = useState(null); // Store the ride ID if found
+    const [rideExists, setRideExists] = useState(false); 
+    const [rideId, setRideId] = useState(null); 
 
     const fromInputRef = useRef(null);
     const toInputRef = useRef(null);
@@ -28,7 +28,6 @@ const SearchRidePage = () => {
 
     useEffect(() => {
         const checkRide = async () => {
-            // Fetch the JWT token from session storage
             const token = sessionStorage.getItem('jwt');
 
             if (!token) {
@@ -38,14 +37,13 @@ const SearchRidePage = () => {
             }
 
             try {
-                // Making the GET request to check if a ride exists for the user
                 const config = {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json',
                     },
                 };
-                const response = await axios.get('http://3.110.16.132:5100/confirmed-ride/find', config);
+                const response = await axios.get('http://127.0.0.1:8000/ride/confirmed-ride/find', config);
 
                 if (response.data && response.data._id) {
                     setRideExists(true); 
@@ -72,9 +70,9 @@ const SearchRidePage = () => {
                 },
             };
 
-            await axios.post('http://3.110.16.132:5100/confirmed-ride/delete', {}, config);
+            await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/delete', {}, config);
             alert('Search ride has been canceled.');
-            setRideExists(false); // Reset the state to show the search form again
+            setRideExists(false);
         } catch (error) {
             console.error('Error canceling the ride:', error);
         }
@@ -148,7 +146,7 @@ const SearchRidePage = () => {
                 },
             };
 
-            const response = await axios.post("http://3.110.16.132:5100/search-ride/post", data, config);
+            const response = await axios.post("http://127.0.0.1:8000/ride/search-ride/post", data, config);
             if (response.status === 200) {
                 navigate('/ride-results');
             }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Box, Typography, Grid, Paper, TextField, MenuItem, Select, FormControl, InputLabel, TablePagination } from "@mui/material";
 import axios from "axios";
-import Sidebar from "./Siras/Sidebar";
+import Sidebar from "./Sidebar";
 
 const RideMonitoringDashboard = () => {
   const [activeRides, setActiveRides] = useState([]);
@@ -21,8 +21,8 @@ const RideMonitoringDashboard = () => {
   useEffect(() => {
     const fetchActiveRides = async () => {
       try {
-        const response = await axios.get(""); // Replace with your API endpoint
-        // Assuming response.data is an array. If not, adjust accordingly.
+        const response = await axios.get(""); 
+        
         if (Array.isArray(response.data)) {
           setActiveRides(response.data);
         } else {

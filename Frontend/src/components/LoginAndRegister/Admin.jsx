@@ -24,13 +24,13 @@ const Admin = () => {
     console.log("Email:", email, "Password:", password);
 
     try {
-      const loginResponse = await axios.post("http://3.110.16.132:9000/login", {
+      const loginResponse = await axios.post("http://127.0.0.1:8000/authentication/login", {
         email,
         password,
       });
 
       if (loginResponse.status === 200) {
-        const jwtResponse = await axios.post("http://3.110.16.132:5000/getJWT", {
+        const jwtResponse = await axios.post("http://127.0.0.1:8000/authorization/getJWT", {
           jwt: email,
         });
 

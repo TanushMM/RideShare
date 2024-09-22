@@ -50,8 +50,8 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`http://3.110.16.132:9000/register`, data);
-      const tokenResponse = await axios.post("http://3.110.16.132:5000/getJWT", { "jwt": data.email });
+      const res = await axios.post(`http://127.0.0.1:8000/authentication/register`, data);
+      const tokenResponse = await axios.post("http://127.0.0.1:8000/authorization/getJWT", { "jwt": data.email });
       const token = tokenResponse.data.total_server_access_token;
 
       setMessage("Registration successful!");
@@ -65,8 +65,8 @@ const Register = () => {
 
       data._id = res.data._id;
 
-      const addUserResponse = await axios.post(
-        "http://3.110.16.132:5050/user/addUser",
+      const addUserResponse = await axios.post( // first /user is for the API Gateway, the sexond /user if for the User_Data_Service
+        "http://127.0.0.1:8000/user/user/addUser",
         data,
         config
       );

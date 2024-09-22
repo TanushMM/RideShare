@@ -14,7 +14,7 @@ const RideDetailsPage = () => {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`,
               }
         };
-        const response = await axios.post('http://3.110.16.132:5100/confirmed-ride/post', {
+        const response = await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/post', {
             searcher: sessionStorage.getItem('email'),
             poster: selectedRide,
             amount: amount
@@ -32,18 +32,14 @@ const RideDetailsPage = () => {
         <Box
             sx={{
                 display: 'flex',
-                justifyContent: 'center',  // Center horizontally
-                alignItems: 'center',       // Center vertically
-                height: '100vh',            // Full viewport height
+                justifyContent: 'center',
+                alignItems: 'center',       
+                height: '100vh',            
                 backgroundColor: '#F5F5F5',
             }}
         >
-        {/* Consistent Header */}
 
         <Box sx={{ padding: 3, flex: 1 }}>
-            
-
-            {/* Conditionally Render Ride Details or Error Message */}
                 <Box
                 elevation={3}
                 sx={{
@@ -102,12 +98,10 @@ const RideDetailsPage = () => {
                 <Box sx={{  display:'flex', flexDirection: 'row', gap:1}}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Amount to pay : </Typography>
                         <Typography  raphy  variant="body2" sx={{ mt:0.1,fontSize: '18px', fontFamily: 'Lato' }}>
-                            {amount} {/* Adjust this line based on the structure of your data */}
+                            {amount}
                         </Typography>
                 </Box>
             )}
-
-                    {/* Book Button placed under ride details */}
                     <Box sx={{ marginTop: 3, textAlign: 'center' }}>
                         <Button
                             variant="contained"

@@ -92,12 +92,12 @@ const styles = {
     },
   },
   avatar: {
-    width: '250px',       // Increase the size
-    height: '250px',      // Increase the size
-    margin: 'auto',       // Center the image horizontally
-    marginBottom: '1rem', // Add space below the image
-    borderRadius: '50%',  // Ensure it stays circular
-    boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)', // Add shadow for a better visual
+    width: '250px',       
+    height: '250px',      
+    margin: 'auto',       
+    marginBottom: '1rem',
+    borderRadius: '50%',  
+    boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)', 
   },
   devName: {
     fontWeight: 'bold',

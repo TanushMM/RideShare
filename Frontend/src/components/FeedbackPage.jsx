@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, TextField, Rating, Divider } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const FeedbackPage = () => {
     const [rating, setRating] = useState(0);
     const [comments, setComments] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         const submit = async () => {
@@ -15,7 +18,7 @@ const FeedbackPage = () => {
             };
             const post_data = JSON.parse(sessionStorage.getItem('bookedRide')); // this is the information about the poster
             try {
-                const response = await axios.post('http://3.111.198.198:5200/searcher/post', {
+                const response = await axios.post('http://127.0.0.1:8000/feedback/searcher/post', {
                     'poster': post_data.email,
                     'rating': rating,
                     'comments': comments
@@ -26,18 +29,39 @@ const FeedbackPage = () => {
             }
 
             try {
-                const response = await axios.post('http://3.111.198.198/confirmed-ride/delete', {}, config);
+                const response = await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/delete', {}, config);
                 console.log(response.data);
+
+                sessionStorage.removeItem('bookedRide');
+                sessionStorage.removeItem('amount');
             } catch (error) {
                 console.error("Error: ", error);
             }
         }
         submit();
+        navigate('/');
     };
 
     const handleSkip = () => {
         console.log('Feedback skipped');
-        // Logic to skip the feedback process goes here
+        const submit = async () => {
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`,
+                  }
+            };
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/delete', {}, config);
+                console.log(response.data);
+
+                sessionStorage.removeItem('bookedRide');
+                sessionStorage.removeItem('amount');
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        }
+        submit();
+        navigate('/');
     };
 
     return (
@@ -82,17 +106,17 @@ const FeedbackPage = () => {
                     name="ride-rating"
                     value={rating}
                     onChange={(event, newValue) => setRating(newValue)}
-                    precision={0.5}  // Allows for half-star ratings
+                    precision={0.5} 
                     sx={{
                         '& .MuiRating-icon': {
-                            fontSize: '3rem',  // Custom size
-                            color: '#FFD700',  // Gold color for selected stars
+                            fontSize: '3rem',  
+                            color: '#FFD700',  
                         },
                         '& .MuiRating-iconEmpty': {
-                            color: '#d3d3d3',  // Light gray for unselected stars
+                            color: '#d3d3d3',  
                         },
                         '& .MuiRating-icon:hover': {
-                            color: '#ffcc00',  // Hover effect color
+                            color: '#ffcc00',  
                         },
                     }}
                 />

@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Header() {
-  const [open, setOpen] = useState(false); // State for mobile menu toggle
+  const [open, setOpen] = useState(false); 
 
   const headerMenu = [
     {
@@ -30,7 +30,7 @@ function Header() {
   };
 
   const toggleDrawer = () => {
-    setOpen(!open); // Toggle mobile menu drawer
+    setOpen(!open); 
   };
 
   return (

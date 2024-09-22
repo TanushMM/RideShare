@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 
 const PostRidePage = () => {
@@ -27,17 +27,14 @@ const PostRidePage = () => {
     };
 
     const handleSubmit = async () => {
-        // Check if all fields are filled
         if (!from || !to || !date || !time || !fromCoords || !toCoords) {
             alert("Please fill all the fields");
             return;
         }
 
-        // Format date and time separately
-        const formattedDate = date ? date.toISOString().split('T')[0] : null; // YYYY-MM-DD
-        const formattedTime = time ? time.toISOString().split('T')[1].split('.')[0] : null; // HH:MM:SS
+        const formattedDate = date ? date.toISOString().split('T')[0] : null;
+        const formattedTime = time ? time.toISOString().split('T')[1].split('.')[0] : null; 
 
-        // Construct the data object to be sent to the backend
         const data = {
             from: {
                 location: from,
@@ -47,8 +44,8 @@ const PostRidePage = () => {
                 location: to,
                 coordinates: toCoords,
             },
-            date: formattedDate,   // Send formatted date
-            time: formattedTime,   // Send formatted time
+            date: formattedDate,   
+            time: formattedTime,   
             seats: seats,
             drivingStyle: drivingStyle,
         };
@@ -56,7 +53,7 @@ const PostRidePage = () => {
         const token = sessionStorage.getItem('jwt');
 
         try {
-            // Configuring the request headers with the JWT token
+           
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -64,11 +61,9 @@ const PostRidePage = () => {
                 },
             };
 
-            // Making the POST request to the backend service
-            const response = await axios.post("http://3.110.16.132:5100/post-ride/post", data, config);
+            const response = await axios.post("http://127.0.0.1:8000/ride/post-ride/post", data, config);
             console.log("Response:", response.data);
 
-            // If the response is successful, navigate to the ride results page
             if (response.status === 200) {
                 // Navigate to ride results page
                 // You might want to use React Router's navigate or history here

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button, keyframes } from "@mui/material";
 
-// Keyframe animation for fade-in effect
 const fadeIn = keyframes`
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }

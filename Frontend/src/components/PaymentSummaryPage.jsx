@@ -22,7 +22,6 @@ const PaymentSummaryPage = ({ payment }) => {
     };
 
     const handleSubmit = () => {
-        // console.log('Submitted card details:', cardDetails);
         navigate('/feedback');
     };
 
@@ -54,8 +53,6 @@ const PaymentSummaryPage = ({ payment }) => {
                         {/* <Typography variant="body1" component="p" sx={{ mt: 2, color: '#555' }}>
                             <strong>Transaction ID:</strong> {payment?.transactionId || 'XYZ123'}
                         </Typography> */}
-
-                        {/* Input fields for card details */}
                         <Box sx={{ mt: 4 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>

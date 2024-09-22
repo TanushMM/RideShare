@@ -16,7 +16,7 @@ const Logout = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        backgroundColor: '#f0f4f8', // Light background for better contrast
+        backgroundColor: '#f0f4f8',
         color: '#333',
         textAlign: 'center',
         p: 3,
@@ -27,7 +27,7 @@ const Logout = () => {
         sx={{ 
           mb: 3, 
           fontFamily: 'New Amsterdam, sans-serif',
-          color: '#2c3e50',  // Darker color for better readability
+          color: '#2c3e50',  
           fontWeight: 'bold',
         }}
       >

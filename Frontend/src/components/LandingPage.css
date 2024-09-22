@@ -1,4 +1,3 @@
-/* General Styles */
 .ripple-button {
   position: relative;
   overflow: hidden;
@@ -53,6 +52,4 @@
     font-size: 0.9rem;
     padding: 0.5rem 1rem;
   }
-
-  /* Adjust other elements as needed */
 }

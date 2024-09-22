@@ -1,6 +1,6 @@
 import  { useState, useEffect } from 'react';
 import { Grid, Card, Typography, Box, Button } from '@mui/material';
-import Sidebar from './Siras/Sidebar';
+import Sidebar from './Sidebar';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, PieChart, Pie } from 'recharts';
 
 
