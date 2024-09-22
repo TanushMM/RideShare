@@ -7,6 +7,12 @@ services:
     volumes:
       - ./mongo_data:/data/db
   
+  api_gateway:
+    image: 2a5766a9fe02
+    ports:
+      - "8000:8000"
+    restart: always
+  
   authorization_service:
     image: 8a99a66949e6
     ports:
