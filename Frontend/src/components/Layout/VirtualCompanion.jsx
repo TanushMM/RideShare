@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const slideUp = keyframes`
   from {
@@ -145,6 +146,8 @@ const VirtualCompanion = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  const navigate = useNavigate();
   
   const companionBodyRef = useRef(null);
 
@@ -153,6 +156,12 @@ const VirtualCompanion = () => {
   };
 
   const handleSendMessage = async () => {
+    if (sessionStorage.getItem('jwt') === null) {
+      alert("Please, Login to use the Virtual Companion")
+      setMessage('');
+      navigate('/login')
+      return
+    }
     if (message.trim()) {
       const newMessage = { text: message, isUser: true };
       setMessages([...messages, newMessage]);

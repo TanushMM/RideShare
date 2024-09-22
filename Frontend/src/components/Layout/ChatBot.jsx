@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { IconButton, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import axios from 'axios';
-
+import ReactMarkdown from 'react-markdown';
 
 const slideUp = keyframes`
   from {
@@ -148,48 +148,49 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const chatbotBodyRef = useRef(null);
 
+  useEffect(() => {
+    if (sessionStorage.getItem('jwt' === null)) {
+      alert('')
+    }
+  });
+
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
   };
 
-  // Auto-scroll function
   useEffect(() => {
     if (chatbotBodyRef.current) {
       chatbotBodyRef.current.scrollTop = chatbotBodyRef.current.scrollHeight;
     }
   }, [messages]);
 
-
   const handleSendMessage = async () => {
     if (message.trim()) {
       const newMessage = { text: message, isUser: true };
       setMessages([...messages, newMessage]);
-  
-      try {
-        const token = sessionStorage.getItem('jwt');
-  
+
+      try { // no need for JWT because, ChatBot must allows for user to access it irrespective of Login status
+        // const token = sessionStorage.getItem('jwt');
+
         const response = await axios.post(
           'http://127.0.0.1:8000/chat/bot/chat',
           { text: message },
           {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
             },
           }
         );
-  
+
         const botMessage = { text: response.data.data, isUser: false };
-  
         setMessages([...messages, newMessage, botMessage]);
       } catch (error) {
         console.error('Error sending message:', error);
       }
-  
+
       setMessage('');
     }
   };
-  
 
   const handleInputKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -214,7 +215,13 @@ const Chatbot = () => {
         <ChatbotBody ref={chatbotBodyRef}>
           {messages.map((msg, index) => (
             <MessageContainer key={index} isUser={msg.isUser}>
-              <MessageBubble isUser={msg.isUser}>{msg.text}</MessageBubble>
+              <MessageBubble isUser={msg.isUser}>
+                {msg.isUser ? (
+                  msg.text
+                ) : (
+                  <ReactMarkdown>{msg.text}</ReactMarkdown> // Rendering markdown for bot messages
+                )}
+              </MessageBubble>
             </MessageContainer>
           ))}
         </ChatbotBody>

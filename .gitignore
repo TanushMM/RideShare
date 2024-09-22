@@ -12,6 +12,7 @@ cert.pem
 key.pem
 signature.py
 /Documentation_and_Presentation
+/RAG*
 
 
 # C extensions
