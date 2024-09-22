@@ -1,4 +1,6 @@
 import React from "react";
+import { Box,Typography,Grid } from '@mui/material';
+
 
 const styles = {
     container: {
@@ -67,37 +69,24 @@ const UserDocumentation = () => {
     return (
         <div>
 
-    <Box sx={styles.container}>
-      <Typography variant="h4" sx={styles.heading}>
-        Meet the Developers
-      </Typography>
-      <Grid container spacing={4} sx={styles.gridContainer}>
-        {developers.map((dev, index) => (
-          <Grid item key={index} xs={12} sm={6}>
-            <animated.div style={fadeInAnimation}>
-              <Box sx={styles.devCard}>
-                <Avatar src={dev.image} alt={dev.name} sx={styles.avatar} />
-                <Typography variant="h6" sx={styles.devName}>{dev.name}</Typography>
-                <Typography variant="subtitle1" sx={styles.devRole}>{dev.role}</Typography>
-                <Typography variant="body2" sx={styles.description}>{dev.description}</Typography>
-                <Typography variant="body2" sx={styles.skills}>
-                  Expertise: {dev.skills.join(', ')}
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  href={dev.portfolio}
-                  target="_blank"
-                  sx={styles.portfolioButton}
-                >
-                  Explore Portfolio
-                </Button>
-              </Box>
-            </animated.div>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+  <Box 
+ sx={{
+  backgroundColor: 'lightgray',
+  padding: '16px',
+  borderRadius: '8px',
+  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+  width: '100%',
+  minHeight: '100vh', // Ensures it covers the full viewport height
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start', // Align items to the left
+  justifyContent: 'flex-start', // Align items to the top
+  margin: '0', // Remove margins for full-width effect
+  boxSizing: 'border-box', // Ensure padding is included in height/width
+  textAlign: 'left', // Ensure text is left aligned
+  fontSize: '1.2rem'
+}}
+      >
             <h1 id="rideshare-application-user-documentation">RideShare Application User Documentation</h1>
 <h2 id="introduction-to-the-rideshare-application">Introduction to the RideShare Application</h2>
 <p>The <strong>RideShare application</strong> is a revolutionary platform designed to connect passengers and drivers in an efficient manner. Developed with user experience in mind, this application aims to make commuting as seamless as possible through advanced technologies and user-friendly design principles. The primary objective of the application is to simplify the ride-booking process, allowing users to focus on their travel needs while guaranteeing they arrive safely and conveniently at their destinations.</p>
@@ -381,10 +370,12 @@ const UserDocumentation = () => {
 <p>Through generative AI and machine learning, the platform can adapt and customize the user experience based on initial preferences and ride history, optimizing ride matching and enhancing users&#39; journeys over time. </p>
 <p>In conclusion, the RideShare application provides a comprehensive solution for modern transportation needs. By blending convenience with robust technology, it guarantees an exceptional user experience through the entire ride-sharing process. This user documentation serves as a guiding resource, enabling users to fully leverage the app&#39;s capabilities and enjoy the benefits of a connected ride-share experience. </p>
 <p>The RideShare application is not just a means of transportation; it is a gateway to exploring cities more deeply, creating opportunities for connections, and ensuring safety and reliability for every journey taken.</p>
+        
+        </Box>
         </div>
 
         
     )
 };
 
-export default UserDocumentation
+export default UserDocumentation  

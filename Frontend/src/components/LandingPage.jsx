@@ -59,6 +59,15 @@ const LandingPage = () => {
         </Link>
       </animated.div>
 
+      <animated.div style={buttonAnimation}>
+        <Link to="/user-documentation" style={{ textDecoration: 'none' }}>
+          <Button variant="outlined" sx={styles.devButton}>
+            User Documentation
+          </Button>
+        </Link>
+      </animated.div>
+      
+
       <Box sx={styles.featuresContainer}>
         <Typography variant="h6" sx={styles.featuresHeading}>
           Key Features:
