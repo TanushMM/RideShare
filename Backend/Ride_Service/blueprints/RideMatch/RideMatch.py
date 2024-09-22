@@ -37,7 +37,7 @@ def get_recommendation(search_ride, posted_rides):
 
         Please provide a recommendation [based on the cosine similarity] on which of the available rides best matches the search route based on factors like the distance, date, and time. 
 
-        In addition, provide the price of the ride based on the distance and travel time with a base price of 12 per 1000 meters. 
+        In addition, provide the price of the ride based on the distance and travel time with a base price of Rupees 12 per 1000 meters. 
 
         Give it in the format of JSON as in the following:
         """ + r"""
