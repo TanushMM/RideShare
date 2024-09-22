@@ -18,7 +18,8 @@ def chatbot_response(user_query, chat_history):
     
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=messages
+        messages=messages,
+        max_tokens=200
     )
     
     return response

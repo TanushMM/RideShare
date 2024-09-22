@@ -55,7 +55,7 @@ def get_recommendation(search_ride, posted_rides):
     response = llm.chat.completions.create(
         model="gpt-4o-mini",
         messages=prompt,
-        max_tokens=100
+        max_tokens=150
     )
     
     return response
