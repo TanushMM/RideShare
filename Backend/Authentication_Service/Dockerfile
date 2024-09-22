@@ -1,10 +1,12 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm cache clean --force
+
+RUN npm ci
 
 COPY . .
 
