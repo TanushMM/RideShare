@@ -22,6 +22,7 @@ import Layout from './components/Layout/Layout';
 import SearchMap from './components/Map/SearchMap';
 import PostMap from './components/Map/PostMap';
 import Developers from './Developers';
+import UserDocumentation from './UserDocumentation';
 
 const App = () => {
     return (
@@ -48,6 +49,7 @@ const App = () => {
                     <Route path="/feedback" element={<FeedbackPage />} />
                     <Route path="/post-ride" element={<PostMap />} />
                     <Route path="/dev" element={<Developers />} />
+                    <Route path="/doc" element={<UserDocumentation />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin" element={<Dashboard />} />

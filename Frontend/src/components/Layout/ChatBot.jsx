@@ -46,7 +46,7 @@ const ChatbotPopup = styled.div`
   bottom: 90px;
   right: 20px;
   width: 30%;
-  height: 420px;
+  height: 620px;
   background: linear-gradient(145deg, #f9f9f9, #f1f1f1);
   border-radius: 15px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
@@ -69,7 +69,7 @@ const ChatbotHeader = styled.div`
 
 const ChatbotBody = styled.div`
   padding: 15px;
-  height: 300px;
+  height: 500px;
   overflow-y: auto;
   background-color: #fafafa;
   display: flex;
@@ -219,7 +219,7 @@ const Chatbot = () => {
                 {msg.isUser ? (
                   msg.text
                 ) : (
-                  <ReactMarkdown>{msg.text}</ReactMarkdown> // Rendering markdown for bot messages
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
                 )}
               </MessageBubble>
             </MessageContainer>

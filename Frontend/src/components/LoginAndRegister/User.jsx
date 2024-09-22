@@ -1,4 +1,5 @@
 import { useState } from "react";
+import bcrypt from "bcryptjs"; // Import bcrypt
 import {
   Container,
   Box,
@@ -24,8 +25,8 @@ const User = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://127.0.0.1:8000/authentication/login", {
-        email,
-        password,
+        email: email,
+        password: password, 
       });
 
       if (response.status === 200) {
@@ -38,6 +39,7 @@ const User = () => {
           sessionStorage.setItem("jwt", token);
           sessionStorage.setItem("privilage", "user");
           sessionStorage.setItem("email", email);
+          console.log("JWT stored in sessionStorage:", token);
           navigate("/home");
         } else {
           setMessage("Error fetching JWT. Please try again.");
