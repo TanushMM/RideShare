@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 from flask_jwt_extended import jwt_required
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://mongo_db:27017/")
+client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
 collection = db['users']
 

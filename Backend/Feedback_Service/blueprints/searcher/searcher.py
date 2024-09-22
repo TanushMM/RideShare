@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 searcher_bp = Blueprint('searcher', __name__)
 
-client = MongoClient("mongodb://mongo_db:27017/")
+client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']
 collection = db['feedback']
 
