@@ -7,12 +7,12 @@ app = Flask(__name__)
 CORS(app)
 
 SERVICE_ROUTES = {
-    'authentication': 'http://3.110.16.132:9000',
-    'authorization': 'http://3.110.16.132:5000',
-    'user': 'http://3.110.16.132:5050',
-    'ride': 'http://3.110.16.132:5100',
-    'chat': 'http://3.110.16.132:5150',
-    'feedback': 'http://3.110.16.132:5200'
+    'authentication': 'http://127.0.0.1:9000',
+    'authorization': 'http://127.0.0.1:5000',
+    'user': 'http://127.0.0.1:5050',
+    'ride': 'http://127.0.0.1:5100',
+    'chat': 'http://127.0.0.1:5150',
+    'feedback': 'http://127.0.0.1:5200'
 }
 
 def forward_request(service_url, path, method='GET', data=None, headers=None):
