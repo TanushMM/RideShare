@@ -8,37 +8,37 @@ services:
       - ./mongo_data:/data/db
   
   api_gateway:
-    image: 2a5766a9fe02
+    image: 056f2e000d52
     ports:
       - "8000:8000"
     restart: always
   
   authorization_service:
-    image: 8a99a66949e6
+    image: 413f6ea0791f
     ports:
       - "5000:5000"
     restart: always
   
   user_data_service:
-    image: 13fdab5679e4
+    image: 47e32e1e7612
     ports:
       - "5050:5050"
     restart: always
   
   ride_service:
-    image: 990578f35e46
+    image: b7bd60d88dc1
     ports:
       - "5100:5100"
     restart: always
   
   feedback_service:
-    image: 589c978fe954
+    image: 4f422b75e970
     ports:
       - "5200:5200"
     restart: always
   
   chat_bot_service:
-    image: 3abb6bb6e353
+    image: c37c7f277289
     ports:
       - "5150:5150"
     restart: always
