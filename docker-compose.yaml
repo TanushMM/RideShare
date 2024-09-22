@@ -8,7 +8,7 @@ services:
       - ./mongo_data:/data/db
 
   authentication_service:
-    image: 8b0916b676a0
+    image: 0f2fd96f8a64
     ports:
       - "9000:9000"
     restart: always
@@ -20,7 +20,7 @@ services:
     restart: always
   
   user_data_service:
-    image: dd35b7ef9543
+    image: 13fdab5679e4
     ports:
       - "5050:5050"
     restart: always
