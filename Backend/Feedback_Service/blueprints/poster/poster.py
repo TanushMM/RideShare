@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from pymongo import MongoClient
 
-poster_bp = Blueprint('searcher', __name__)
+poster_bp = Blueprint('poster', __name__)
 
 client = MongoClient("mongodb://127.0.0.1:27017/")
 db = client['rideshare']

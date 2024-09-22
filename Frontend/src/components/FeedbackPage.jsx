@@ -15,11 +15,18 @@ const FeedbackPage = () => {
             };
             const post_data = JSON.parse(sessionStorage.getItem('bookedRide')); // this is the information about the poster
             try {
-                const response = await axios.post('http://127.0.0.1:5200/searcher/post', {
+                const response = await axios.post('http://3.111.198.198:5200/searcher/post', {
                     'poster': post_data.email,
                     'rating': rating,
                     'comments': comments
                 }, config);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+
+            try {
+                const response = await axios.post('http://3.111.198.198/confirmed-ride/delete', {}, config);
                 console.log(response.data);
             } catch (error) {
                 console.error("Error: ", error);

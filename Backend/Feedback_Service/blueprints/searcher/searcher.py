@@ -20,15 +20,22 @@ def post():
         data = request.json
         poster = data['poster']
         
-        if collection.count_documents({'email': poster}) == 1:
-            data = collection.find_one({"email":poster})
-            data['feedback_from_searchers'].append({"email": email, 
-                                                    "rating": data['rating'], 
-                                                    "comments": data['comments']})
-            # collection.update_one({'email': email}, {})
-        else:
-            pass
-        
-        return jsonify({"Message":"Hello", 'email':poster}), 200
+        # when we /addUser using the User_Data_Service we also create a record in the feedback db hence
+        # no need to check if a record exists in the feedback db
+        feedback_collection = db['feedback']
+        feedback_collection.update_one(
+            {"email": poster},   
+            {
+                "$push": {       
+                    "feedback_from_searchers": {
+                        "email": email,       
+                        "rating": data['rating'],  
+                        "comments": data['comments'] 
+                    }
+                }
+            }
+        )                                  
+    
+        return jsonify({"Message": "Feedback successfully submitted", 'email': poster}), 200
     except Exception as e:
         return jsonify({"Error" : str(e)}), 500
