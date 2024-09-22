@@ -1,6 +1,47 @@
 services:
-  api_gateway:
-    
+  mongo_db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - ./mongo_data:/data/db
+
+  authentication_service:
+    image: 8b0916b676a0
+    ports:
+      - "9000:9000"
+    restart: always
+  
+  authorization_service:
+    image: 8a99a66949e6
     ports:
       - "5000:5000"
     restart: always
+  
+  user_data_service:
+    image: dd35b7ef9543
+    ports:
+      - "5050:5050"
+    restart: always
+  
+  ride_service:
+    image: 990578f35e46
+    ports:
+      - "5100:5100"
+    restart: always
+  
+  feedback_service:
+    image: 589c978fe954
+    ports:
+      - "5200:5200"
+    restart: always
+  
+  chat_bot_service:
+    image: 3abb6bb6e353
+    ports:
+      - "5150:5150"
+    restart: always
+
+volumes:
+  mongo_data:
