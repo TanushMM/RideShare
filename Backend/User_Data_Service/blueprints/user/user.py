@@ -64,6 +64,13 @@ def add_user():
         data['_id'] = ObjectId(data['_id'])
         collection.insert_one(data)
         
+        feedback_collection = db['feedback']
+        feedback_collection.insert_one({
+            "email": data['email'],
+            "feedback_from_searchers": ["Good Driver"],
+            "feedback_from_posters": ["Good Rider"]
+        })
+        
         response = jsonify({
             "message": "Admin/User added successfully"
         }), 200

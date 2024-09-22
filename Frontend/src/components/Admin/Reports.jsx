@@ -12,7 +12,7 @@ const Reports = () => {
   const [revenueData, setRevenueData] = useState([]);
   const [visitsData, setVisitsData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

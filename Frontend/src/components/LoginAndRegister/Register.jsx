@@ -13,7 +13,7 @@ import {
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../Layout/Header"
+import Header from "../Layout/Header";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -23,8 +23,8 @@ const Register = () => {
     password: ""
   });
 
-  const [open, setOpen] = useState(false); 
-  const [message, setMessage] = useState(""); 
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const [isTokenFetched, setIsTokenFetched] = useState(false);
 
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    fetchToken(); 
+    fetchToken();
   }, []);
 
   const handleChange = (e) => {
@@ -51,8 +51,6 @@ const Register = () => {
 
     try {
       const res = await axios.post(`http://3.110.16.132:9000/register`, data);
-      console.log("Register response:", res.data);
-
       const tokenResponse = await axios.post("http://3.110.16.132:5000/getJWT", { "jwt": data.email });
       const token = tokenResponse.data.total_server_access_token;
 
@@ -72,7 +70,6 @@ const Register = () => {
         data,
         config
       );
-      console.log("User added successfully:", addUserResponse.data);
 
       setTimeout(() => {
         navigate("/login");
@@ -88,97 +85,146 @@ const Register = () => {
     setOpen(false);
   };
 
-  const containerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    width: '100vw',
-    margin: 0,
-    padding: 0,
-    position: 'relative',
-  };
-
   return (
-    <div style={containerStyle}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Header />
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        
-    <Container component="main" maxWidth="xs">
-      <Box
+      <Container
+        component="main"
+        maxWidth="xs"
         sx={{
-          marginTop: 8,
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
+          height: "100%",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <AppRegistrationIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5" color={"black"}>
-          Register
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="name"
-            autoFocus
-            value={data.name}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={data.email}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="new-password"
-            value={data.password}
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            disabled={!isTokenFetched} 
-          >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "2rem",
+            boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            backgroundColor: "white",
+            transition: "transform 0.3s ease-in-out",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 12px 24px rgba(0, 0, 0, 0.15)",
+            },
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "silver" }}>
+            <AppRegistrationIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" sx={{ fontWeight: "bold", color: "#021526" }}>
             Register
-          </Button>
-          <Typography variant="body2" align="center" color={"black"}>
-            Already have an account?{" "}
-            <Link href="/" variant="body2">
-              Log in here
-            </Link>
           </Typography>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              value={data.name}
+              onChange={handleChange}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#1976D2",
+                  },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(0, 0, 0, 0.6)",
+                },
+              }}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={data.email}
+              onChange={handleChange}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#1976D2",
+                  },
+                },
+              }}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={data.password}
+              onChange={handleChange}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "&:hover fieldset": {
+                    borderColor: "#1976D2",
+                  },
+                },
+              }}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                alignSelf: "center",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                backgroundColor: "#DDDDDD",
+                color: "#1E201E",
+                textTransform: "uppercase",
+                fontWeight: "bold",
+                fontSize: "16px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                transition: "background-color 0.3s, transform 0.2s",
+                "&:hover": {
+                  backgroundColor: "#1E201E",
+                  transform: "scale(1.05)",
+                  color: "#fff",
+                },
+                "&:active": {
+                  backgroundColor: "#0d47a1",
+                  transform: "scale(1.02)",
+                },
+              }}
+              disabled={!isTokenFetched}
+            >
+              Register
+            </Button>
+            <Typography variant="body2" align="center" sx={{ mt: 2, color: "black" }}>
+              Already have an account?{" "}
+              <Link href="/login" variant="body2">
+                Log in here
+              </Link>
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
-    </Container>
-    </div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+            {message}
+          </Alert>
+        </Snackbar>
+      </Container>
     </div>
   );
 };
