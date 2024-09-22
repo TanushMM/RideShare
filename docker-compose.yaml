@@ -6,12 +6,6 @@ services:
     restart: always
     volumes:
       - ./mongo_data:/data/db
-
-  authentication_service:
-    image: 0f2fd96f8a64
-    ports:
-      - "9000:9000"
-    restart: always
   
   authorization_service:
     image: 8a99a66949e6
