@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Consistent font for readability */
+}
+
+.section {
+    margin: 5px 0;
+    max-width: 2000px; /* Limits section width for better readability */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensures proper text wrapping */
+}
+
+h1 {
+    font-size: 3rem; /* Main heading size */
+    margin-bottom: 10px;
+    color: #333; /* Darker color for visibility */
+}
+
+h2 {
+    font-size: 2rem; /* Subheading size */
+    margin-top: 10px;
+    margin-bottom: 12px;
+    color: #555; /* Slightly lighter color */
+}
+
+h3 {
+    font-size: 1.4rem; /* Smaller subheading size */
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #777; /* Even lighter color for differentiation */
+}
+
+h4 {
+    font-size: 1.2rem; /* Smaller sub-subheading size */
+    margin-top: 5px;
+    margin-bottom: 4px;
+    color: #888; /* Light color for minor headings */
+}
+
+ul, ol {
+    padding-left: 20px; /* Indent lists */
+    margin: 5px; /* Spacing around lists */
+}
+
+code {
+    background-color: #f4f4f4; /* Light background for code snippets */
+    padding: 2px 4px; /* Padding for visual comfort */
+    border-radius: 4px; /* Rounded corners */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
+    white-space: pre-wrap; /* Allows wrapping in code blocks */
+    overflow-wrap: break-word; /* Ensures long code wraps properly */
+}
+
+pre {
+    background-color: #f4f4f4; /* Same background as inline code */
+    padding: 10px; /* Padding for readability */
+    border-radius: 4px; /* Rounded corners */
+    max-width: 100%; /* Full-width container */
+    overflow-x: auto; /* Horizontal scroll if content overflows */
+    white-space: pre-wrap; /* Allows wrapping */
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem; /* Adjust sizes for mobile */
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    h4 {
+        font-size: 0.9rem;
+    }
+
+    body {
+        font-size: 0.9rem; /* Overall smaller font size for mobile */
+    }
+}

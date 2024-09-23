@@ -6,7 +6,7 @@ import axios from 'axios';
 const RideDetailsPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { selectedRide, amount } = location.state || {};
+    const { searchRide, selectedRide, amount } = location.state || {};
 
     const handleBookClick = async () => {
         const config = {
@@ -16,10 +16,12 @@ const RideDetailsPage = () => {
         };
         const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/post`, {
             searcher: sessionStorage.getItem('email'),
+            searchRide: searchRide,
             poster: selectedRide,
             amount: amount
         }, config);
 
+        sessionStorage.setItem('searchRide', JSON.stringify(searchRide));
         sessionStorage.setItem('bookedRide', JSON.stringify(selectedRide));
         sessionStorage.setItem('amount', JSON.stringify(amount));
 

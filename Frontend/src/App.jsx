@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import RideResultsPage from './components/RideResultsPage';
 import RideDetailsPage from './components/RideDetailsPage';
 import TripDetailsPage from './components/TripDetailsPage';
+import PostRideDetails from './components/PostRideDetails';
 import PaymentSummaryPage from './components/PaymentSummaryPage';
 import FeedbackPage from './components/FeedbackPage';
 import Home from './components/LoginAndRegister/Home';
@@ -23,6 +24,8 @@ import SearchMap from './components/Map/SearchMap';
 import PostMap from './components/Map/PostMap';
 import Developers from './components/DevelopersAndDocumentation/Developers';
 import UserDocumentation from './components/DevelopersAndDocumentation/UserDocumentation';
+import DeveloperDocumentation from './components/DevelopersAndDocumentation/DeveloperDocumentation';
+import APIDocumentation from './components/DevelopersAndDocumentation/APIDocumentation';
 
 const App = () => {
     return (
@@ -41,18 +44,24 @@ const App = () => {
 
                     {/* User Routes */}
                     <Route path="/home" element={<HomePage />} />
+                    {/* Search Routes */}
                     <Route path="/search-ride" element={<SearchMap />} />
                     <Route path="/ride-results" element={<RideResultsPage />} />
                     <Route path="/ride-details" element={<RideDetailsPage />} />
                     <Route path="/trip-details" element={<TripDetailsPage />} />
                     <Route path="/payment-summary" element={<PaymentSummaryPage />} />
                     <Route path="/feedback" element={<FeedbackPage />} />
+                    {/* Post Routes */}
                     <Route path="/post-ride" element={<PostMap />} />
-
+                    <Route path="/post-ride-details" element={<PostRideDetails />} />
+                    <Route path="/post-payment-summary" element={<PaymentSummaryPage />} />
+                    <Route path="/post-feedback" element={<FeedbackPage />} />
 
                     {/* Developer and Documentation Routes */}
                     <Route path="/developer" element={<Developers />} />
                     <Route path="/user-documentation" element={<UserDocumentation />} />
+                    <Route path="/developer-documentation" element={<DeveloperDocumentation />} />
+                    <Route path="/api-documentation" element={<APIDocumentation />} />
 
                     {/* Admin Routes */}
                     <Route path="/admin" element={<Dashboard />} />

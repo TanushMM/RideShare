@@ -32,6 +32,7 @@ const FeedbackPage = () => {
                 const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/delete`, {}, config);
                 console.log(response.data);
 
+                sessionStorage.removeItem('searchRide');
                 sessionStorage.removeItem('bookedRide');
                 sessionStorage.removeItem('amount');
             } catch (error) {
@@ -54,6 +55,7 @@ const FeedbackPage = () => {
                 const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/delete`, {}, config);
                 console.log(response.data);
 
+                sessionStorage.removeItem('searchRide');
                 sessionStorage.removeItem('bookedRide');
                 sessionStorage.removeItem('amount');
             } catch (error) {

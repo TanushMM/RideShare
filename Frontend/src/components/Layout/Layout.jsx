@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import ChatBot from './ChatBot';
 import VirtualCompanion from './VirtualCompanion';
-import './Layout.css';
+import './Layout.css'; 
 
 const Layout = ({ children }) => {
   return (

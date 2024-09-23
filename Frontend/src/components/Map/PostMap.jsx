@@ -65,9 +65,7 @@ const PostRidePage = () => {
             console.log("Response:", response.data);
 
             if (response.status === 200) {
-                // Navigate to ride results page
-                // You might want to use React Router's navigate or history here
-                // e.g., navigate('/ride-results');
+                navigate('/post-ride-details');
             }
 
         } catch (error) {
@@ -121,7 +119,7 @@ const PostRidePage = () => {
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={fromCoords || { lat: 12.979154, lng: 80.199172 }}
-                    zoom={10}
+                    zoom={12}
                 >
                     {fromCoords && <Marker position={fromCoords} />}
                     {toCoords && <Marker position={toCoords} />}

@@ -52,7 +52,7 @@ const LandingPage = () => {
       </animated.div>
 
       <animated.div style={buttonAnimation}>
-        <Link to="/dev" style={{ textDecoration: 'none' }}>
+        <Link to="/developer" style={{ textDecoration: 'none' }}>
           <Button variant="outlined" sx={styles.devButton}>
             Meet the Developers
           </Button>

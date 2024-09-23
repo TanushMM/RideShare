@@ -67,7 +67,7 @@ const Developers = () => {
 const styles = {
   container: {
     padding: '4rem 2rem',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#b0bec5',
     textAlign: 'center',
     marginTop: '75px'
   },

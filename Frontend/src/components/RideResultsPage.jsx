@@ -7,6 +7,7 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 import axios from 'axios';
 
 const RideResultsPage = () => {
+    const [searchRide, setSearchRide] = useState([]);
     const [rides, setRides] = useState([]);
     const [selectedRide, setSelectedRide] = useState(null);
     const [directionsResponse, setDirectionsResponse] = useState(null);
@@ -24,6 +25,7 @@ const RideResultsPage = () => {
                 const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/match`, config); 
                 console.log('API response:', response); 
                 console.log('Match Result:', JSON.stringify(response.data.match_result.amount, null, 2));
+                setSearchRide(response.data.search_data);
                 setRides(response.data.post_data);
                 setamount(response.data.match_result[0].price);
             } catch (error) {
@@ -153,7 +155,7 @@ const RideResultsPage = () => {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() => navigate(`/ride-details/`, { state: { selectedRide, amount} })}
+                                onClick={() => navigate(`/ride-details/`, { state: { searchRide, selectedRide, amount } })}
                                 sx={{
                                     mt: 2,
                                     alignSelf: 'center',

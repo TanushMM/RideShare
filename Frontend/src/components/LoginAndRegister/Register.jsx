@@ -66,12 +66,13 @@ const Register = () => {
       };
 
       data._id = res.data._id;
-
-      const addUserResponse = await axios.post(
-        `http://${import.meta.env.VITE_SERVER_IP}:8000/user/user/addUser`,
-        { ...data, password: hashedPassword }, 
-        config
-      );
+      if (res.status === 200) {
+        const addUserResponse = await axios.post(
+          `http://${import.meta.env.VITE_SERVER_IP}:8000/user/user/addUser`,
+          { ...data, password: hashedPassword }, 
+          config
+        );
+      }
 
       console.log(addUserResponse.data);
 
