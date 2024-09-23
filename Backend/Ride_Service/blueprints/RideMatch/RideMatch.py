@@ -45,7 +45,7 @@ def get_recommendation(search_ride, posted_rides):
             "1": <_id of best match>,
             "2": <_id of next best match>,
             ...... until the end,
-            "amount": <amount - amount is same because the search ride is same irrespective of the ride posts>
+            "amount":
         }
 
         I want the above format, I don't need any other extra words, just the output in the above format. Strictly no other words.
