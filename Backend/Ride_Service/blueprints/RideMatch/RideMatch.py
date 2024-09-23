@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from math import sqrt 
 
 load_dotenv()
 
@@ -69,30 +70,36 @@ def get_recommendation(search_ride, posted_rides):
 
 
 def calculate_distance(coord1, coord2):
-    return sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
+    if isinstance(coord1, dict) and isinstance(coord2, dict):
+        return sqrt((coord1['lat'] - coord2['lat'])**2 + (coord1['lng'] - coord2['lng'])**2)
+    else:
+        raise ValueError("Coordinates must be in dictionary format with 'lat' and 'lng' keys")
 
 def calculate_price(distance):
     return (distance / 1000) * 12
 
 def cosine_similarity_score(ride1, ride2):
-    vector1 = np.array([ride1['from']['coordinates'], ride1['to']['coordinates']]).flatten()
-    vector2 = np.array([ride2['from']['coordinates'], ride2['to']['coordinates']]).flatten()
+    vector1 = np.array([ride1['from']['coordinates']['lat'], ride1['from']['coordinates']['lng'],
+                        ride1['to']['coordinates']['lat'], ride1['to']['coordinates']['lng']]).flatten()
+    vector2 = np.array([ride2['from']['coordinates']['lat'], ride2['from']['coordinates']['lng'],
+                        ride2['to']['coordinates']['lat'], ride2['to']['coordinates']['lng']]).flatten()
     
     return cosine_similarity([vector1], [vector2])[0][0]
 
 def get_best_match(search_ride, posted_rides):
     matches = []
     search_distance = calculate_distance(search_ride['from']['coordinates'], search_ride['to']['coordinates'])
+    price = calculate_price(search_distance) # distance is present in search_data itself, update it fast
     
     for ride in posted_rides:
         match_score = cosine_similarity_score(search_ride, ride)
-        price = calculate_price(search_distance)
         
         if match_score > 0.9:
             matches.append({'_id': ride['_id'], 'score': match_score, 'price': price})
 
     matches = sorted(matches, key=lambda x: x['score'], reverse=True)
     result = {}
+    
     for i, match in enumerate(matches):
         result[str(i)] = {'_id': match['_id'], 'score': match['score'], 'price': match['price']}
     return result
