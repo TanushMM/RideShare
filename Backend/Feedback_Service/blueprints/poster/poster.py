@@ -18,7 +18,8 @@ def post():
     try: 
         email = get_jwt_identity()
         data = request.json
-        searcher = data['searcher']
+        
+        searcher = data['rider']
         
         # when we /addUser using the User_Data_Service we also create a record in the feedback db hence
         # no need to check if a record exists in the feedback db
@@ -30,7 +31,6 @@ def post():
                     "feedback_from_posters": {
                         "email": email,       
                         "rating": data['rating'],  
-                        "comments": data['comments'] 
                     }
                 }
             }
