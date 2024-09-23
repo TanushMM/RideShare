@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Box, Typography, Divider, List, ListItemButton, ListItemText } from '@mui/material';
 import { GoogleMap, useLoadScript, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const mapContainerStyle = {
   height: "90vh",
@@ -11,26 +12,9 @@ const mapContainerStyle = {
   borderRadius: '15px', 
 };
 
-const center = {
-  lat: 13.0827, 
-  lng: 80.2707,
-};
-
-const driverRide = {
-  userName: 'Driver Name',
-  from: 'MMTC Colony, Nanganallur, Chennai, Tamil Nadu 600061, India',
-  to: 'Vandalur Zoo, Tamil Nadu 600048, India',
-  amount: 200, 
-  date: '2024-10-08',
-  time: '18:30:00',
-  driverRoute: {
-    origin: { lat: 12.9699248, lng: 80.18425479999999 }, 
-    destination: { lat: 12.8812767, lng: 80.09256839999999 },
-  },
-};
-
 const PostRideDetails = () => {
   const [bookings, setBookings] = useState([]);
+  const [driverDetails, setDriverDetails] = useState(null);
   const [selectedRider, setSelectedRider] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [riderMarkers, setRiderMarkers] = useState([]); 
@@ -43,47 +27,43 @@ const PostRideDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchBookings = () => {
-      setBookings([
-        {
-          userName: 'Rider Name 1',
-          from: 'MMTC Colony, Nanganallur, Chennai',
-          to: 'Vandalur Zoo, Tamil Nadu',
-          amount: 150,
-          timeOfJoining: '3:00 PM',
-          contact: 'rider1@example.com',
-          riderRoute: {
-            origin: { lat: 12.9899248, lng: 80.18425479999999 }, 
-            destination: { lat: 12.8912767, lng: 80.09256839999999 },
-          },
+    const fetchMatches = async () => {
+      const config = {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('jwt')}`, 
         },
-        {
-          userName: 'Rider Name 2',
-          from: 'Keelkattalai, Chennai',
-          to: 'Urapakkam, Tamil Nadu',
-          amount: 180,
-          timeOfJoining: '3:30 PM',
-          contact: 'rider2@example.com',
-          riderRoute: {
-            origin: { lat: 12.9556074, lng: 80.1868681 }, 
-            destination: { lat: 12.8438835, lng: 80.05973639999999 },
-          },
-        },
-      ]);
-    };
-    fetchBookings();
+      };
+      try {
+        const response = await axios.get(`http://3.110.16.132:8000/ride/match-ride/poster-match`, config);
 
-    if (isLoaded) {
-      fetchDriverRoute();
-    }
+        const matchedResult = response.data.matched_result;
+        
+        const driver = matchedResult[0].poster;
+
+        const riders = matchedResult.map(result => ({
+          ...result.search_details,
+          amount: result.amount,
+        }));
+        
+        sessionStorage.setItem("driver", JSON.stringify(driver));
+        sessionStorage.setItem("riders", JSON.stringify(riders));
+
+        setDriverDetails(driver);
+        setBookings(riders);
+        fetchDriverRoute(driver.from.coordinates, driver.to.coordinates);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+    fetchMatches();
   }, [isLoaded]);
 
-  const fetchDriverRoute = () => {
+  const fetchDriverRoute = (origin, destination) => {
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
-        origin: driverRide.driverRoute.origin,
-        destination: driverRide.driverRoute.destination,
+        origin,
+        destination,
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
@@ -103,14 +83,14 @@ const PostRideDetails = () => {
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
-        origin: rider.riderRoute.origin,
-        destination: rider.riderRoute.destination,
+        origin: rider.from.coordinates,
+        destination: rider.to.coordinates,
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           setDirectionsResponse(result);
-          setRiderMarkers([rider.riderRoute.origin, rider.riderRoute.destination]);
+          setRiderMarkers([rider.from.coordinates, rider.to.coordinates]);
         } else {
           console.error(`Error fetching rider's route: ${result}`);
         }
@@ -120,11 +100,12 @@ const PostRideDetails = () => {
 
   const handleGoBack = () => {
     setSelectedRider(null);
-    setDirectionsResponse(null); // Clear the current directions (rider's route)
-    setRiderMarkers([]); // Clear all rider markers
-    fetchDriverRoute(); // Fetch and render the driver's route again
+    setDirectionsResponse(null); 
+    setRiderMarkers([]);
+    if (driverDetails) {
+      fetchDriverRoute(driverDetails.from.coordinates, driverDetails.to.coordinates);
+    }
   };
-  
 
   const handleNext = () => {
     navigate('/post-payment-summary');
@@ -189,23 +170,17 @@ const PostRideDetails = () => {
                   marginBottom: 1,
                 }}
               >
-                {selectedRider.userName}'s Ride Details
+                `${selectedRider.email} Ride Details`
               </Typography>
               <Divider sx={{ marginBottom: 2 }} />
               <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
-                From: <strong>{selectedRider.from}</strong>
+                From: <strong>{selectedRider.from.location}</strong>
               </Typography>
               <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
-                To: <strong>{selectedRider.to}</strong>
+                To: <strong>{selectedRider.to.location}</strong>
               </Typography>
               <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'black', mb: 1 }}>
                 Amount: <strong>₹{selectedRider.amount}</strong>
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'black', mb: 1 }}>
-                Time of Joining: <strong>{selectedRider.timeOfJoining}</strong>
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'black', mb: 1 }}>
-                Contact: <strong>{selectedRider.contact}</strong>
               </Typography>
 
               <Button
@@ -252,12 +227,12 @@ const PostRideDetails = () => {
                     <ListItemText
                       primary={
                         <Typography sx={{ fontWeight: 'bold', fontSize: '1.4rem' }}>
-                          {booking.userName}
+                          {booking.email}
                         </Typography>
                       }
                       secondary={
                         <Typography sx={{ fontSize: '1.1rem', color: '#555' }}>
-                          {booking.from} → {booking.to}
+                          {booking.from.location} → {booking.to.location}
                         </Typography>
                       }
                     />
@@ -287,7 +262,7 @@ const PostRideDetails = () => {
       <Box sx={{ flexGrow: 1 }}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          center={center}
+          center={driverDetails ? driverDetails.from.coordinates : { lat: 0, lng: 0 }}
           zoom={10}
         >
           {directionsResponse && (

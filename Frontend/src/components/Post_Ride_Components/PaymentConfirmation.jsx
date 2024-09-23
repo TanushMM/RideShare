@@ -3,7 +3,8 @@ import { Container, Typography, Card, CardContent, Button, Box, Divider } from '
 import { useNavigate } from 'react-router-dom';
 
 const ConfirmationPage = () => {
-    const ridesPaid = 2;
+    const ridesPaid = JSON.parse(sessionStorage.getItem('riders')).length;
+    
     const navigate = useNavigate();
 
     return (
@@ -23,7 +24,8 @@ const ConfirmationPage = () => {
                         <Divider sx={{ my: 3 }} />
 
                         <Typography variant="h6" component="p" sx={{ mt: 2, color: '#333' }}>
-                            <strong>Number of Riders Paid:</strong> {ridesPaid}
+                            <strong>Number of Riders:</strong> {ridesPaid} <br></br>
+                            <strong>Number of Riders Paid:</strong> 0
                         </Typography>
 
 

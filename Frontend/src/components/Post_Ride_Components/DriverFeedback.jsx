@@ -7,11 +7,9 @@ const DriverFeedback = () => {
     const [ratings, setRatings] = useState({});
     const navigate = useNavigate();
 
-    const riders = [
-        { name: 'Rider 1', id: 1 },
-        { name: 'Rider 2', id: 2 },
-        { name: 'Rider 3', id: 3 },
-    ];
+    const riders = JSON.parse(sessionStorage.getItem('riders'));
+
+    console.log(riders);
 
     const handleRatingChange = (riderId, newRating) => {
         setRatings((prevRatings) => ({
@@ -27,26 +25,32 @@ const DriverFeedback = () => {
                     Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
                 },
             };
-            // try {
-            //     for (const rider of riders) {
-            //         const rating = ratings[rider.id] || 0; 
-            //         const response = await axios.post(
-            //             `http://${import.meta.env.VITE_SERVER_IP}:8000/feedback/rider/post`,
-            //             { rider: rider.name, rating },
-            //             config
-            //         );
-            //         console.log(response.data);
-            //     }
-            // } catch (error) {
-            //     console.error('Error: ', error);
-            // }
+            try {
+                for (const rider of riders) {
+                    const rating = ratings[rider._id] || 0; 
+                    const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/feedback/poster/post`, {
+                        rider: rider.email, 
+                        rating: rating,
+                    }, config);
+                    
+                    console.log(response.data);
+                }
+            } catch (error) {
+                console.error('Error: ', error);
+            }
         };
 
         submitFeedback();
+
+        sessionStorage.removeItem("driver");
+        sessionStorage.removeItem("riders");
+
         navigate('/');
     };
 
     const handleSkip = () => {
+        sessionStorage.removeItem("driver");
+        sessionStorage.removeItem("riders");
         navigate('/');
     };
 
@@ -85,12 +89,12 @@ const DriverFeedback = () => {
             <Divider sx={{ marginBottom: 2 }} />
 
             {riders.map((rider) => (
-                <Box key={rider.id} sx={{ mt: 3, display: 'flex', flexDirection: 'row', gap: 3 }}>
-                    <Typography className="Primary">{rider.name}:</Typography>
+                <Box key={rider._id} sx={{ mt: 3, display: 'flex', flexDirection: 'row', gap: 3 }}>
+                    <Typography className="Primary">{rider.email}:</Typography>
                     <Rating
-                        name={`rating-${rider.id}`}
-                        value={ratings[rider.id] || 0}
-                        onChange={(event, newValue) => handleRatingChange(rider.id, newValue)}
+                        name={`rating-${rider._id}`}
+                        value={ratings[rider._id] || 0}
+                        onChange={(event, newValue) => handleRatingChange(rider._id, newValue)}
                         precision={0.5}
                         sx={{
                             '& .MuiRating-icon': {
