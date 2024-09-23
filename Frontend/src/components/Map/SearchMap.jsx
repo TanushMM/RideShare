@@ -43,7 +43,7 @@ const SearchRidePage = () => {
                         'Content-Type': 'application/json',
                     },
                 };
-                const response = await axios.get('http://127.0.0.1:8000/ride/confirmed-ride/find', config);
+                const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/find`, config);
 
                 if (response.data && response.data._id) {
                     setRideExists(true); 
@@ -70,7 +70,7 @@ const SearchRidePage = () => {
                 },
             };
 
-            await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/delete', {}, config);
+            await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/delete`, {}, config);
             alert('Search ride has been canceled.');
             setRideExists(false);
         } catch (error) {
@@ -146,7 +146,7 @@ const SearchRidePage = () => {
                 },
             };
 
-            const response = await axios.post("http://127.0.0.1:8000/ride/search-ride/post", data, config);
+            const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/search-ride/post`, data, config);
             if (response.status === 200) {
                 navigate('/ride-results');
             }

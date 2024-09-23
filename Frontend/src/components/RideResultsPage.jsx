@@ -21,11 +21,11 @@ const RideResultsPage = () => {
                 },
             };
             try {
-                const response = await axios.get('http://127.0.0.1:8000/ride/match-ride/match', config); 
+                const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/match`, config); 
                 console.log('API response:', response); 
                 console.log('Match Result:', JSON.stringify(response.data.match_result.amount, null, 2));
                 setRides(response.data.post_data);
-                setamount(response.data.match_result.amount);
+                setamount(response.data.match_result[0].price);
             } catch (error) {
                 console.error('Error fetching rides:', error);
             }

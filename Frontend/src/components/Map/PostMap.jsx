@@ -61,7 +61,7 @@ const PostRidePage = () => {
                 },
             };
 
-            const response = await axios.post("http://127.0.0.1:8000/ride/post-ride/post", data, config);
+            const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/post-ride/post`, data, config);
             console.log("Response:", response.data);
 
             if (response.status === 200) {

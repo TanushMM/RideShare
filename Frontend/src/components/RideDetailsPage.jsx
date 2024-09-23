@@ -14,7 +14,7 @@ const RideDetailsPage = () => {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`,
               }
         };
-        const response = await axios.post('http://127.0.0.1:8000/ride/confirmed-ride/post', {
+        const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/post`, {
             searcher: sessionStorage.getItem('email'),
             poster: selectedRide,
             amount: amount

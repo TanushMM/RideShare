@@ -73,7 +73,7 @@ def calculate_distance(coord1, coord2):
         raise ValueError("Coordinates must be in dictionary format with 'lat' and 'lng' keys")
 
 def calculate_price(distance):
-    return (distance / 1000) * 12
+    return (distance) * 1200
 
 def cosine_similarity_score(ride1, ride2):
     vector1 = np.array([ride1['from']['coordinates']['lat'], ride1['from']['coordinates']['lng'],

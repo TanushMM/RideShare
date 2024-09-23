@@ -24,13 +24,13 @@ const User = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/authentication/login", {
+      const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authentication/login`, {
         email: email,
         password: password, 
       });
 
       if (response.status === 200) {
-        const jwtResponse = await axios.post("http://127.0.0.1:8000/authorization/getJWT", {
+        const jwtResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authorization/getJWT`, {
           jwt: email,
         });
 

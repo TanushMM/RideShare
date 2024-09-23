@@ -1,5 +1,5 @@
 import { useState } from "react";
-import bcrypt from "bcryptjs"; // Import bcrypt
+import bcrypt from "bcryptjs";
 import {
   Container,
   Box,
@@ -26,13 +26,13 @@ const Admin = () => {
 
     try {
 
-      const loginResponse = await axios.post("http://127.0.0.1:8000/authentication/login", {
+      const loginResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authentication/login`, {
         email: email,
         password: password,
       });
 
       if (loginResponse.status === 200) {
-        const jwtResponse = await axios.post("http://127.0.0.1:8000/authorization/getJWT", {
+        const jwtResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authorization/getJWT`, {
           jwt: email,
         });
 

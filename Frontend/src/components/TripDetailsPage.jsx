@@ -25,7 +25,7 @@ const TripDetails = () => {
                         'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`,
                       }
                 };
-                const response = await axios.get(`http://127.0.0.1:8000/ride/confirmed-ride/find`, config);
+                const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/find`, config);
                 console.log(response.data);
 
                 sessionStorage.setItem('bookedRide', JSON.stringify(response.data.poster));
@@ -58,6 +58,7 @@ const TripDetails = () => {
         if (amountFromStorage) {
             setAmount(amountFromStorage);
         }
+        navigate('/trip-details');
     }, []);
     
     
@@ -83,7 +84,7 @@ const TripDetails = () => {
                 'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`,
             }
         };
-        const response = await axios.post("http://127.0.0.1:8000/ride/confirmed-ride/delete", {}, config)
+        const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/confirmed-ride/delete`, {}, config)
         console.log(response.data)
 
         sessionStorage.removeItem('bookedRide');

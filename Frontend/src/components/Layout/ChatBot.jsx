@@ -173,7 +173,7 @@ const Chatbot = () => {
         // const token = sessionStorage.getItem('jwt');
 
         const response = await axios.post(
-          'http://127.0.0.1:8000/chat/bot/chat',
+          `http://${import.meta.env.VITE_SERVER_IP}:8000/chat/bot/chat`,
           { text: message },
           {
             headers: {
