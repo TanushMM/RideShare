@@ -4,7 +4,8 @@ from pymongo import MongoClient
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-import asyncio
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
 load_dotenv()
 
@@ -66,10 +67,40 @@ def get_recommendation(search_ride, posted_rides):
 
     return response
 
+
+def calculate_distance(coord1, coord2):
+    return sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)
+
+def calculate_price(distance):
+    return (distance / 1000) * 12
+
+def cosine_similarity_score(ride1, ride2):
+    vector1 = np.array([ride1['from']['coordinates'], ride1['to']['coordinates']]).flatten()
+    vector2 = np.array([ride2['from']['coordinates'], ride2['to']['coordinates']]).flatten()
+    
+    return cosine_similarity([vector1], [vector2])[0][0]
+
+def get_best_match(search_ride, posted_rides):
+    matches = []
+    search_distance = calculate_distance(search_ride['from']['coordinates'], search_ride['to']['coordinates'])
+    
+    for ride in posted_rides:
+        match_score = cosine_similarity_score(search_ride, ride)
+        price = calculate_price(search_distance)
+        
+        if match_score > 0.9:
+            matches.append({'_id': ride['_id'], 'score': match_score, 'price': price})
+
+    matches = sorted(matches, key=lambda x: x['score'], reverse=True)
+    result = {}
+    for i, match in enumerate(matches):
+        result[str(i)] = {'_id': match['_id'], 'score': match['score'], 'price': match['price']}
+    return result
+
     
 @ridematch_bp.route("/match", methods=["GET"])
 @jwt_required()
-async def match():
+def match():
     try:
         email = get_jwt_identity()
         search_data = search_collection.find_one({"email": email})
@@ -85,8 +116,7 @@ async def match():
             record['_id'] = str(record['_id'])
             list_of_post_data.append(record)
 
-        # Call async get_recommendation function
-        recommendation = await get_recommendation(search_data, list_of_post_data)
+        recommendation = get_recommendation(search_data, list_of_post_data)
 
         json_formatted_result = json.loads(recommendation.choices[0].message.content)
 
@@ -97,4 +127,27 @@ async def match():
         }), 200
 
     except Exception as e:
-        return jsonify({"Error": str(e)}), 500
+        try:
+            email = get_jwt_identity()
+            search_data = search_collection.find_one({"email": email})
+
+            if not search_data:
+                return jsonify({"Error": "User has not initiated any trip searches"})
+
+            search_data['_id'] = str(search_data['_id'])
+
+            post_data = post_collection.find()
+            list_of_post_data = []
+            for record in post_data:
+                record['_id'] = str(record['_id'])
+                list_of_post_data.append(record)
+                
+            matches = get_best_match(search_data, list_of_post_data)
+            
+            return jsonify({
+            "search_data": search_data,
+            "post_data": list_of_post_data,
+            "match_result": matches
+        }), 200
+        except Exception as e:
+            return jsonify({"Error": str(e)}), 500

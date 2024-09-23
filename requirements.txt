@@ -3,6 +3,6 @@ pymongo
 python-dotenv
 flask_jwt_extended
 flask-cors
-google-generativeai
-llama_index
-motor
+openai
+numpy 
+scikit-learn
