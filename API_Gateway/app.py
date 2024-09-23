@@ -67,6 +67,7 @@ def chat(path):
     service_url = SERVICE_ROUTES['chat']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
+# Route for feedback
 @app.route('/feedback/<path:path>', methods=['GET', 'POST'])
 def feedback(path):
     service_url = SERVICE_ROUTES['feedback']
