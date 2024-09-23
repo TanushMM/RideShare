@@ -50,12 +50,9 @@ def get_recommendation(search_ride, posted_rides):
         Provide the results in the following JSON format:"""
         + r"""
         {
-            "1": <_id of best match>,
-            "2": <_id of next best match>,
-            ...... until the end,
-            "amount": [
-                {"_id": <_id of ride>, "price": <calculated price>}
-            ]
+            0: {_id: '_id', price: 0.002030969387400664, score: rank}
+            1: {_id: '_id', price: 0.002030969387400664, score: rank}
+            
         }
         Do not include any other explanations or comments, just the strict JSON output.
         """
