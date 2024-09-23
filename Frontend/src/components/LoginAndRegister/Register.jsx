@@ -53,7 +53,7 @@ const Register = () => {
     try {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       const res = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authentication/register`, { ...data, password: hashedPassword });
-      const tokenResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}/authorization/getJWT`, { "jwt": data.email });
+      const tokenResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/authorization/getJWT`, { "jwt": data.email });
       const token = tokenResponse.data.total_server_access_token;
 
       setMessage("Registration successful!");
@@ -73,8 +73,6 @@ const Register = () => {
           config
         );
       }
-
-      console.log(addUserResponse.data);
 
       setTimeout(() => {
         navigate("/login");

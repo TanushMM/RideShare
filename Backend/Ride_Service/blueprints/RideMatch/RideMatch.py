@@ -14,6 +14,7 @@ client = MongoClient("mongodb://127.0.0.1:27017/")  # Keep it as localhost in pr
 db = client['rideshare']
 search_collection = db['search_ride']
 post_collection = db['post_ride']
+confirmed_ride_collection = db['confirmed_ride']
 
 llm = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -104,7 +105,7 @@ def get_best_match(search_ride, posted_rides):
     
 @ridematch_bp.route("/match", methods=["GET"])
 @jwt_required()
-def match():
+def get_searcher_match():
     try:
         email = get_jwt_identity()
         search_data = search_collection.find_one({"email": email})
@@ -155,3 +156,39 @@ def match():
         }), 200
         except Exception as e:
             return jsonify({"Error": str(e)}), 500
+
+
+@ridematch_bp.route("/poster-match", methods=["GET"])
+@jwt_required()
+def get_poster_match():
+    try:
+        email = get_jwt_identity()
+        post_data = post_collection.find_one({"email": email})
+        if not post_data:
+            return jsonify({"Error": "User has not posted anything"})
+        
+        confirmed_rides = confirmed_ride_collection.find({"poster.email": email})
+        response = []
+        
+        flag = 0
+            
+        for ride in confirmed_rides:
+            ride['_id'] = str(ride['_id'])  # for JSON serialization
+            ride['poster']['_id'] = str(ride['poster']['_id'])  # for JSON serialization
+            ride['searchRide']['_id'] = str(ride['searchRide']['_id'])  # for JSON serialization
+            
+            new_record = {}
+            if flag == 0:
+                new_record['poster'] = ride['poster']
+                flag += 1
+
+            new_record["search_details"] = ride["searchRide"] 
+            new_record["amount"] = ride["amount"] 
+            new_record["poster"] = ride["poster"] 
+            
+            response.append(new_record)
+
+        return jsonify({"matched_result": response}), 200
+
+    except Exception as e:
+        return jsonify({"Error": str(e)}), 500
