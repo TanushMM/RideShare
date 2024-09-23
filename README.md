@@ -131,15 +131,15 @@ The system is designed using a **microservices architecture** with separate serv
 
 ### Technical Design
 
-![Technical Design](https://drive.google.com/file/d/10eB57ii-urwPUKy4khamz1o4XJZDOkcS/view?usp=drive_link)
+![Technical Design](https://rideshare-s3.s3.ap-south-1.amazonaws.com/Documentation/InnovateX_Rideshare_High_Level_Syetem_Design.png)
 
 ### Functionality Design (User Flow)
 
-![User Flow Design](https://drive.google.com/file/d/1PoS_FF3Hmpp-f5vyhjhojpVhaaoU0c6x/view?usp=drive_link)
+![User Flow Design](https://rideshare-s3.s3.ap-south-1.amazonaws.com/Documentation/InnovateX_User_Flow.png)
 
 ### Functionality Design (Admin Flow)
 
-![Admin Flow Design](https://drive.google.com/file/d/107C76lG9GUrr8KmwdN-uQMqk4obIqeaq/view?usp=drive_link)
+![Admin Flow Design](https://rideshare-s3.s3.ap-south-1.amazonaws.com/Documentation/InnovateX_Admin_Flow.png)
 
 ---
 
