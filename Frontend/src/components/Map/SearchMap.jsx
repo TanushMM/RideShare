@@ -118,8 +118,8 @@ const SearchRidePage = () => {
             return;
         }
 
-        const formattedDate = date ? date.toISOString().split('T')[0] : null; 
-        const formattedTime = time ? time.toISOString().split('T')[1].split('.')[0] : null;
+        const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+        const formattedTime = time ? time.toLocaleTimeString('en-GB', { hour12: false }) : null;
 
         const data = {
             from: {
@@ -147,6 +147,8 @@ const SearchRidePage = () => {
             };
 
             const response = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/search-ride/post`, data, config);
+            console.log(response.data);
+
             if (response.status === 200) {
                 navigate('/ride-results');
             }

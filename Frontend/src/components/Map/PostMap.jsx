@@ -32,8 +32,8 @@ const PostRidePage = () => {
             return;
         }
 
-        const formattedDate = date ? date.toISOString().split('T')[0] : null;
-        const formattedTime = time ? time.toISOString().split('T')[1].split('.')[0] : null; 
+        const formattedDate = date ? date.toLocaleDateString('en-CA') : null;
+        const formattedTime = time ? time.toLocaleTimeString('en-GB', { hour12: false }) : null;
 
         const data = {
             from: {
