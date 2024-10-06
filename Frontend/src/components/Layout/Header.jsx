@@ -99,17 +99,30 @@ function Header() {
 
         {/* Desktop Profile, Settings, Login/Logout Links */}
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-          <IconButton component={Link} to="/profile" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-            <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Profile</Typography>
-          </IconButton>
+                {isLoggedIn() && (
+                    <>
+                      <IconButton component={Link} to="/profile" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
+                        <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Profile</Typography>
+                      </IconButton>
+
+                      <IconButton component={Link} to="/user-dashboard" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
+                        <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Dashboard</Typography>
+                      </IconButton>
+                    </>
+                  )}
           {isLoggedIn() ? (
             <IconButton component={Link} to="/logout" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
               <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Logout</Typography>
             </IconButton>
           ) : (
-            <IconButton component={Link} to="/login" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
+                <>
+                <IconButton component={Link} to="/login/register" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
+              <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Register</Typography>
+            </IconButton>
+                <IconButton component={Link} to="/login" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
               <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Login</Typography>
             </IconButton>
+                </>
           )}
         </Box>
 

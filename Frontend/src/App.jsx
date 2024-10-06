@@ -35,6 +35,8 @@ import PostRideDetails from './components/Post_Ride_Components/PostRideDetails';
 import PostRidePaymentSummaryPage from './components/Post_Ride_Components/PaymentConfirmation';
 import PostRideFeedbackPage from './components/Post_Ride_Components/DriverFeedback';
 
+import UserDashboard from './components/UserContext/UserDashboard';
+
 const App = () => {
     return (
         <Router>
@@ -52,6 +54,8 @@ const App = () => {
                     {/* User Routes */}
                     <Route path="/home" element={<HomePage />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/user-dashboard" element={<UserDashboard />} />
+
                     {/* Search Routes */}
                     <Route path="/search-ride" element={<SearchMap />} />
                     <Route path="/ride-results" element={<RideResultsPage />} />
