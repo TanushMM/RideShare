@@ -34,7 +34,7 @@ const PostRideDetails = () => {
         },
       };
       try {
-        const response = await axios.get(`http://3.110.16.132:8000/ride/match-ride/poster-match`, config);
+        const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/poster-match`, config);
 
         const matchedResult = response.data.matched_result;
         
