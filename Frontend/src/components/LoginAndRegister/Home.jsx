@@ -1,11 +1,16 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, Button, keyframes } from "@mui/material";
+import { Box, Typography, Button, keyframes, Grid } from "@mui/material";
+import { useSpring, animated } from "@react-spring/web";
 
+// Define keyframes for fade-in animation
 const fadeIn = keyframes`
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
+
+// Styled animated Box component
+const AnimatedBox = animated(Box);
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,6 +34,13 @@ const Login = () => {
     navigate("/login/user");
   };
 
+  // Animation props using react-spring
+  const animationProps = useSpring({
+    from: { opacity: 0, transform: 'translateY(-20px)' },
+    to: { opacity: 1, transform: 'translateY(0)' },
+    config: { duration: 1000 },
+  });
+
   return (
     <Box
       sx={{
@@ -38,26 +50,34 @@ const Login = () => {
         alignItems: 'center',
         height: '100vh',
         width: '100vw',
-        backgroundColor: '#B0BEC5 ',
+        backgroundColor: '#FFFFFF', // Neutral white background
         textAlign: 'center',
-        animation: `${fadeIn} 1s ease-in-out`,
+        fontFamily: 'Roboto, sans-serif', // Clean sans-serif font
+        padding: { xs: '2rem', md: '4rem' }, // Responsive padding
       }}
     >
-      <Typography
-        variant="h3"
-        sx={{
-          mb: 4,
-          fontSize: "80px",
-          fontWeight: 'bold',
-          fontFamily: 'New Amsterdam, sans-serif',
-          color: '#2c3e50',
-          animation: `${fadeIn} 1.2s ease-in-out`,
-        }}
-      >
-        Welcome to RideShare
-      </Typography>
+      {/* Welcome Message */}
+      <AnimatedBox style={animationProps}>
+        <Typography
+          variant="h3"
+          sx={{
+            mb: 4,
+            fontWeight: '700',
+            fontFamily:"Lato",
+            fontSize: "2.5rem",
+            color: '#2D3748', // Dark gray color for contrast
+            letterSpacing: '1px',
+          }}
+        >
+          Login as Admin or User
+        </Typography>
+      </AnimatedBox>
 
-      <Button
+      {/* Buttons Group */}
+      <AnimatedBox style={animationProps}>
+        <Box sx={{display:"flex", flexDirection: "column", gap: "1rem"}}>
+          {/* Admin Button */}
+          <Button
         variant="contained"
         onClick={handleAdminClick}
         sx={{
@@ -115,6 +135,8 @@ const Login = () => {
       >
         User
       </Button>
+        </Box>
+      </AnimatedBox>
     </Box>
   );
 };

@@ -36,22 +36,24 @@ function Header() {
   return (
     <Box
       sx={{
-        backgroundColor: '#021526',
+        backgroundColor: '#0F172A',
         color: 'white',
         p: 2,
-        boxShadow: 3,
         position: 'fixed',
         width: '100%',
         top: 0,
         left: 0,
         zIndex: 50,
-        fontFamily: 'New Amsterdam, sans-serif',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundBlendMode: 'overlay',
+        fontFamily: 'Roboto, sans-serif', // Changed to Roboto for better readability
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1200, mx: 'auto' }}>
+      <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          maxWidth: 1200, 
+          mx: 'left' // Corrected from 'mx: left' to 'mx: auto' to center the container
+        }}>
         {/* Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <img
@@ -61,7 +63,14 @@ function Header() {
           />
           <Typography
             variant="h4"
-            sx={{ color: '#e0e0e0', fontWeight: 'bold', mr: 4, textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)', fontFamily: 'New Amsterdam', letterSpacing: 4 }}
+            sx={{ 
+              color: '#e0e0e0', 
+              fontWeight: 'bold', 
+              mr: 4, 
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)', 
+              fontFamily: 'new amsterdam', // Updated to match the font family
+              letterSpacing: 4 
+            }}
             component={Link}
             to='/'
           >
@@ -70,7 +79,13 @@ function Header() {
         </Box>
 
         {/* Desktop Navigation Links */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center', flexGrow: 1 }}>
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            gap: 2, 
+            alignItems: 'right                        ' 
+            // Removed flexGrow: 1 to prevent stretching
+          }}>
           {headerMenu.map((item) => (
             <Button
               key={item.id}
@@ -90,7 +105,7 @@ function Header() {
                 },
               }}
             >
-              <Typography variant="body1" sx={{ fontWeight: 'medium', fontFamily: 'New Amsterdam', fontSize: '20px', letterSpacing: 1.3 }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold', fontFamily: 'Raleway, sans-serif', fontSize: '15px' }}>
                 {item.name}
               </Typography>
             </Button>
@@ -98,31 +113,92 @@ function Header() {
         </Box>
 
         {/* Desktop Profile, Settings, Login/Logout Links */}
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-                {isLoggedIn() && (
-                    <>
-                      <IconButton component={Link} to="/profile" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-                        <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Profile</Typography>
-                      </IconButton>
+        <Box 
+          sx={{ 
+            display: { xs: 'none', md: 'flex' }, 
+            gap: 2, 
+            ml: 'auto', // Pushes this Box to the extreme right
+            alignItems: 'right' 
+          }}>
+          {isLoggedIn() && (
+            <>
+              <Button
+                component={Link}
+                to="/profile"
+                sx={{
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  fontFamily: 'Raleway, sans-serif',
+                  fontSize: '18px',
+                  '&:hover': { color: '#90caf9' },
+                }}
+              >
+                Profile
+              </Button>
 
-                      <IconButton component={Link} to="/user-dashboard" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-                        <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Dashboard</Typography>
-                      </IconButton>
-                    </>
-                  )}
+              <Button
+                component={Link}
+                to="/user-dashboard"
+                sx={{
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  fontFamily: 'Raleway, sans-serif',
+                  fontSize: '18px',
+                  '&:hover': { color: '#90caf9' },
+                }}
+              >
+                Dashboard
+              </Button>
+            </>
+          )}
           {isLoggedIn() ? (
-            <IconButton component={Link} to="/logout" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-              <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Logout</Typography>
-            </IconButton>
+            <Button
+              component={Link}
+              to="/logout"
+              sx={{
+                color: 'white',
+                textTransform: 'none',
+                fontWeight: 'bold',
+                fontFamily: 'Raleway, sans-serif',
+                fontSize: '18px',
+                '&:hover': { color: '#90caf9' },
+              }}
+            >
+              Logout
+            </Button>
           ) : (
-                <>
-                <IconButton component={Link} to="/login/register" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-              <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Register</Typography>
-            </IconButton>
-                <IconButton component={Link} to="/login" sx={{ color: 'white', '&:hover': { color: '#90caf9' } }}>
-              <Typography variant="body1" sx={{ fontFamily: 'New Amsterdam', fontSize: '23px' }}>Login</Typography>
-            </IconButton>
-                </>
+            <>
+              <Button
+                component={Link}
+                to="/login/register"
+                sx={{
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  fontFamily: 'Raleway, sans-serif',
+                  fontSize: '18px',
+                  '&:hover': { color: '#90caf9' },
+                }}
+              >
+                Register
+              </Button>
+              <Button
+                component={Link}
+                to="/login"
+                sx={{
+                  color: 'white',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  fontFamily: 'Raleway, sans-serif',
+                  fontSize: '18px',
+                  '&:hover': { color: '#90caf9' },
+                }}
+              >
+                Login
+              </Button>
+            </>
           )}
         </Box>
 
@@ -141,9 +217,11 @@ function Header() {
             role="presentation"
             onClick={toggleDrawer}
           >
-            <IconButton onClick={toggleDrawer} sx={{ color: 'white', float: 'right' }}>
-              <CloseIcon />
-            </IconButton>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
             <Box sx={{ mt: 4 }}>
               {headerMenu.map((item) => (
                 <Button
@@ -166,23 +244,92 @@ function Header() {
                     },
                   }}
                 >
-                  <Typography variant="body1" sx={{ fontWeight: 'medium', fontFamily: 'New Amsterdam', fontSize: '20px', letterSpacing: 1.3 }}>
+                  <Typography variant="body1" sx={{ fontWeight: 'medium', fontFamily: 'Raleway, sans-serif', fontSize: '20px', letterSpacing: 1.3 }}>
                     {item.name}
                   </Typography>
                 </Button>
               ))}
-              <IconButton component={Link} to="/profile" sx={{ color: 'white', mt: 2, '&:hover': { color: '#90caf9' } }}>
-                Profile
-              </IconButton>
-
               {isLoggedIn() ? (
-                <IconButton component={Link} to="/logout" sx={{ color: 'white', mt: 2, '&:hover': { color: '#90caf9' } }}>
-                  Logout
-                </IconButton>
+                <>
+                  <Button
+                    component={Link}
+                    to="/profile"
+                    sx={{
+                      color: 'white',
+                      textTransform: 'none',
+                      fontWeight: 'medium',
+                      fontFamily: 'Raleway, sans-serif',
+                      fontSize: '18px',
+                      mt: 2,
+                      '&:hover': { color: '#90caf9' },
+                    }}
+                  >
+                    Profile
+                  </Button>
+                  <Button
+                    component={Link}
+                    to="/user-dashboard"
+                    sx={{
+                      color: 'white',
+                      textTransform: 'none',
+                      fontWeight: 'medium',
+                      fontFamily: 'Raleway, sans-serif',
+                      fontSize: '18px',
+                      mt: 2,
+                      '&:hover': { color: '#90caf9' },
+                    }}
+                  >
+                    Dashboard
+                  </Button>
+                  <Button
+                    component={Link}
+                    to="/logout"
+                    sx={{
+                      color: 'white',
+                      textTransform: 'none',
+                      fontWeight: 'medium',
+                      fontFamily: 'Raleway, sans-serif',
+                      fontSize: '18px',
+                      mt: 2,
+                      '&:hover': { color: '#90caf9' },
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
-                <IconButton component={Link} to="/login" sx={{ color: 'white', mt: 2, '&:hover': { color: '#90caf9' } }}>
-                  Login
-                </IconButton>
+                <>
+                  <Button
+                    component={Link}
+                    to="/login/register"
+                    sx={{
+                      color: 'white',
+                      textTransform: 'none',
+                      fontWeight: 'medium',
+                      fontFamily: 'Raleway, sans-serif',
+                      fontSize: '18px',
+                      mt: 2,
+                      '&:hover': { color: '#90caf9' },
+                    }}
+                  >
+                    Register
+                  </Button>
+                  <Button
+                    component={Link}
+                    to="/login"
+                    sx={{
+                      color: 'white',
+                      textTransform: 'none',
+                      fontWeight: 'medium',
+                      fontFamily: 'Raleway, sans-serif',
+                      fontSize: '18px',
+                      mt: 2,
+                      '&:hover': { color: '#90caf9' },
+                    }}
+                  >
+                    Login
+                  </Button>
+                </>
               )}
             </Box>
           </Box>
