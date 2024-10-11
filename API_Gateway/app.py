@@ -12,7 +12,8 @@ SERVICE_ROUTES = {
     'user': 'http://127.0.0.1:5050',
     'ride': 'http://127.0.0.1:5100',
     'chat': 'http://127.0.0.1:5150',
-    'feedback': 'http://127.0.0.1:5200'
+    'feedback': 'http://127.0.0.1:5200',
+    'notification': 'http://127.0.0.1:5250'
 }
 
 def forward_request(service_url, path, method='GET', data=None, headers=None):
@@ -38,39 +39,45 @@ def forward_request(service_url, path, method='GET', data=None, headers=None):
         return jsonify({"error": str(e)}), 500
 
 # Route for authentication
-@app.route('/authentication/<path:path>', methods=['GET', 'POST'])
+@app.route('/authentication/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def authentication(path):
     service_url = SERVICE_ROUTES['authentication']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 # Route for authorization
-@app.route('/authorization/<path:path>', methods=['GET', 'POST'])
+@app.route('/authorization/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def authorization(path):
     service_url = SERVICE_ROUTES['authorization']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 # Route for user
-@app.route('/user/<path:path>', methods=['GET', 'POST'])
+@app.route('/user/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def user(path):
     service_url = SERVICE_ROUTES['user']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 # Route for ride
-@app.route('/ride/<path:path>', methods=['GET', 'POST'])
+@app.route('/ride/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def ride(path):
     service_url = SERVICE_ROUTES['ride']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 # Route for chat
-@app.route('/chat/<path:path>', methods=['GET', 'POST'])
+@app.route('/chat/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def chat(path):
     service_url = SERVICE_ROUTES['chat']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 # Route for feedback
-@app.route('/feedback/<path:path>', methods=['GET', 'POST'])
+@app.route('/feedback/<path:path>', methods=['GET', 'POST', 'DELETE'])
 def feedback(path):
     service_url = SERVICE_ROUTES['feedback']
+    return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
+
+# Route for notification
+@app.route('/notification/<path:path>', methods=['GET', 'POST', 'DELETE'])
+def feedback(path):
+    service_url = SERVICE_ROUTES['notification']
     return forward_request(service_url, path, method=request.method, data=request.data, headers=request.headers)
 
 @app.errorhandler(404)
