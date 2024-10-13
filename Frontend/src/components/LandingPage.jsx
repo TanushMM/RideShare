@@ -17,41 +17,40 @@ const LandingPage = () => {
   useEffect(() => {
     ScrollTrigger.create({
       trigger: "#section1",
-      start: "top top", // When the top of section2 hits the top of the viewport
-      end: "bottom 150px", // When the bottom of section2 reaches 150px from the top
+      start: "top top", 
+      end: "bottom 150px", 
       pin: "#section1-content",
-      pinSpacing: false, // Adjust spacing as needed
-      markers: false, // Set to true for debugging
+      pinSpacing: false, 
+      markers: false, 
     });
     // Example Pinning for Section 2
     ScrollTrigger.create({
       trigger: "#section2",
-      start: "top top", // When the top of section2 hits the top of the viewport
-      end: "bottom 100vh", // When the bottom of section2 reaches 150px from the top
+      start: "top top", 
+      end: "bottom 100vh", 
       pin: "#section2-content",
-      pinSpacing: false, // Adjust spacing as needed
-      markers: false, // Set to true for debugging
+      pinSpacing: false, 
+      markers: false,
     });
 
     // Example Pinning for Section 3
     ScrollTrigger.create({
       trigger: "#section3",
-      start: "top top", // When the top of section3 hits the center of the viewport
-      end: "+=200", // 200px past the start
+      start: "top top", 
+      end: "+=200", 
       pin: "#section3-content",
       pinSpacing: false,
       markers: false,
     });
     ScrollTrigger.create({
       trigger: "#section4",
-      start: "top center", // When the top of section3 hits the center of the viewport
-      end: "+=200", // 200px past the start
+      start: "top center", 
+      end: "+=200", 
       pin: "#section4-content",
       pinSpacing: false,
       markers: false,
     });
 
-    // Cleanup ScrollTriggers on unmount
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
@@ -172,9 +171,7 @@ const LandingPage = () => {
               justifyContent: "center",
               textAlign: "center",
               width: "100%",
-              height: "100%", // Ensures the content box takes full height for vertical centering
-              // Removed margin:0 to prevent content from being pushed
-              // margin: 0,
+              height: "100%", 
               padding: "2rem",
             }}
           >

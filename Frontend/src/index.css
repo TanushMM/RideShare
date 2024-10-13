@@ -40,10 +40,8 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column; 
-  min-width: 320px;
+  overflow-y: visible;
+  position: relative;
   text-align: center;
   font-family: 'Karla', Poppins, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   overflow-x: hidden; 
@@ -94,4 +92,14 @@ button:focus-visible {
     background-color: #f9f9f9;
     color:#000000;
   }
+}
+html {
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+html,
+body {
+  margin: 0;
 }

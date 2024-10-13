@@ -44,15 +44,14 @@ function Header() {
         top: 0,
         left: 0,
         zIndex: 50,
-        fontFamily: 'Roboto, sans-serif', // Changed to Roboto for better readability
+        fontFamily: 'Roboto, sans-serif',
       }}
     >
       <Box sx={{ 
           display: 'flex', 
           alignItems: 'center', 
-          justifyContent: 'space-between', 
           maxWidth: 1200, 
-          mx: 'left' // Corrected from 'mx: left' to 'mx: auto' to center the container
+          mx: 'auto', 
         }}>
         {/* Logo */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -68,7 +67,7 @@ function Header() {
               fontWeight: 'bold', 
               mr: 4, 
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)', 
-              fontFamily: 'new amsterdam', // Updated to match the font family
+              fontFamily: 'new amsterdam',
               letterSpacing: 4 
             }}
             component={Link}
@@ -78,47 +77,51 @@ function Header() {
           </Typography>
         </Box>
 
+        {/* Flexible Spacer */}
+        <Box sx={{ flexGrow: 1 }} />
+
         {/* Desktop Navigation Links */}
-        <Box 
-          sx={{ 
-            display: 'flex', 
-            gap: 2, 
-            alignItems: 'right                        ' 
-            // Removed flexGrow: 1 to prevent stretching
-          }}>
-          {headerMenu.map((item) => (
-            <Button
-              key={item.id}
-              component={Link}
-              to={item.path}
-              startIcon={<item.icon sx={{ color: item.id === 1 ? 'white' : '#021526' }} />}
-              sx={{
-                px: 2,
-                py: 1,
-                borderRadius: 2,
-                border: '1px solid',
-                borderColor: item.style.borderColor,
-                backgroundColor: item.style.backgroundColor,
-                color: item.style.color,
-                '&:hover': {
-                  backgroundColor: item.id === 1 ? '#5B99C2' : '#f0f0f0',
-                },
-              }}
-            >
-              <Typography variant="body1" sx={{ fontWeight: 'bold', fontFamily: 'Raleway, sans-serif', fontSize: '15px' }}>
-                {item.name}
-              </Typography>
-            </Button>
-          ))}
-        </Box>
+        {isLoggedIn() && (
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              gap: 2, 
+              alignItems: 'center',
+            }}>
+            {headerMenu.map((item) => (
+              <Button
+                key={item.id}
+                component={Link}
+                to={item.path}
+                startIcon={<item.icon sx={{ color: item.id === 1 ? 'white' : '#021526' }} />}
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: item.style.borderColor,
+                  backgroundColor: item.style.backgroundColor,
+                  color: item.style.color,
+                  '&:hover': {
+                    backgroundColor: item.id === 1 ? '#5B99C2' : '#f0f0f0',
+                  },
+                }}
+              >
+                <Typography variant="body1" sx={{ fontWeight: 'bold', fontFamily: 'Raleway, sans-serif', fontSize: '15px' }}>
+                  {item.name}
+                </Typography>
+              </Button>
+            ))}
+          </Box>
+        )}
 
         {/* Desktop Profile, Settings, Login/Logout Links */}
         <Box 
           sx={{ 
             display: { xs: 'none', md: 'flex' }, 
-            gap: 2, 
-            ml: 'auto', // Pushes this Box to the extreme right
-            alignItems: 'right' 
+            gap: 2,
+            alignItems: 'center',
+            ml: 'auto',
           }}>
           {isLoggedIn() && (
             <>
@@ -204,137 +207,137 @@ function Header() {
 
         {/* Mobile Toggle Button */}
         <IconButton
-          sx={{ display: { xs: 'flex', md: 'none' }, color: 'white' }}
+          sx={{ display: { xs: 'flex', md: 'none' }, color: 'white', ml: 'auto' }}
           onClick={toggleDrawer}
         >
           <MenuIcon />
         </IconButton>
+      </Box>
 
-        {/* Mobile Sidebar */}
-        <Drawer anchor="right" open={open} onClose={toggleDrawer}>
-          <Box
-            sx={{ width: 250, backgroundColor: '#021526', color: 'white', height: '100%', p: 2 }}
-            role="presentation"
-            onClick={toggleDrawer}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            <Box sx={{ mt: 4 }}>
-              {headerMenu.map((item) => (
+      {/* Mobile Sidebar */}
+      <Drawer anchor="right" open={open} onClose={toggleDrawer}>
+        <Box
+          sx={{ width: 250, backgroundColor: '#021526', color: 'white', height: '100%', p: 2 }}
+          role="presentation"
+          onClick={toggleDrawer}
+        >
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Box sx={{ mt: 4 }}>
+            {headerMenu.map((item) => (
+              <Button
+                key={item.id}
+                component={Link}
+                to={item.path}
+                startIcon={<item.icon sx={{ color: item.id === 1 ? 'white' : '#021526' }} />}
+                sx={{
+                  width: '100%',
+                  mb: 2,
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: item.style.borderColor,
+                  backgroundColor: item.style.backgroundColor,
+                  color: item.style.color,
+                  '&:hover': {
+                    backgroundColor: item.id === 1 ? '#1e3a52' : '#f0f0f0',
+                  },
+                }}
+              >
+                <Typography variant="body1" sx={{ fontWeight: 'medium', fontFamily: 'Raleway, sans-serif', fontSize: '20px', letterSpacing: 1.3 }}>
+                  {item.name}
+                </Typography>
+              </Button>
+            ))}
+            {isLoggedIn() ? (
+              <>
                 <Button
-                  key={item.id}
                   component={Link}
-                  to={item.path}
-                  startIcon={<item.icon sx={{ color: item.id === 1 ? 'white' : '#021526' }} />}
+                  to="/profile"
                   sx={{
-                    width: '100%',
-                    mb: 2,
-                    px: 2,
-                    py: 1,
-                    borderRadius: 2,
-                    border: '1px solid',
-                    borderColor: item.style.borderColor,
-                    backgroundColor: item.style.backgroundColor,
-                    color: item.style.color,
-                    '&:hover': {
-                      backgroundColor: item.id === 1 ? '#1e3a52' : '#f0f0f0',
-                    },
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 'medium',
+                    fontFamily: 'Raleway, sans-serif',
+                    fontSize: '18px',
+                    mt: 2,
+                    '&:hover': { color: '#90caf9' },
                   }}
                 >
-                  <Typography variant="body1" sx={{ fontWeight: 'medium', fontFamily: 'Raleway, sans-serif', fontSize: '20px', letterSpacing: 1.3 }}>
-                    {item.name}
-                  </Typography>
+                  Profile
                 </Button>
-              ))}
-              {isLoggedIn() ? (
-                <>
-                  <Button
-                    component={Link}
-                    to="/profile"
-                    sx={{
-                      color: 'white',
-                      textTransform: 'none',
-                      fontWeight: 'medium',
-                      fontFamily: 'Raleway, sans-serif',
-                      fontSize: '18px',
-                      mt: 2,
-                      '&:hover': { color: '#90caf9' },
-                    }}
-                  >
-                    Profile
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/user-dashboard"
-                    sx={{
-                      color: 'white',
-                      textTransform: 'none',
-                      fontWeight: 'medium',
-                      fontFamily: 'Raleway, sans-serif',
-                      fontSize: '18px',
-                      mt: 2,
-                      '&:hover': { color: '#90caf9' },
-                    }}
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/logout"
-                    sx={{
-                      color: 'white',
-                      textTransform: 'none',
-                      fontWeight: 'medium',
-                      fontFamily: 'Raleway, sans-serif',
-                      fontSize: '18px',
-                      mt: 2,
-                      '&:hover': { color: '#90caf9' },
-                    }}
-                  >
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    component={Link}
-                    to="/login/register"
-                    sx={{
-                      color: 'white',
-                      textTransform: 'none',
-                      fontWeight: 'medium',
-                      fontFamily: 'Raleway, sans-serif',
-                      fontSize: '18px',
-                      mt: 2,
-                      '&:hover': { color: '#90caf9' },
-                    }}
-                  >
-                    Register
-                  </Button>
-                  <Button
-                    component={Link}
-                    to="/login"
-                    sx={{
-                      color: 'white',
-                      textTransform: 'none',
-                      fontWeight: 'medium',
-                      fontFamily: 'Raleway, sans-serif',
-                      fontSize: '18px',
-                      mt: 2,
-                      '&:hover': { color: '#90caf9' },
-                    }}
-                  >
-                    Login
-                  </Button>
-                </>
-              )}
-            </Box>
+                <Button
+                  component={Link}
+                  to="/user-dashboard"
+                  sx={{
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 'medium',
+                    fontFamily: 'Raleway, sans-serif',
+                    fontSize: '18px',
+                    mt: 2,
+                    '&:hover': { color: '#90caf9' },
+                  }}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  component={Link}
+                  to="/logout"
+                  sx={{
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 'medium',
+                    fontFamily: 'Raleway, sans-serif',
+                    fontSize: '18px',
+                    mt: 2,
+                    '&:hover': { color: '#90caf9' },
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  component={Link}
+                  to="/login/register"
+                  sx={{
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 'medium',
+                    fontFamily: 'Raleway, sans-serif',
+                    fontSize: '18px',
+                    mt: 2,
+                    '&:hover': { color: '#90caf9' },
+                  }}
+                >
+                  Register
+                </Button>
+                <Button
+                  component={Link}
+                  to="/login"
+                  sx={{
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: 'medium',
+                    fontFamily: 'Raleway, sans-serif',
+                    fontSize: '18px',
+                    mt: 2,
+                    '&:hover': { color: '#90caf9' },
+                  }}
+                >
+                  Login
+                </Button>
+              </>
+            )}
           </Box>
-        </Drawer>
-      </Box>
+        </Box>
+      </Drawer>
     </Box>
   );
 }
