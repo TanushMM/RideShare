@@ -58,7 +58,7 @@ const UserDashboard = () => {
       {/* Welcome Message */}
       <animated.div style={fadeIn}>
         <Typography variant="h2" sx={{ marginBottom: 4, fontFamily: 'Poppins', fontWeight: 'semi-bold' , color:"#243642"}}>
-          Welcome back, <span style={{ color: '#888' }}>Siras</span>
+          Welcome back, <span style={{ color: '#888' }}>Tanush</span>
         </Typography>
       </animated.div>
 
