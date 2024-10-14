@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger, TextPlugin } from "gsap/all";
@@ -12,7 +11,6 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const LandingPage = () => {
-=======
 import React, { useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { Box, Button, Typography, Grid } from '@mui/material';
@@ -59,7 +57,6 @@ const LandingPage = () => {
     triggerOnce: true,
     threshold: 0.3, 
   };
->>>>>>> origin/main
 
 
 
