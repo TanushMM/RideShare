@@ -40,7 +40,7 @@ const User = () => {
           sessionStorage.setItem("privilage", "user");
           sessionStorage.setItem("email", email);
           console.log("JWT stored in sessionStorage:", token);
-          navigate("/home");
+          navigate("/user-dashboard");
         } else {
           setMessage("Error fetching JWT. Please try again.");
           setOpen(true);
