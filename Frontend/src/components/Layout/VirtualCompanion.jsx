@@ -170,7 +170,7 @@ const VirtualCompanion = () => {
         const token = sessionStorage.getItem('jwt');
 
         const response = await axios.post(
-          `http://3.110.16.132:8000/chat/vc/chat`,
+          `http://${import.meta.env.VITE_SERVER_IP}:8000/chat/vc/chat`,
           { text: message },
           {
             headers: {

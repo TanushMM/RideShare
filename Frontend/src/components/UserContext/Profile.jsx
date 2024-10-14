@@ -127,11 +127,11 @@ const ActionButtons = styled(Box)(({ theme }) => ({
 const Profile = () => {
   // Hard-coded user data
   const [user, setUser] = useState({
-    fullName: 'Sirasudeen',
-    email: 'sirasudeenp@gmail.com',
-    phoneNumber: '+91 2323244332',
-    address: 'Mens hostel,Crescent university, Chennai',
-    dateOfBirth: '2003-11-26',
+    fullName: 'Tanush',
+    email: 'tanushmmofficial@gmail.com',
+    phoneNumber: '+91 1234567890',
+    address: 'Somwhere in Chennai, Tamil Nadu, India',
+    dateOfBirth: '2004-06-05',
   });
 
   // State to handle edit mode

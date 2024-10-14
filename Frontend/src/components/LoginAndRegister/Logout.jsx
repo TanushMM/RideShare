@@ -1,8 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
+import axios from 'axios';
 
 const Logout = () => {
+  const navigate = useNavigate();
+  const deleteSearch = async () => {
+    const token = sessionStorage.getItem('jwt');
+    try {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const searchResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/search-ride/delete`, {}, config);
+        const postResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/post-ride/delete`, {}, config);
+
+        if (searchResponse.status === 200 && postResponse.status === 200) {
+            navigate('/ride-results');
+        }
+    } catch (error) {
+        console.log("Error:", error);
+    }
+  }
+
+  deleteSearch();
+
   // Clear session storage
   sessionStorage.removeItem('jwt');
   sessionStorage.removeItem('privilage');
