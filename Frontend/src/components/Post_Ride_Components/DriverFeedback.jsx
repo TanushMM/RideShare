@@ -22,7 +22,7 @@ const DriverFeedback = () => {
         const submitFeedback = async () => {
             const config = {
                 headers: {
-                    Authorization: Bearer ${sessionStorage.getItem('jwt')},
+                    Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
                 },
             };
             try {
@@ -65,7 +65,7 @@ const DriverFeedback = () => {
                 flexDirection: 'column',
                 boxShadow: '0.3px 1.5px 1.5px',
                 borderRadius: 3,
-                width: '50%',
+                width: '40%',
                 height: 'auto',
                 ml: '32%',
                 '& .Heading': {
@@ -92,7 +92,7 @@ const DriverFeedback = () => {
                 <Box key={rider._id} sx={{ mt: 3, display: 'flex', flexDirection: 'row', gap: 3 }}>
                     <Typography className="Primary">{rider.email}:</Typography>
                     <Rating
-                        name={rating-${rider._id}}
+                        name={`rating-${rider._id}`}
                         value={ratings[rider._id] || 0}
                         onChange={(event, newValue) => handleRatingChange(rider._id, newValue)}
                         precision={0.5}
