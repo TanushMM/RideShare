@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger, TextPlugin } from "gsap/all";
+import { Box, Button, Typography, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import PaymentIcon from "@mui/icons-material/Payment";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+const LandingPage = () => {
+=======
 import React, { useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { Box, Button, Typography, Grid } from '@mui/material';
@@ -44,341 +59,456 @@ const LandingPage = () => {
     triggerOnce: true,
     threshold: 0.3, 
   };
+>>>>>>> origin/main
 
-  // Section 1 Animations (Heading, Description, Buttons)
-  const [ref1, inView1] = useInView(sectionOptions);
-  const headingAnimation1 = useSpring({
-    opacity: inView1 ? 1 : 0,
-    transform: inView1 ? 'translateY(0px)' : 'translateY(-50px)',
-    config: { duration: 1000 },
-  });
-  const descriptionAnimation1 = useSpring({
-    opacity: inView1 ? 1 : 0,
-    transform: inView1 ? 'translateY(0px)' : 'translateY(30px)',
-    config: { duration: 1000, delay: 300 },
-  });
-  const buttonAnimation1 = useSpring({
-    opacity: inView1 ? 1 : 0,
-    transform: inView1 ? 'translateY(0px)' : 'translateY(50px)',
-    config: { duration: 1000, delay: 600 },
-  });
 
-  // Section 2 Animations
-  const [ref2, inView2] = useInView(sectionOptions);
-  const headingAnimation2 = useSpring({
-    opacity: inView2 ? 1 : 0,
-    transform: inView2 ? 'translateY(0px)' : 'translateY(-50px)',
-    config: { duration: 1000 },
-  });
-  const descriptionAnimation2 = useSpring({
-    opacity: inView2 ? 1 : 0,
-    transform: inView2 ? 'translateY(0px)' : 'translateY(30px)',
-    config: { duration: 1000, delay: 300 },
-  });
-  const buttonAnimation2 = useSpring({
-    opacity: inView2 ? 1 : 0,
-    transform: inView2 ? 'translateY(0px)' : 'translateY(50px)',
-    config: { duration: 1000, delay: 600 },
-  });
 
-  // Section 3 Animations
-  const [ref3, inView3] = useInView(sectionOptions);
-  const headingAnimation3 = useSpring({
-    opacity: inView3 ? 1 : 0,
-    transform: inView3 ? 'translateY(0px)' : 'translateY(-50px)',
-    config: { duration: 1000 },
-  });
-  const descriptionAnimation3 = useSpring({
-    opacity: inView3 ? 1 : 0,
-    transform: inView3 ? 'translateY(0px)' : 'translateY(30px)',
-    config: { duration: 1000, delay: 300 },
-  });
-  const buttonAnimation3 = useSpring({
-    opacity: inView3 ? 1 : 0,
-    transform: inView3 ? 'translateY(0px)' : 'translateY(50px)',
-    config: { duration: 1000, delay: 600 },
-  });
+  useEffect(() => {
+    ScrollTrigger.create({
+      trigger: "#section1",
+      start: "top top", 
+      end: "bottom 150px", 
+      pin: "#section1-content",
+      pinSpacing: false, 
+      markers: false, 
+    });
+    // Example Pinning for Section 2
+    ScrollTrigger.create({
+      trigger: "#section2",
+      start: "top top", 
+      end: "bottom 100vh", 
+      pin: "#section2-content",
+      pinSpacing: false, 
+      markers: false,
+    });
 
-  // Section 4 Animations
-  const [ref4, inView4] = useInView(sectionOptions);
-  const headingAnimation4 = useSpring({
-    opacity: inView4 ? 1 : 0,
-    transform: inView4 ? 'translateY(0px)' : 'translateY(-50px)',
-    config: { duration: 1000 },
-  });
-  const featureBoxAnimation = useSpring({
-    opacity: inView4 ? 1 : 0,
-    transform: inView4 ? 'translateY(0px)' : 'translateY(30px)',
-    config: { duration: 1000, delay: 300 },
-  });
+    // Example Pinning for Section 3
+    ScrollTrigger.create({
+      trigger: "#section3",
+      start: "top top", 
+      end: "+=200", 
+      pin: "#section3-content",
+      pinSpacing: false,
+      markers: false,
+    });
+    ScrollTrigger.create({
+      trigger: "#section4",
+      start: "top center", 
+      end: "+=200", 
+      pin: "#section4-content",
+      pinSpacing: false,
+      markers: false,
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
 
   return (
     <Box sx={styles.container}>
+
       {/* Section 1 - Welcome and Buttons */}
-      <Box ref={ref1} sx={{ ...styles.section, backgroundColor: '#B0BEC5' }}>
-        <animated.div style={headingAnimation1}>
-          <Typography variant="h1" sx={styles.heading}>
+      <Box
+        id="section1"
+        sx={{
+          ...styles.section,
+          backgroundColor: "#0F172A",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Optional Floating Element Removed */}
+
+        <Box id="section1-content" sx={{ textAlign: "center", color: "#FFFFFF", padding: "0 2rem" }}>
+          {/* Static Heading */}
+          <Typography variant="h3" sx={styles.heading}>
             Welcome to Hexaware's Rideshare
           </Typography>
-        </animated.div>
 
-        <animated.div style={descriptionAnimation1}>
-          <Typography variant="h5" sx={styles.description}>
+          <Typography variant="body1" sx={styles.description}>
             Revolutionize your travel experience with our cutting-edge RideShare application.
             Connect with drivers and passengers effortlessly, enjoy smooth ride bookings,
             and explore new destinations with ease. Join us in redefining convenience and
             comfort on the road.
           </Typography>
-        </animated.div>
 
-        <animated.div style={buttonAnimation1}>
-          <Link to="/login" style={{ textDecoration: 'none' }}>
-            <Button variant="contained" sx={styles.button}>Get Started</Button>
-          </Link>
-        </animated.div>
-
-        <animated.div style={buttonAnimation1}>
-          <Link to="/developer" style={{ textDecoration: 'none' }}>
-            <Button variant="outlined" sx={styles.devButton}>Meet the Developers</Button>
-          </Link>
-        </animated.div>
-
-        <animated.div style={buttonAnimation1}>
-          <Link to="/user-documentation" style={{ textDecoration: 'none' }}>
-            <Button variant="outlined" sx={styles.devButton}>User Documentation</Button>
-          </Link>
-        </animated.div>
-      </Box>
-
-      {/* Section 2 - Drive when you want */}
-      <Box ref={ref2} sx={{ ...styles.section, backgroundColor: '#f8f9fa' }}>
-        <animated.div style={headingAnimation2}>
-          <Typography variant="h1" sx={styles.heroText}>
-          Drive When You Want, Share the Journey
-          </Typography>
-        </animated.div>
-
-        <animated.div style={descriptionAnimation2}>
-          <Typography variant="h5" sx={styles.subText}>
-          Earn extra income by offering rides on your schedule or join someone else's journey to share the cost. With RideShare, you have the flexibility to post your ride or find a ride that fits your plans. Connect with fellow commuters, save on travel costs, and make your daily commute more efficient and enjoyable.
-          </Typography>
-        </animated.div>
-
-        <animated.div style={buttonAnimation2}>
           <Box sx={styles.buttonGroup}>
-            <Link to="/login" style={{ textDecoration: 'none' }}>
-              <Button variant="contained" sx={styles.ctaButton}>Get Started</Button>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button variant="contained" sx={styles.ctaButton_1}>
+                Get Started
+              </Button>
             </Link>
-            <Link to="/login/user" style={{ textDecoration: 'none' }}>
-              <Button variant="outlined" sx={styles.secondaryButton}>Log In</Button>
+            <Link to="/developer" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" sx={styles.secondaryButton_1}>
+                Meet the Developers
+              </Button>
+            </Link>
+            <Link to="/user-documentation" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" sx={styles.secondaryButton_1}>
+                User Documentation
+              </Button>
             </Link>
           </Box>
-        </animated.div>
+        </Box>
       </Box>
 
-      {/* Section 3 - Business Section */}
-      <Box ref={ref3} sx={{ ...styles.section, ...styles.fullWidthSection, backgroundColor: '#B0BEC5' }}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={5}>
-            <animated.div style={headingAnimation3}>
-              <Typography variant="h3" sx={styles.businessTitle}>
-                The RideShare you know, reimagined for business
-              </Typography>
-            </animated.div>
+      {/* Section 2 - Drive When You Want */}
+      <Box
+        id="section2"
+        sx={{
+          ...styles.section,
+          backgroundColor: "#FFFFFF",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          position: "relative",
+          overflow: "hidden",
 
-            <animated.div style={descriptionAnimation3}>
-              <Typography variant="body1" sx={styles.businessDescription}>
-                RideShare for Business is a platform for managing global rides and deliveries,
-                for companies of any size.
-              </Typography>
-            </animated.div>
+        }}
+      >
+        {/* Dynamic Gradient Overlay Removed or Made Static */}
 
-            <animated.div style={buttonAnimation3}>
-              <Link to="/login" style={{ textDecoration: 'none' }}>
-                <Button variant="contained" sx={styles.ctaButton}>Get Started</Button>
-              </Link>
-            </animated.div>
+
+        <Box id="section2-content"   sx={{ textAlign: "center", color: "#2D3748", padding: "0 2rem" }}>
+          <Typography variant="h4" sx={styles.heroText}>
+            Drive When You Want, Share the Journey
+          </Typography>
+
+          <Typography variant="body1" sx={styles.subText}>
+            Earn extra income by offering rides on your schedule or join someone else's journey to share the cost. With RideShare, you have the flexibility to post your ride or find a ride that fits your plans. Connect with fellow commuters, save on travel costs, and make your daily commute more efficient and enjoyable.
+          </Typography>
+
+          <Box sx={styles.buttonGroup}>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button variant="contained" sx={styles.ctaButton_2}>
+                Get Started
+              </Button>
+            </Link>
+            <Link to="/login/user" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" sx={styles.secondaryButton_2}>
+                Log In
+              </Button>
+            </Link>
+          </Box>
+        </Box>
+      </Box>
+
+        {/* Section 3 - Business Section */}
+        <Box
+          id="section3"
+          sx={{
+            ...styles.section,
+            ...styles.fullWidthSection,
+            backgroundColor: "#0F172A",
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed",
+            position: "relative",
+          overflow: "hidden",
+
+
+          }}
+        >
+          {/* Content to be pinned */}
+          <Box
+            id="section3-content"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              width: "100%",
+              height: "100%", 
+              padding: "2rem",
+            }}
+          >
+            <Box sx={{display:"flex",flexDirection:"row", gap:"2",m:0}}>
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h4"
+                  sx={styles.businessTitle}
+                >
+                  The RideShare You Know, Reimagined for Business
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  sx={styles.businessDescription}
+                >
+                  RideShare for Business is a platform for managing global rides and deliveries,
+                  tailored for companies of any size. Streamline your corporate travel, reduce costs,
+                  and enhance employee satisfaction with our comprehensive solutions.
+                </Typography>
+
+                <Link to="/login" style={{ textDecoration: "none" }}>
+                  <Button variant="contained" sx={styles.ctaButton_1}>
+                    Get Started
+                  </Button>
+                </Link>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Box sx={styles.businessImage}>
+                  <img
+                    src="https://i.postimg.cc/QCTztQ5Z/business-people-paying-vehicle-equiped-with-car-payment-system-vehicle-payments-car-payment-technolo.png"
+                    alt="Business Image"
+                    style={{ width: "100%", height: "auto", borderRadius: "12px" }}
+                  />
+                </Box>
+            </Grid>
+            </Box>
+          </Box>
+        </Box>
+
+
+      {/* Section 4 - Features Section */}
+      <Box
+        id="section4"
+        sx={{
+          ...styles.section,
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        <Box id="section4-content" marginBottom={40}>
+        <Typography variant="h4" sx={styles.featuresTitle}>
+          Why Choose RideShare?
+        </Typography>
+
+        <Grid container spacing={4} justifyContent="center">
+          {/* Feature 1 */}
+          <Grid item xs={12} md={4}>
+            <Box sx={styles.featureBox}>
+              <DirectionsCarIcon sx={styles.featureIcon} />
+              <Typography variant="h6" sx={styles.featureHeading}>
+                Real-time Ride Tracking
+              </Typography>
+              <Typography variant="body2" sx={styles.featureText}>
+                Track your driver in real-time and enjoy a seamless travel experience.
+              </Typography>
+            </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <Box sx={styles.businessImage}>
-              <img src="https://i.postimg.cc/QCTztQ5Z/business-people-paying-vehicle-equiped-with-car-payment-system-vehicle-payments-car-payment-technolo.png" alt="Business Image" style={{ width: '100%', height: 'auto' }} />
+          {/* Feature 2 */}
+          <Grid item xs={12} md={4}>
+            <Box sx={styles.featureBox}>
+              <PaymentIcon sx={styles.featureIcon} />
+              <Typography variant="h6" sx={styles.featureHeading}>
+                Seamless Payment
+              </Typography>
+              <Typography variant="body2" sx={styles.featureText}>
+                Choose from various secure payment methods for a worry-free transaction.
+              </Typography>
+            </Box>
+          </Grid>
+
+          {/* Feature 3 */}
+          <Grid item xs={12} md={4}>
+            <Box sx={styles.featureBox}>
+              <CompareArrowsIcon sx={styles.featureIcon} />
+              <Typography variant="h6" sx={styles.featureHeading}>
+                Flexible Ride Options
+              </Typography>
+              <Typography variant="body2" sx={styles.featureText}>
+                Select from multiple ride options that suit your preferences and budget.
+              </Typography>
+              
             </Box>
           </Grid>
         </Grid>
-      </Box>
-
-      {/* Section 4 - Features Section */}
-      <Box ref={ref4} sx={{ ...styles.section, backgroundColor: '#f8f9fa' }}>
-        <animated.div style={headingAnimation4}>
-          <Typography variant="h4" sx={styles.featuresTitle}>
-            Why Choose RideShare?
-          </Typography>
-        </animated.div>
-
-        <animated.div style={featureBoxAnimation}>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Box sx={styles.featureBox}>
-                <Typography variant="h6" sx={styles.featureHeading}>Real-time ride tracking</Typography>
-                <Typography variant="body1" sx={styles.featureText}>Track your driver in real-time and enjoy a seamless travel experience.</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Box sx={styles.featureBox}>
-                <Typography variant="h6" sx={styles.featureHeading}>Seamless Payment</Typography>
-                <Typography variant="body1" sx={styles.featureText}>Choose from various secure payment methods for a worry-free transaction.</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Box sx={styles.featureBox}>
-                <Typography variant="h6" sx={styles.featureHeading}>Flexible Ride Options</Typography>
-                <Typography variant="body1" sx={styles.featureText}>Select from multiple ride options that suit your preferences and budget.</Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </animated.div>
+        </Box>
       </Box>
     </Box>
   );
 };
 
+// Styles Object
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    backgroundColor: '#f8f9fa',
-    color: '#001F3F',
-    scrollBehavior: 'smooth',
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    color: "#1A202C",
+    fontFamily: "'Roboto', sans-serif",
+    scrollBehavior: "smooth",
+    position: "relative",
   },
   section: {
-    minHeight: '100vh', // Each section takes full window height
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '2rem',
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "4rem 2rem",
+    position: "relative",
   },
   fullWidthSection: {
-    width: '100%',
-    padding: '2rem 0', // Remove horizontal gaps
-  },
-  heroText: {
-    fontSize: '3.5rem',
-    fontWeight: 'bold',
-    marginBottom: '1rem',
-    color: '#001F3F',
-  },
-  subText: {
-    fontSize: '1.25rem',
-    fontFamily: "Lato",
-    marginBottom: '2rem',
-    color: '#555555',
-    width:"90rem"
-  },
-  buttonGroup: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '1rem',
-  },
-  ctaButton: {
-    padding: '1rem 2rem',
-    fontSize: '1.25rem',
-    backgroundColor: '#405D72',
-    borderRadius: '30px',
-    '&:hover': {
-      backgroundColor: '#001F3F',
-    },
-  },
-  secondaryButton: {
-    padding: '1rem 2rem',
-    fontSize: '1.25rem',
-    borderColor: '#001F3F',
-    color: '#001F3F',
-    borderRadius: '30px',
-    '&:hover': {
-      backgroundColor: '#001F3F',
-      color: '#FFFFFF',
-    },
+    width: "100%",
+    padding: "4rem 0",
   },
   heading: {
-    fontSize: '4rem',
-    fontFamily: 'New Amsterdam, sans-serif',
-    marginBottom: 2,
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)',
-    letterSpacing: 2,
+    fontSize: { xs: "2rem", md: "3rem" },
+    fontFamily: "'Raleway', sans-serif",
+    fontWeight: 700,
+    marginBottom: "1.5rem",
+    textAlign: "center",
+    color: "#FFFFFF",
   },
   description: {
-    fontSize: '1.25rem',
-    marginBottom: 4,
-    fontFamily: "Lato",
-    textAlign: 'center',
+    fontSize: "1.1rem",
+    marginBottom: "3rem",
+    color: "#e6ecf3",
+    textAlign: "center",
+    maxWidth: "900px",
+    lineHeight: 1.6,
   },
-  button: {
-    px: 4,
-    py: 2,
-    fontSize: '1.25rem',
-    backgroundColor: '#405D72',
-    borderRadius: '20px',
-    '&:hover': {
-      backgroundColor: '#021526',
-    },
-    fontFamily: 'Poppins, sans-serif',
-    marginBottom: '1rem',
+  heroText: {
+    fontSize: { xs: "2rem", md: "3rem" },
+    fontWeight: 700,
+    marginBottom: "1.5rem",
+    textAlign: "center",
+    color: "#2D3748",
+    fontFamily: "'Raleway', sans-serif",
   },
-  devButton: {
-    px: 4,
-    py: 2,
-    fontSize: '1.25rem',
-    borderColor: '#fff',
-    color: '#fff',
-    borderRadius: '20px',
-    '&:hover': {
-      backgroundColor: '#ffffff22',
-      borderColor: '#507687',
+  subText: {
+    fontSize: "1.1rem",
+    marginBottom: "2.5rem",
+    color: "#4A5568",
+    maxWidth: "800px",
+    textAlign: "center",
+    lineHeight: 1.6,
+  },
+  buttonGroup: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "1.5rem",
+    flexWrap: "wrap",
+  },
+  ctaButton_1: {
+    padding: "0.75rem 2rem",
+    fontSize: "1rem",
+    backgroundColor: "#FFFFFF",
+    borderRadius: "9999px",
+    textTransform: "none",
+    fontWeight: 600,
+    borderColor: "#FFFFFF",
+    color: "#0F172A",
+    transition: "background-color 0.3s, color 0.3s, transform 0.2s",
+    "&:hover": {
+      backgroundColor: "#3a4560",
+      color: "#FFFFFF",
+      transform: "scale(1.05)",
     },
-    fontFamily: 'Poppins, sans-serif',
-    marginBottom: '2rem',
+  },
+  ctaButton_2: {
+    padding: "0.75rem 2rem",
+    fontSize: "1rem",
+    backgroundColor: "#0F172A",
+    borderRadius: "9999px",
+    textTransform: "none",
+    fontWeight: 600,
+    borderColor: "#FFFFFF",
+    color: "#FFFFFF",
+    transition: "background-color 0.3s, color 0.3s, transform 0.2s",
+    "&:hover": {
+      backgroundColor: "#37476c",
+      color: "#FFFFFF",
+      transform: "scale(1.05)",
+    },
+  },
+  secondaryButton_2: {
+    padding: "0.75rem 2rem",
+    fontSize: "1rem",
+    borderColor: "#0F172A",
+    color: "#0F172A",
+    borderRadius: "9999px",
+    textTransform: "none",
+    fontWeight: 600,
+    transition: "background-color 0.3s, color 0.3s, transform 0.2s",
+    "&:hover": {
+      backgroundColor: "#2D3748",
+      color: "#FFFFFF",
+      transform: "scale(1.05)",
+    },
+  },
+  secondaryButton_1: {
+    padding: "0.75rem 2rem",
+    fontSize: "1rem",
+    borderColor: "#CBD5E1",
+    color: "#CBD5E1",
+    borderRadius: "9999px",
+    textTransform: "none",
+    fontWeight: 600,
+    transition: "background-color 0.3s, color 0.3s, transform 0.2s",
+    "&:hover": {
+      borderColor: "#0F172A",
+      color: "#FFFFFF",
+      backgroundColor: "#2D3748",
+      transform: "scale(1.05)",
+    },
   },
   businessTitle: {
-    fontSize: '3rem',
-    fontWeight: 'bold',
-    marginBottom: '1.5rem',
-    marginTop: '8rem',
+    fontSize: { xs: "2rem", md: "2.5rem" },
+    fontWeight: 700,
+    marginBottom: "0rem",
+    padding: "1rem",
+    ml: "2rem",
+    color: "#FFFFFF",
+    textAlign: "left",
+    fontFamily: "'Raleway', sans-serif",
   },
   businessDescription: {
-    fontSize: '1.25rem',
-    marginBottom: '2rem',
+    fontSize: "1.1rem",
+    marginBottom: "0.5rem",
+    padding: "1rem",
+    ml: "2rem",
+    color: "#e6ecf3",
+    textAlign: "left",
+    lineHeight: 1.6,
   },
   businessImage: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   featuresTitle: {
-    fontSize: '2.5rem',
-    fontWeight: 'bold',
-    marginBottom: '2rem',
+    fontSize: { xs: "1.75rem", md: "2rem" },
+    fontWeight: 700,
+    marginBottom: "2rem",
+    color: "#2D3748",
+    textAlign: "center",
+    fontFamily: "'Raleway', sans-serif",
   },
   featureBox: {
-    padding: '2rem',
-    backgroundColor: '#FFFFFF',
-    borderRadius: '10px',
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-    height: '100%',
-    textAlign: 'left',
+    padding: "2rem",
+    backgroundColor: "#FFFFFF",
+    borderRadius: "12px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+    height: "100%",
+    textAlign: "center",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    "&:hover": {
+      transform: "translateY(-5px)",
+      boxShadow: "0 8px 30px rgba(0, 0, 0, 0.1)",
+    },
+  },
+  featureIcon: {
+    fontSize: "3rem",
+    color: "#2D3748",
+    marginBottom: "1rem",
   },
   featureHeading: {
-    fontSize: '1.75rem', // Larger font for better emphasis
-    marginBottom: '1rem',
-    fontWeight: 'bold',
+    fontSize: "1.25rem",
+    marginBottom: "1rem",
+    fontWeight: 700,
+    color: "#2D3748",
+    fontFamily: "'Raleway', sans-serif",
   },
   featureText: {
-    fontSize: '1.1rem', // Slightly larger and more readable
-    fontFamily: "Lato",
-    
+    fontSize: "1rem",
+    color: "#4A5568",
+    lineHeight: 1.6,
   },
 };
 

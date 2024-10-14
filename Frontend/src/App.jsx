@@ -40,7 +40,7 @@ import UserDashboard from './components/UserContext/UserDashboard';
 const App = () => {
     return (
         <Router>
-            <Layout>
+                    <Layout>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
 
@@ -83,7 +83,7 @@ const App = () => {
                     <Route path="/admin/ride-monitoring" element={<RideMonitoring />} />
                     <Route path="/admin/user-management" element={<UserManagement />} />
                 </Routes>
-            </Layout>
+                </Layout>
         </Router>
     );
 };

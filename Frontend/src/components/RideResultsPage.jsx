@@ -1,235 +1,414 @@
-import  { useState, useEffect, useMemo } from 'react';
-import { Box, Typography, List, ListItem, Button, Card, CardContent, Divider } from '@mui/material';
-import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
+import { useState, useEffect, useMemo } from 'react';
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+} from '@mui/material';
+import {
+  GoogleMap,
+  LoadScript,
+  DirectionsRenderer,
+} from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import DirectionsIcon from '@mui/icons-material/Directions'; 
-import axios from 'axios';
+import DirectionsIcon from '@mui/icons-material/Directions';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import axios from 'axios'; 
 
 const RideResultsPage = () => {
-    const [searchRide, setSearchRide] = useState([]);
-    const [rides, setRides] = useState([]);
-    const [selectedRide, setSelectedRide] = useState(null);
-    const [directionsResponse, setDirectionsResponse] = useState(null);
-    const[amount, setamount] = useState(null);
-    const navigate = useNavigate();
+  const [searchRide, setSearchRide] = useState([]);
+  const [rides, setRides] = useState([]);
+  const [selectedRide, setSelectedRide] = useState(null);
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchRides = async () => {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('jwt')}`, 
-                },
-            };
-            try {
-                const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/match`, config); 
-                console.log('API response:', response); 
-                console.log('Match Result:', JSON.stringify(response.data.match_result.amount, null, 2));
-                setSearchRide(response.data.search_data);
-                setRides(response.data.post_data);
-                setamount(response.data.match_result[0].price);
-            } catch (error) {
-                console.error('Error fetching rides:', error);
-            }
-        };
-    
-        fetchRides();
-    }, []);
-    
+  useEffect(() => {
+    const fetchRides = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+        },
+      };
+      try {
+        const response = await axios.get(
+          `http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/match`,
+          config
+        );
+        console.log('API response:', response);
 
-    useEffect(() => {
-        if (selectedRide) {
-            const directionsService = new window.google.maps.DirectionsService();
-            directionsService.route(
-                {
-                    origin: selectedRide.from.coordinates,
-                    destination: selectedRide.to.coordinates,
-                    travelMode: window.google.maps.TravelMode.DRIVING,
-                },
-                (result, status) => {
-                    if (status === window.google.maps.DirectionsStatus.OK) {
-                        setDirectionsResponse(result);
-                    } else {
-                        console.error(`Directions request failed due to ${status}`);
-                        setDirectionsResponse(null);
-                    }
-                }
-            );
-        } else {
+        setSearchRide(response.data.search_data);
+        setRides(response.data.post_data);
+        setAmount(response.data.match_result[0]?.price || 0);
+
+      } catch (error) {
+        console.error('Error fetching rides:', error);
+      }
+    };
+
+    fetchRides();
+  }, []);
+  
+
+  useEffect(() => {
+    if (selectedRide) {
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: selectedRide.from.coordinates,
+          destination: selectedRide.to.coordinates,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            setDirectionsResponse(result);
+          } else {
+            console.error(`Directions request failed due to ${status}`);
             setDirectionsResponse(null);
+          }
         }
-    }, [selectedRide]);
+      );
+    } else {
+      setDirectionsResponse(null);
+    }
+  }, [selectedRide]);
 
-    const mapContainerStyle = {
-        width: '100%',
-        height: '100vh',
-    };
+  const mapContainerStyle = {
+    width: '100%',
+    height: '100vh',
+  };
 
-    const handleBackToMatches = () => {
-        setSelectedRide(null);
-        setDirectionsResponse(null);
-    };
+  const handleBackToMatches = () => {
+    setSelectedRide(null);
+    setDirectionsResponse(null);
+  };
 
-    const handleSelectRide = (ride) => {
-        setSelectedRide(ride);
-        setDirectionsResponse(null);
-    };
+  const handleSelectRide = (ride) => {
+    setSelectedRide(ride);
+    setDirectionsResponse(null);
+  };
 
-    const memoizedRides = useMemo(() => rides, [rides]);
-    return (
-        <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
-            <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={['places', 'directions']}>
-                <GoogleMap
-                    mapContainerStyle={mapContainerStyle}
-                    zoom={12}
-                    center={selectedRide ? selectedRide.from.coordinates : { lat: 13.0355, lng: 80.2315 }}
+  const memoizedRides = useMemo(() => rides, [rides]);
+
+  return (
+    <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+      <LoadScript
+        googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+        libraries={['places', 'directions']}
+      >
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          zoom={12}
+          center={
+            selectedRide
+              ? selectedRide.from.coordinates
+              : { lat: 40.758896, lng: -73.985130 } 
+          }
+        >
+          {selectedRide && directionsResponse && (
+            <DirectionsRenderer directions={directionsResponse} />
+          )}
+        </GoogleMap>
+      </LoadScript>
+
+      <Box
+        sx={{
+          position: 'fixed',
+          top: { xs: '10%', sm: '15%' },
+          right: { xs: '5%', sm: '20%' },
+          height: '80vh',
+          width: { xs: '90%', sm: '30%' },
+          backgroundColor: '#ffffff',
+          padding: 0,
+          boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
+          borderRadius: { xs: 0, sm: '16px' },
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          '&:hover': {
+            transform: 'scale(1.001)',
+          boxShadow: '-4px 0 16px rgba(0, 0, 1, 0.1)',
+
+          },
+        }}
+      >
+        <AnimatePresence mode="wait">
+          {!selectedRide && (
+
+              <Box
+                sx={{
+                  flex: 1,
+                  overflowY: 'auto',
+                  backgroundColor: '#f9f9f9',
+                  borderRadius: '16px',
+                  padding: '16px',
+                  minHeight: '60vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'left',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    color: '#0F172A',
+                    fontSize:"2rem",
+                    mt:2,
+                    ml:3,
+                    textAlign: 'left',
+                    fontFamily: 'Raleway',
+                  }}
                 >
-                    {selectedRide && directionsResponse && (
-                        <DirectionsRenderer directions={directionsResponse} />
-                    )}
-                </GoogleMap>
-            </LoadScript>
+                  Ride Matches
+                </Typography>
 
-            <Box sx={{ 
-                position: 'fixed',
-                top: '120px',
-                right: '100px',
-                height: '80vh', 
-                width: { xs: '100%', sm: '30%' }, 
-                backgroundColor: '#F5F5F5', 
-                paddingTop: '20px', 
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
-                borderRadius: '16px', 
-                overflowY: 'auto',
-                zIndex: 1000,
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
-                {selectedRide ? (
-                    <Box sx={{ flex: 1 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                            <Button
-                                onClick={handleBackToMatches}
-                                sx={{ mr: 2 }}
-                            >
-                                <KeyboardArrowLeftIcon fontSize='large' />
-                            </Button>
-                            <Typography variant="h6" sx={{ fontSize: 30, fontFamily: 'Poppins', fontWeight: 500 }}>
-                                Ride Details
-                            </Typography>
-                        </Box>
-                        <Box sx={{
-                            padding: '16px',
-                            height: '68vh',
-                            borderRadius: '12px',
-                            background: '#ffffff',
-                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                            overflowY: 'auto',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                        }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, textAlign: 'left', mt: 5, ml: 1 }}>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>From:</strong> {selectedRide.from.location}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>To:</strong> {selectedRide.to.location}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Date:</strong> {selectedRide.date}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Time:</strong> {selectedRide.time}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Seats Available:</strong> {selectedRide.seats}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Driving Style:</strong> {selectedRide.drivingStyle}
-                                </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'Semi-bold', fontSize: '20px', fontFamily: 'Lato' }}>
-                                    <strong>Amount:</strong> {amount}
-                                </Typography>
-                            </Box>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => navigate(`/ride-details/`, { state: { searchRide, selectedRide, amount } })}
+                {memoizedRides.length > 0 ? (
+                  <List sx={{ width: '100%', }}>
+                    {memoizedRides.map((ride, index) => (
+                      <motion.div
+                        key={ride.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 2, y: 0 }}
+                        transition={{ delay: index * 0.3 }}
+                      >
+                        <ListItem
+                          button
+                          onClick={() => handleSelectRide(ride)}
+                          sx={{
+                            mb: 1,
+                            ml: 0,
+                            mr: 0,
+                            borderRadius: '8px',
+                            transition:
+                              'background-color 0.3s, transform 0.2s',
+                            '&:hover': {
+                              transform: 'scale(1.1)',
+                            },
+                          }}
+                        >
+                          <Card sx={{ width: '100%', boxShadow: 'none' }}>
+                            <CardContent>
+                              <Typography
+                                variant="h6"
                                 sx={{
-                                    mt: 2,
-                                    alignSelf: 'center',
-                                    padding: '12px 24px',
-                                    borderRadius: '8px',
-                                    backgroundColor: '#1976d2',
-                                    color: '#fff',
-                                    textTransform: 'uppercase',
-                                    fontWeight: 'bold',
-                                    fontSize: '16px',
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                                    transition: 'background-color 0.3s, transform 0.2s',
-                                    '&:hover': {
-                                        backgroundColor: '#1565c0',
-                                        transform: 'scale(1.05)'
-                                    },
-                                    '&:active': {
-                                        backgroundColor: '#0d47a1',
-                                        transform: 'scale(1.02)'
-                                    }
+                                  fontWeight: 600,
+                                  color: '#0F172A',
                                 }}
-                            >
-                                View Full Details
-                            </Button>
-                        </Box>
-                    </Box>
+                              >
+                                {ride.from.location} to {ride.to.location}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  mt: 0.5,
+                                }}
+                              >
+                                <DirectionsIcon sx={{ mr: 0.5 }} />
+                                Date: {ride.date}, Time: {ride.time}
+                              </Typography>
+                            </CardContent>
+                            <Divider component="li" />
+                          </Card>
+                        </ListItem>
+                      </motion.div>
+                    ))}
+                  </List>
                 ) : (
-                    <>
-                        <Typography variant="h6" sx={{ fontSize: 30, fontFamily: 'Poppins', fontWeight: 500, mb: 2 }}>
-                            Matches Found
-                        </Typography>
-                        <Box sx={{ flex: 1, overflowY: 'auto', background: '#ffffff', borderRadius: '12px' }}>
-                            <List>
-                                {memoizedRides.map((ride) => (
-                                    <ListItem
-                                        button
-                                        key={ride.id}
-                                        onClick={() => handleSelectRide(ride)}
-                                        selected={selectedRide && selectedRide.id === ride.id}
-                                        sx={{
-                                            mb: 1,
-                                            borderRadius: '8px',
-                                            transition: 'background-color 0.3s, transform 0.2s',
-                                            '&:hover': {
-                                                backgroundColor: '#f5f5f5',
-                                                transform: 'scale(1.02)'
-                                            },
-                                        }}
-                                    >
-                                        <Card sx={{ width: '100%', boxShadow: 'none' }}>
-                                            <CardContent>
-                                                <Typography variant="h6" sx={{ fontWeight: 'semi-bold' }}>
-                                                    {ride.from.location} to {ride.to.location}
-                                                </Typography>
-                                                <Typography variant="body2" color="textSecondary">
-                                                    <DirectionsIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                                                    Date: {ride.date}, Time: {ride.time}
-                                                </Typography>
-                                            </CardContent>
-                                        <Divider component="li" />
-
-                                        </Card>
-                                        
-                                        </ListItem>
-                                        
-                                ))}
-                                
-                            </List>
-                        </Box>
-                    </>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      mt: 4,
+                    }}
+                  >
+                    <SearchOffIcon
+                      sx={{ fontSize: 60, color: '#a0a0a0' }}
+                    />
+                    <Typography
+                      variant="h6"
+                      sx={{ color: '#a0a0a0', mt: 2 }}
+                    >
+                      No matches found
+                    </Typography>
+                  </Box>
                 )}
-            </Box>
-        </div>
-    );
+              </Box>
+          )}
+
+          {selectedRide && (
+           
+              <Box sx={{ flex: 1 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: '#0F172A',
+                    p: 2,
+                    borderTopLeftRadius: '16px',
+                    borderTopRightRadius: '16px',
+                  }}
+                >
+                  <Button
+                    onClick={handleBackToMatches}
+                    sx={{
+                      minWidth: 'auto',
+                      padding: 0,
+                      color: '#ffffff',
+                      '&:hover': { backgroundColor: 'transparent' },
+                    }}
+                  >
+                    <KeyboardArrowLeftIcon fontSize="large" />
+                  </Button>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 600,
+                      color: '#ffffff',
+                      fontFamily: 'Nunito, sans-serif',
+                      ml: 1,
+                    }}
+                  >
+                    Ride Details
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    padding: 2.5,
+                    background: '#f9f9f9',
+                    display: 'flex',
+                    height: '63vh',
+                    flexDirection: 'column',
+                    gap: 2,
+                    overflowY: 'auto',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 1,
+                      textAlign: 'left',
+                      mt: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>From:</strong> {selectedRide.from.location}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>To:</strong> {selectedRide.to.location}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>Date:</strong> {selectedRide.date}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>Time:</strong> {selectedRide.time}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>Seats Available:</strong> {selectedRide.seats}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>Driving Style:</strong> {selectedRide.drivingStyle}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: '18px',
+                        fontFamily: 'Lato',
+                        color: '#0F172A',
+                      }}
+                    >
+                      <strong>Amount:</strong> ${amount}
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    onClick={() =>
+                      navigate(`/ride-details/`, {
+                        state: { searchRide, selectedRide, amount },
+                      })
+                    }
+                    sx={{
+                      mt: 2,
+                      alignSelf: 'center',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      textTransform: 'uppercase',
+                      fontWeight: 'bold',
+                      backgroundColor: '#37476c',
+                      fontSize: '16px',
+                      transition: 'background-color 0.3s, transform 0.2s',
+                      '&:hover': {
+                        backgroundColor: '#2c3b5e',
+                        transform: 'scale(1.05)',
+                      },
+                      '&:active': {
+                        backgroundColor: '#2c3b5e',
+                        transform: 'scale(1.02)',
+                      },
+                    }}
+                  >
+                    View Full Details
+                  </Button>
+                </Box>
+              </Box>
+          )}
+        </AnimatePresence>
+      </Box>
+    </div>
+  );
 };
 
 export default RideResultsPage;

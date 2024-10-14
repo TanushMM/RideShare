@@ -1,15 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, Typography, Divider, List, ListItemButton, ListItemText } from '@mui/material';
-import { GoogleMap, useLoadScript, DirectionsRenderer, Marker } from '@react-google-maps/api';
+import {
+  Button,
+  Box,
+  Typography,
+  Divider,
+  List,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Fade,
+  Grow,
+  CircularProgress,
+  Skeleton,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  GoogleMap,
+  useLoadScript,
+  DirectionsRenderer,
+  Marker,
+} from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const mapContainerStyle = {
-  height: "90vh",
-  width: "99%",
-  margin: "15px",
-  marginLeft: "7.5px",
-  borderRadius: '15px', 
+  height: '90vh',
+  width: '99%',
+  margin: '15px',
+  marginLeft: '7.5px',
+  borderRadius: '15px',
 };
 
 const PostRideDetails = () => {
@@ -17,8 +39,8 @@ const PostRideDetails = () => {
   const [driverDetails, setDriverDetails] = useState(null);
   const [selectedRider, setSelectedRider] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [riderMarkers, setRiderMarkers] = useState([]); 
-  
+  const [riderMarkers, setRiderMarkers] = useState([]);
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries: ['places', 'directions'],
@@ -30,32 +52,34 @@ const PostRideDetails = () => {
     const fetchMatches = async () => {
       const config = {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('jwt')}`, 
+          Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
         },
       };
       try {
         const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/poster-match`, config);
 
         const matchedResult = response.data.matched_result;
-        
+
         const driver = matchedResult[0].poster;
 
-        const riders = matchedResult.map(result => ({
+        const riders = matchedResult.map((result) => ({
           ...result.search_details,
           amount: result.amount,
         }));
-        
-        sessionStorage.setItem("driver", JSON.stringify(driver));
-        sessionStorage.setItem("riders", JSON.stringify(riders));
+
+        sessionStorage.setItem('driver', JSON.stringify(driver));
+        sessionStorage.setItem('riders', JSON.stringify(riders));
 
         setDriverDetails(driver);
         setBookings(riders);
         fetchDriverRoute(driver.from.coordinates, driver.to.coordinates);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
       }
     };
-    fetchMatches();
+    if (isLoaded) {
+      fetchMatches();
+    }
   }, [isLoaded]);
 
   const fetchDriverRoute = (origin, destination) => {
@@ -100,7 +124,7 @@ const PostRideDetails = () => {
 
   const handleGoBack = () => {
     setSelectedRider(null);
-    setDirectionsResponse(null); 
+    setDirectionsResponse(null);
     setRiderMarkers([]);
     if (driverDetails) {
       fetchDriverRoute(driverDetails.from.coordinates, driverDetails.to.coordinates);
@@ -112,19 +136,25 @@ const PostRideDetails = () => {
   };
 
   if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return <Skeleton variant="rectangular" width="100%" height="93vh" />;
 
   return (
-    <Box sx={{ display: 'flex', height: '93vh', backgroundColor: '#f0f4f7', marginTop: "1.5vh" }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: '93vh',
+        backgroundColor: '#f0f4f7',
+        marginTop: '1.5vh',
+      }}
+    >
       {/* Left Side: Rider Details */}
-      <Box
+      <Paper
+        elevation={3}
         sx={{
           padding: 4,
           margin: '15px',
           marginRight: '7.5px',
-          backgroundColor: '#fff',  
           textAlign: 'left',
-          boxShadow: 3,
           borderRadius: 6,
           width: '30%',
           maxWidth: '500px',
@@ -134,9 +164,8 @@ const PostRideDetails = () => {
         }}
       >
         <Typography
-          className="Heading"
+          variant="h4"
           sx={{
-            fontSize: '1.8rem',
             color: '#333',
             fontWeight: 'bold',
             fontFamily: 'Poppins',
@@ -151,7 +180,7 @@ const PostRideDetails = () => {
 
         <Box
           sx={{
-            maxHeight: '350px',
+            flexGrow: 1,
             overflowY: 'auto',
             width: '100%',
             border: '1px solid #e0e0e0',
@@ -160,87 +189,93 @@ const PostRideDetails = () => {
             padding: 2,
           }}
         >
-          {selectedRider ? (
-            <>
-              <Typography
+          <Grow in={true} mountOnEnter unmountOnExit>
+            {selectedRider ? (
+              <Paper
+                elevation={2}
                 sx={{
-                  fontSize: '1.7rem',
-                  fontWeight: 'bold',
-                  color: '#333',
-                  marginBottom: 1,
+                  padding: 2,
+                  backgroundColor: '#fff',
+                  borderRadius: 2,
                 }}
               >
-                `${selectedRider.email} Ride Details`
-              </Typography>
-              <Divider sx={{ marginBottom: 2 }} />
-              <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
-                From: <strong>{selectedRider.from.location}</strong>
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
-                To: <strong>{selectedRider.to.location}</strong>
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'black', mb: 1 }}>
-                Amount: <strong>₹{selectedRider.amount}</strong>
-              </Typography>
-
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleGoBack}
-                sx={{
-                  mt: 2,
-                  alignSelf: 'center',
-                }}
-              >
-                Go Back
-              </Button>
-            </>
-          ) : (
-            <List>
-              {bookings.length === 0 ? (
                 <Typography
+                  variant="h5"
                   sx={{
-                    fontSize: '1.5rem',
-                    color: '#888',
+                    fontWeight: 'bold',
+                    color: '#333',
+                    marginBottom: 1,
                     textAlign: 'center',
                   }}
                 >
-                  No one has booked this ride yet.
+                  {selectedRider.email}'s Ride Details
                 </Typography>
-              ) : (
-                bookings.map((booking, index) => (
-                  <ListItemButton
-                    key={index}
-                    onClick={() => handleRiderClick(booking)}
+                <Divider sx={{ marginBottom: 2 }} />
+                <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
+                  From: <strong>{selectedRider.from.location}</strong>
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'gray', mb: 1 }}>
+                  To: <strong>{selectedRider.to.location}</strong>
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: '1.2rem', color: 'black', mb: 1 }}>
+                  Amount: <strong>₹{selectedRider.amount}</strong>
+                </Typography>
+
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleGoBack}
+                  sx={{
+                    mt: 2,
+                    alignSelf: 'center',
+                  }}
+                >
+                  Go Back
+                </Button>
+              </Paper>
+            ) : (
+              <List>
+                {bookings.length === 0 ? (
+                  <Typography
                     sx={{
-                      border: '1px solid #ddd',
-                      borderRadius: 2,
-                      padding: '10px 15px',
-                      marginBottom: 2,
-                      backgroundColor: '#f9f9f9',
-                      transition: 'background-color 0.3s ease',
-                      '&:hover': {
-                        backgroundColor: '#f0f4f7',
-                      },
+                      fontSize: '1.5rem',
+                      color: '#888',
+                      textAlign: 'center',
                     }}
                   >
-                    <ListItemText
-                      primary={
-                        <Typography sx={{ fontWeight: 'bold', fontSize: '1.4rem' }}>
+                    No one has booked this ride yet.
+                  </Typography>
+                ) : (
+                  bookings.map((booking, index) => (
+                    <Accordion key={index} sx={{ marginBottom: 2 }}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls={`panel${index}-content`}
+                        id={`panel${index}-header`}
+                      >
+                        <Typography sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
                           {booking.email}
                         </Typography>
-                      }
-                      secondary={
-                        <Typography sx={{ fontSize: '1.1rem', color: '#555' }}>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography variant="body2" sx={{ color: '#555' }}>
                           {booking.from.location} → {booking.to.location}
                         </Typography>
-                      }
-                    />
-                  </ListItemButton>
-                ))
-              )}
-            </List>
-          )}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => handleRiderClick(booking)}
+                          sx={{ mt: 1 }}
+                        >
+                          View Route
+                        </Button>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))
+                )}
+              </List>
+            )}
+          </Grow>
         </Box>
 
         {/* Next Button */}
@@ -256,17 +291,37 @@ const PostRideDetails = () => {
         >
           Next
         </Button>
-      </Box>
+      </Paper>
 
       {/* Right Side: Google Map */}
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, position: 'relative' }}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={driverDetails ? driverDetails.from.coordinates : { lat: 0, lng: 0 }}
           zoom={10}
+          options={{
+            styles: [
+              // You can add custom map styles here
+            ],
+            disableDefaultUI: true,
+            zoomControl: true,
+          }}
         >
-          {directionsResponse && (
-            <DirectionsRenderer directions={directionsResponse} />
+          {directionsResponse ? (
+            <Fade in={true}>
+              <DirectionsRenderer directions={directionsResponse} />
+            </Fade>
+          ) : (
+            <CircularProgress
+              size={60}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-30px',
+                marginLeft: '-30px',
+              }}
+            />
           )}
 
           {riderMarkers.map((marker, index) => (

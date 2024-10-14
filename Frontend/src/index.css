@@ -3,11 +3,14 @@
 @import url('https://fonts.googleapis.com/css2?family=SUSE:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Quicksand:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:wght@400;700&display=swap');
+
 
 :root {
   font-family: 'Poppins', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --header-height: 64px;
   color-scheme: light dark;
   margin-bottom: 0px;
   padding-bottom: 0px;
@@ -37,10 +40,8 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column; 
-  min-width: 320px;
+  overflow-y: visible;
+  position: relative;
   text-align: center;
   font-family: 'Karla', Poppins, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   overflow-x: hidden; 
@@ -91,4 +92,14 @@ button:focus-visible {
     background-color: #f9f9f9;
     color:#000000;
   }
+}
+html {
+  overflow-y: scroll;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+html,
+body {
+  margin: 0;
 }
