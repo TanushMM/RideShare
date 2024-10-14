@@ -72,12 +72,10 @@ const PostRidePage = () => {
             console.error("Error:", error);
         }
     };
+    
     const navigate = useNavigate();
+
     useEffect(() => {
-        if (sessionStorage.getItem("jwt") === null) {
-            alert("Not Logged in")
-            navigate("/");
-        }
         const loadAutocomplete = () => {
             if (fromInputRef.current && window.google) {
                 const fromAutocomplete = new window.google.maps.places.Autocomplete(fromInputRef.current, { types: ['geocode'] });
@@ -92,7 +90,7 @@ const PostRidePage = () => {
                     }
                 });
             }
-
+    
             if (toInputRef.current && window.google) {
                 const toAutocomplete = new window.google.maps.places.Autocomplete(toInputRef.current, { types: ['geocode'] });
                 toAutocomplete.addListener('place_changed', () => {
@@ -107,11 +105,22 @@ const PostRidePage = () => {
                 });
             }
         };
-
+    
+        // Check if window.google is loaded
         if (window.google) {
             loadAutocomplete();
+        } else {
+            const interval = setInterval(() => {
+                if (window.google) {
+                    loadAutocomplete();
+                    clearInterval(interval);
+                }
+            }, 100); // Check every 100ms
+    
+            return () => clearInterval(interval);
         }
     }, []);
+    
 
     return (
         <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>

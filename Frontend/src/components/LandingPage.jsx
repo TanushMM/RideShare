@@ -16,38 +16,38 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const LandingPage = () => {
 
-  useEffect(() => {
-    const test = async () => {
-      const data = {
-        "notificationType" : "Payment confirmed",
-        "notificationMethod" : "email",
-        "details" : "driver name: tanush, car type: sedan, from: guindy, to: guduvanchery, more_details: payment confirmed, feedback submitted, thanks and have a great day",
-        "email": "210071601181@crescent.education"
-      }
-      let response;
+  // useEffect(() => {
+  //   const test = async () => {
+  //     const data = {
+  //       "notificationType" : "Payment confirmed",
+  //       "notificationMethod" : "email",
+  //       "details" : "driver name: tanush, car type: sedan, from: guindy, to: guduvanchery, more_details: payment confirmed, feedback submitted, thanks and have a great day",
+  //       "email": "210071601181@crescent.education"
+  //     }
+  //     let response;
   
-      const maxRetries = 5; 
-      let attempts = 0;
+  //     const maxRetries = 5; 
+  //     let attempts = 0;
   
-      while (attempts < maxRetries) {
-        console.log(attempts);
-        response = await axios.post("http://127.0.0.1:5250/generate", data)
+  //     while (attempts < maxRetries) {
+  //       console.log(attempts);
+  //       response = await axios.post("http://127.0.0.1:5250/generate", data)
     
-        if (response.status === 200) {
-          console.log(response);
-          break; 
-        } else if (response.status === 500) {
-          console.error("Server error, retrying...");
-          attempts++;
-          await new Promise(resolve => setTimeout(resolve, 1000)); 
-        } else {
-          console.error("Error:", response.status);
-          break; 
-        }
-      }
-    }   
-    test().catch((error) => {console.error(error)});
-  }, []);
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //         break; 
+  //       } else if (response.status === 500) {
+  //         console.error("Server error, retrying...");
+  //         attempts++;
+  //         await new Promise(resolve => setTimeout(resolve, 1000)); 
+  //       } else {
+  //         console.error("Error:", response.status);
+  //         break; 
+  //       }
+  //     }
+  //   }   
+  //   test().catch((error) => {console.error(error)});
+  // }, []);
 
   const sectionOptions = {
     triggerOnce: true,

@@ -47,36 +47,37 @@ const PostRideDetails = () => {
   });
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchMatches = async () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
-        },
-      };
-      try {
-        const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/poster-match`, config);
-
-        const matchedResult = response.data.matched_result;
-
-        const driver = matchedResult[0].poster;
-
-        const riders = matchedResult.map((result) => ({
-          ...result.search_details,
-          amount: result.amount,
-        }));
-
-        sessionStorage.setItem('driver', JSON.stringify(driver));
-        sessionStorage.setItem('riders', JSON.stringify(riders));
-
-        setDriverDetails(driver);
-        setBookings(riders);
-        fetchDriverRoute(driver.from.coordinates, driver.to.coordinates);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
+  
+  const fetchMatches = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+      },
     };
+    try {
+      const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/match-ride/poster-match`, config);
+
+      const matchedResult = response.data.matched_result;
+
+      const driver = matchedResult[0].poster;
+
+      const riders = matchedResult.map((result) => ({
+        ...result.search_details,
+        amount: result.amount,
+      }));
+
+      sessionStorage.setItem('driver', JSON.stringify(driver));
+      sessionStorage.setItem('riders', JSON.stringify(riders));
+
+      setDriverDetails(driver);
+      setBookings(riders);
+      fetchDriverRoute(driver.from.coordinates, driver.to.coordinates);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+  
+  useEffect(() => {
     if (isLoaded) {
       fetchMatches();
     }

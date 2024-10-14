@@ -14,10 +14,10 @@ const Logout = () => {
                 'Content-Type': 'application/json',
             },
         };
-
+  
         const searchResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/search-ride/delete`, {}, config);
         const postResponse = await axios.post(`http://${import.meta.env.VITE_SERVER_IP}:8000/ride/post-ride/delete`, {}, config);
-
+  
         if (searchResponse.status === 200 && postResponse.status === 200) {
             navigate('/ride-results');
         }
@@ -25,13 +25,9 @@ const Logout = () => {
         console.log("Error:", error);
     }
   }
-
   deleteSearch();
-
-  // Clear session storage
-  sessionStorage.removeItem('jwt');
-  sessionStorage.removeItem('privilage');
-  sessionStorage.removeItem('email');
+  
+  sessionStorage.clear();
 
   return (
     <Box

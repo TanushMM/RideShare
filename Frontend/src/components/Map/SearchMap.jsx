@@ -172,7 +172,7 @@ const SearchRidePage = () => {
                     }
                 });
             }
-
+    
             if (toInputRef.current && window.google) {
                 const toAutocomplete = new window.google.maps.places.Autocomplete(toInputRef.current, { types: ['geocode'] });
                 toAutocomplete.addListener('place_changed', () => {
@@ -187,11 +187,22 @@ const SearchRidePage = () => {
                 });
             }
         };
-
+    
+        // Check if window.google is loaded
         if (window.google) {
             loadAutocomplete();
+        } else {
+            const interval = setInterval(() => {
+                if (window.google) {
+                    loadAutocomplete();
+                    clearInterval(interval);
+                }
+            }, 100); // Check every 100ms
+    
+            return () => clearInterval(interval);
         }
     }, []);
+    
 
     useEffect(() => {
         if (fromCoords && toCoords) {
