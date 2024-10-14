@@ -13,6 +13,7 @@ key.pem
 signature.py
 /Documentation_and_Presentation
 /RAG*
+*/package-lock.json
 
 
 # C extensions
