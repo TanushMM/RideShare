@@ -52,13 +52,7 @@ const RideDetailsPage = () => {
             x: 0,
             ease: 'power3.out',
         }, "-=0.8")
-        .from(detailsRef.current.children, {
-            duration: 0.4,
-            opacity: 0,
-            stagger: 0.2,
-            y: 0,
-            ease: 'power3.out',
-        }, "-=0.3")
+
         .to(detailsRef.current.children, {
             duration: 0.3,
             opacity: 1,
@@ -94,7 +88,6 @@ const RideDetailsPage = () => {
             sessionStorage.setItem('amount', JSON.stringify(amount));
 
             console.log(response.data);
-
             gsap.to(containerRef.current, {
                 duration: 0.5,
                 opacity: 0,
