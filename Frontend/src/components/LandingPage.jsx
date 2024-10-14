@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger, TextPlugin } from "gsap/all";
 import { Box, Button, Typography, Grid } from "@mui/material";
@@ -6,17 +6,13 @@ import { Link } from "react-router-dom";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PaymentIcon from "@mui/icons-material/Payment";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import { useSpring, animated } from '@react-spring/web';
+import { useInView } from 'react-intersection-observer';
+import axios from 'axios';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-const LandingPage = () => {
-import React, { useEffect } from 'react';
-import { useSpring, animated } from '@react-spring/web';
-import { Box, Button, Typography, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useInView } from 'react-intersection-observer';
-import axios from 'axios';
 
 const LandingPage = () => {
 
