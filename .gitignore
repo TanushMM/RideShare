@@ -11,7 +11,13 @@ hours.txt
 cert.pem
 key.pem
 signature.py
-/Documentation_and_Presentation
+/Documentation_and_Presentation/Helper_Documents
+/Documentation_and_Presentation/Phase_1_Presentation_And_Demo_Videos
+/Documentation_and_Presentation/Phase_2_Final/Tanush_InnovateX_Crescent_Phase_2_Presentation.pptx
+/Documentation_and_Presentation/Phase_2_Final/Presentation_Script.docx
+/Documentation_and_Presentation/Backend_Tree.png
+
+
 /RAG*
 */package-lock.json
 
