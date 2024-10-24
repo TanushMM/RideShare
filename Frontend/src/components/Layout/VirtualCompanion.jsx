@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { IconButton, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react"
+import styled, { keyframes } from "styled-components"
+import { IconButton, Typography } from "@mui/material"
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const slideUp = keyframes`
   from {
@@ -14,14 +14,14 @@ const slideUp = keyframes`
     transform: translateY(0);
     opacity: 1;
   }
-`;
+`
 
 const CompanionContainer = styled.div`
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 1000;
-`;
+`
 
 const CompanionButton = styled.div`
   width: 60px;
@@ -39,7 +39,7 @@ const CompanionButton = styled.div`
     background-color: #1e3a5f;
     transform: scale(1.05);
   }
-`;
+`
 
 const CompanionPopup = styled.div`
   position: fixed;
@@ -50,12 +50,12 @@ const CompanionPopup = styled.div`
   background: linear-gradient(145deg, #f9f9f9, #f1f1f1);
   border-radius: 15px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-  display: ${props => (props.open ? 'block' : 'none')};
+  display: ${(props) => (props.open ? "block" : "none")};
   overflow: hidden;
   z-index: 1000;
   animation: ${slideUp} 0.3s ease-out;
   transition: all 0.3s ease-in-out;
-`;
+`
 
 const CompanionHeader = styled.div`
   background-color: #021526;
@@ -65,7 +65,7 @@ const CompanionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 
 const CompanionBody = styled.div`
   padding: 15px;
@@ -76,7 +76,7 @@ const CompanionBody = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   border-bottom: 1px solid #ddd;
-`;
+`
 
 const CompanionInputContainer = styled.div`
   display: flex;
@@ -85,7 +85,7 @@ const CompanionInputContainer = styled.div`
   background-color: #ffffff;
   border-radius: 0 0 15px 15px;
   box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
-`;
+`
 
 const CompanionInput = styled.input`
   flex: 1;
@@ -106,11 +106,11 @@ const CompanionInput = styled.input`
     border: 1px solid #2a85d7;
     box-shadow: 0 0 5px rgba(42, 133, 215, 0.5);
   }
-`;
+`
 
 const SendButton = styled.button`
   padding: 10px 20px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   color: black;
   border: none;
   border-radius: 20px;
@@ -122,102 +122,105 @@ const SendButton = styled.button`
     color: white;
     transform: scale(1.05);
   }
-`;
+`
 
 const MessageContainer = styled.div`
   display: flex;
-  justify-content: ${props => (props.isUser ? 'flex-end' : 'flex-start')};
+  justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   margin-bottom: 10px;
-`;
+`
 
 const MessageBubble = styled.div`
-  background-color: ${props => (props.isUser ? '#2a85d7' : '#f1f1f1')};
-  color: ${props => (props.isUser ? 'white' : 'black')};
+  background-color: ${(props) => (props.isUser ? "#2a85d7" : "#f1f1f1")};
+  color: ${(props) => (props.isUser ? "white" : "black")};
   padding: 10px 15px;
   border-radius: 15px;
   max-width: 60%;
   font-size: 0.9rem;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word; 
-  white-space: pre-wrap; 
-`;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+`
 
 const VirtualCompanion = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [message, setMessage] = useState("")
+  const [messages, setMessages] = useState([])
 
-  const navigate = useNavigate();
-  
-  const companionBodyRef = useRef(null);
+  const navigate = useNavigate()
+
+  const companionBodyRef = useRef(null)
 
   const toggleCompanion = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   const handleSendMessage = async () => {
-    if (sessionStorage.getItem('jwt') === null) {
+    if (sessionStorage.getItem("jwt") === null) {
       alert("Please, Login to use the Virtual Companion")
-      setMessage('');
-      navigate('/login')
+      setMessage("")
+      navigate("/login")
       return
     }
     if (message.trim()) {
-      const newMessage = { text: message, isUser: true };
-      setMessages([...messages, newMessage]);
-  
+      const newMessage = { text: message, isUser: true }
+      setMessages([...messages, newMessage])
+
       try {
-        const token = sessionStorage.getItem('jwt');
+        const token = sessionStorage.getItem("jwt")
 
         const response = await axios.post(
           `http://${import.meta.env.VITE_SERVER_IP}:8000/chat/vc/chat`,
           { text: message },
           {
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
           }
-        );
+        )
 
-        console.log(response);
-  
-        const botMessage = { text: response.data.data, isUser: false };
-  
-        setMessages([...messages, newMessage, botMessage]);
+        console.log(response)
+
+        const botMessage = { text: response.data.data, isUser: false }
+
+        setMessages([...messages, newMessage, botMessage])
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Error sending message:", error)
       }
-  
-      setMessage('');
+
+      setMessage("")
     }
-  };
-  
+  }
 
   const handleInputKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
+    if (e.key === "Enter") {
+      handleSendMessage()
     }
-  };
+  }
 
   useEffect(() => {
     if (companionBodyRef.current) {
-      companionBodyRef.current.scrollTop = companionBodyRef.current.scrollHeight;
+      companionBodyRef.current.scrollTop = companionBodyRef.current.scrollHeight
     }
-  }, [messages]);
+  }, [messages])
 
   return (
     <CompanionContainer>
       <CompanionButton onClick={toggleCompanion}>
-        <img src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/VirtualCompanion.png" alt="Virtual Companion" width={40} />
+        <img
+          src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/VirtualCompanion.png"
+          alt="Virtual Companion"
+          width={40}
+        />
       </CompanionButton>
       <CompanionPopup open={isOpen}>
         <CompanionHeader>
-          <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
+          <Typography sx={{ fontFamily: "Poppins", fontSize: "20px" }}>
             Chat with Your Companion
           </Typography>
           <IconButton onClick={toggleCompanion}>
-            <KeyboardArrowDownIcon style={{ color: 'white' }} />
+            <KeyboardArrowDownIcon style={{ color: "white" }} />
           </IconButton>
         </CompanionHeader>
         <CompanionBody ref={companionBodyRef}>
@@ -239,7 +242,7 @@ const VirtualCompanion = () => {
         </CompanionInputContainer>
       </CompanionPopup>
     </CompanionContainer>
-  );
-};
+  )
+}
 
-export default VirtualCompanion;
+export default VirtualCompanion

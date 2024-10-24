@@ -1,106 +1,82 @@
-import React, { useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger, TextPlugin } from "gsap/all";
-import { Box, Button, Typography, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import PaymentIcon from "@mui/icons-material/Payment";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import { useSpring, animated } from '@react-spring/web';
-import { useInView } from 'react-intersection-observer';
-import axios from 'axios';
+import { useEffect } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger, TextPlugin } from "gsap/all"
+import { Box, Button, Typography, Grid } from "@mui/material"
+import { Link } from "react-router-dom"
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar"
+import PaymentIcon from "@mui/icons-material/Payment"
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows"
+import axios from "axios"
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
+gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 const LandingPage = () => {
-
   // useEffect(() => {
-  //   const test = async () => {
+  //   const notification = async () => {
   //     const data = {
-  //       "notificationType" : "Payment confirmed",
-  //       "notificationMethod" : "email",
-  //       "details" : "driver name: tanush, car type: sedan, from: guindy, to: guduvanchery, more_details: payment confirmed, feedback submitted, thanks and have a great day",
-  //       "email": "210071601181@crescent.education"
+  //       notificationType: "Your ride has been confirmed",
+  //       notificationMethod: "email",
+  //       details:
+  //         "driver name: siras, car type: sedan, from: guindy, to: guduvanchery, more_details: we will be experiencing mild traffic so feel free to use or Virtual Companion, thanks and have a great day",
+  //       email: "210071601181@crescent.education",
   //     }
-  //     let response;
-  
-  //     const maxRetries = 5; 
-  //     let attempts = 0;
-  
-  //     while (attempts < maxRetries) {
-  //       console.log(attempts);
-  //       response = await axios.post("http://127.0.0.1:5250/generate", data)
-    
-  //       if (response.status === 200) {
-  //         console.log(response);
-  //         break; 
-  //       } else if (response.status === 500) {
-  //         console.error("Server error, retrying...");
-  //         attempts++;
-  //         await new Promise(resolve => setTimeout(resolve, 1000)); 
-  //       } else {
-  //         console.error("Error:", response.status);
-  //         break; 
-  //       }
+  //     let response
+  //     response = await axios.post("http://127.0.0.1:5500/generate", data)
+
+  //     if (response.status === 200) {
+  //       console.log(response.data)
   //     }
-  //   }   
-  //   test().catch((error) => {console.error(error)});
-  // }, []);
-
-  const sectionOptions = {
-    triggerOnce: true,
-    threshold: 0.3, 
-  };
-
-
+  //   }
+  //   notification().catch((error) => {
+  //     console.error(error)
+  //   })
+  // }, [])
 
   useEffect(() => {
     ScrollTrigger.create({
       trigger: "#section1",
-      start: "top top", 
-      end: "bottom 150px", 
+      start: "top top",
+      end: "bottom 150px",
       pin: "#section1-content",
-      pinSpacing: false, 
-      markers: false, 
-    });
+      pinSpacing: false,
+      markers: false,
+    })
     // Example Pinning for Section 2
     ScrollTrigger.create({
       trigger: "#section2",
-      start: "top top", 
-      end: "bottom 100vh", 
+      start: "top top",
+      end: "bottom 100vh",
       pin: "#section2-content",
-      pinSpacing: false, 
+      pinSpacing: false,
       markers: false,
-    });
+    })
 
     // Example Pinning for Section 3
     ScrollTrigger.create({
       trigger: "#section3",
-      start: "top top", 
-      end: "+=200", 
+      start: "top top",
+      end: "+=200",
       pin: "#section3-content",
       pinSpacing: false,
       markers: false,
-    });
+    })
     ScrollTrigger.create({
       trigger: "#section4",
-      start: "top center", 
-      end: "+=200", 
+      start: "top center",
+      end: "+=200",
       pin: "#section4-content",
       pinSpacing: false,
       markers: false,
-    });
+    })
 
+    // Cleanup ScrollTriggers on unmount
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+    }
+  }, [])
 
   return (
     <Box sx={styles.container}>
-
       {/* Section 1 - Welcome and Buttons */}
       <Box
         id="section1"
@@ -115,17 +91,42 @@ const LandingPage = () => {
       >
         {/* Optional Floating Element Removed */}
 
-        <Box id="section1-content" sx={{ textAlign: "center", color: "#FFFFFF", padding: "0 2rem" }}>
+        <Box
+          id="section1-content"
+          sx={{ textAlign: "center", color: "#FFFFFF", padding: "0 2rem" }}
+        >
+          <Box
+            component="video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/RideShareLandingPageVideo.webm" // Use public folder path
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              minWidth: "100%",
+              minHeight: "100%",
+              width: "auto",
+              height: "auto",
+              zIndex: "-1",
+              transform: "translate(-50%, -50%)",
+              opacity: 0.3,
+              objectFit: "cover",
+              pointerEvents: "none",
+            }}
+          />
           {/* Static Heading */}
           <Typography variant="h3" sx={styles.heading}>
             Welcome to Hexaware's Rideshare
           </Typography>
 
           <Typography variant="body1" sx={styles.description}>
-            Revolutionize your travel experience with our cutting-edge RideShare application.
-            Connect with drivers and passengers effortlessly, enjoy smooth ride bookings,
-            and explore new destinations with ease. Join us in redefining convenience and
-            comfort on the road.
+            Revolutionize your travel experience with our cutting-edge RideShare
+            application. Connect with drivers and passengers effortlessly, enjoy
+            smooth ride bookings, and explore new destinations with ease. Join
+            us in redefining convenience and comfort on the road.
           </Typography>
 
           <Box sx={styles.buttonGroup}>
@@ -158,19 +159,24 @@ const LandingPage = () => {
           backgroundAttachment: "fixed",
           position: "relative",
           overflow: "hidden",
-
         }}
       >
         {/* Dynamic Gradient Overlay Removed or Made Static */}
 
-
-        <Box id="section2-content"   sx={{ textAlign: "center", color: "#2D3748", padding: "0 2rem" }}>
+        <Box
+          id="section2-content"
+          sx={{ textAlign: "center", color: "#2D3748", padding: "0 2rem" }}
+        >
           <Typography variant="h4" sx={styles.heroText}>
             Drive When You Want, Share the Journey
           </Typography>
 
           <Typography variant="body1" sx={styles.subText}>
-            Earn extra income by offering rides on your schedule or join someone else's journey to share the cost. With RideShare, you have the flexibility to post your ride or find a ride that fits your plans. Connect with fellow commuters, save on travel costs, and make your daily commute more efficient and enjoyable.
+            Earn extra income by offering rides on your schedule or join someone
+            else's journey to share the cost. With RideShare, you have the
+            flexibility to post your ride or find a ride that fits your plans.
+            Connect with fellow commuters, save on travel costs, and make your
+            daily commute more efficient and enjoyable.
           </Typography>
 
           <Box sx={styles.buttonGroup}>
@@ -188,73 +194,71 @@ const LandingPage = () => {
         </Box>
       </Box>
 
-        {/* Section 3 - Business Section */}
-        <Box
-          id="section3"
-          sx={{
-            ...styles.section,
-            ...styles.fullWidthSection,
-            backgroundColor: "#0F172A",
-            backgroundSize: "cover",
-            backgroundAttachment: "fixed",
-            position: "relative",
+      {/* Section 3 - Business Section */}
+      <Box
+        id="section3"
+        sx={{
+          ...styles.section,
+          ...styles.fullWidthSection,
+          backgroundColor: "#0F172A",
+          backgroundSize: "cover",
+          backgroundAttachment: "fixed",
+          position: "relative",
           overflow: "hidden",
-
-
+        }}
+      >
+        {/* Content to be pinned */}
+        <Box
+          id="section3-content"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            width: "100%",
+            height: "100%", // Ensures the content box takes full height for vertical centering
+            // Removed margin:0 to prevent content from being pushed
+            // margin: 0,
+            padding: "2rem",
           }}
         >
-          {/* Content to be pinned */}
-          <Box
-            id="section3-content"
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              textAlign: "center",
-              width: "100%",
-              height: "100%", 
-              padding: "2rem",
-            }}
-          >
-            <Box sx={{display:"flex",flexDirection:"row", gap:"2",m:0}}>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  variant="h4"
-                  sx={styles.businessTitle}
-                >
-                  The RideShare You Know, Reimagined for Business
-                </Typography>
+          <Box sx={{ display: "flex", flexDirection: "row", gap: "2", m: 0 }}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4" sx={styles.businessTitle}>
+                The RideShare You Know, Reimagined for Business
+              </Typography>
 
-                <Typography
-                  variant="body1"
-                  sx={styles.businessDescription}
-                >
-                  RideShare for Business is a platform for managing global rides and deliveries,
-                  tailored for companies of any size. Streamline your corporate travel, reduce costs,
-                  and enhance employee satisfaction with our comprehensive solutions.
-                </Typography>
+              <Typography variant="body1" sx={styles.businessDescription}>
+                RideShare for Business is a platform for managing global rides
+                and deliveries, tailored for companies of any size. Streamline
+                your corporate travel, reduce costs, and enhance employee
+                satisfaction with our comprehensive solutions.
+              </Typography>
 
-                <Link to="/login" style={{ textDecoration: "none" }}>
-                  <Button variant="contained" sx={styles.ctaButton_1}>
-                    Get Started
-                  </Button>
-                </Link>
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <Box sx={styles.businessImage}>
-                  <img
-                    src="https://i.postimg.cc/QCTztQ5Z/business-people-paying-vehicle-equiped-with-car-payment-system-vehicle-payments-car-payment-technolo.png"
-                    alt="Business Image"
-                    style={{ width: "100%", height: "auto", borderRadius: "12px" }}
-                  />
-                </Box>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <Button variant="contained" sx={styles.ctaButton_1}>
+                  Get Started
+                </Button>
+              </Link>
             </Grid>
-            </Box>
+
+            <Grid item xs={12} md={6}>
+              <Box sx={styles.businessImage}>
+                <img
+                  src="https://i.postimg.cc/QCTztQ5Z/business-people-paying-vehicle-equiped-with-car-payment-system-vehicle-payments-car-payment-technolo.png"
+                  alt="Business Image"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "12px",
+                  }}
+                />
+              </Box>
+            </Grid>
           </Box>
         </Box>
-
+      </Box>
 
       {/* Section 4 - Features Section */}
       <Box
@@ -265,56 +269,58 @@ const LandingPage = () => {
         }}
       >
         <Box id="section4-content" marginBottom={40}>
-        <Typography variant="h4" sx={styles.featuresTitle}>
-          Why Choose RideShare?
-        </Typography>
+          <Typography variant="h4" sx={styles.featuresTitle}>
+            Why Choose RideShare?
+          </Typography>
 
-        <Grid container spacing={4} justifyContent="center">
-          {/* Feature 1 */}
-          <Grid item xs={12} md={4}>
-            <Box sx={styles.featureBox}>
-              <DirectionsCarIcon sx={styles.featureIcon} />
-              <Typography variant="h6" sx={styles.featureHeading}>
-                Real-time Ride Tracking
-              </Typography>
-              <Typography variant="body2" sx={styles.featureText}>
-                Track your driver in real-time and enjoy a seamless travel experience.
-              </Typography>
-            </Box>
-          </Grid>
+          <Grid container spacing={4} justifyContent="center">
+            {/* Feature 1 */}
+            <Grid item xs={12} md={4}>
+              <Box sx={styles.featureBox}>
+                <DirectionsCarIcon sx={styles.featureIcon} />
+                <Typography variant="h6" sx={styles.featureHeading}>
+                  Real-time Ride Tracking
+                </Typography>
+                <Typography variant="body2" sx={styles.featureText}>
+                  Track your driver in real-time and enjoy a seamless travel
+                  experience.
+                </Typography>
+              </Box>
+            </Grid>
 
-          {/* Feature 2 */}
-          <Grid item xs={12} md={4}>
-            <Box sx={styles.featureBox}>
-              <PaymentIcon sx={styles.featureIcon} />
-              <Typography variant="h6" sx={styles.featureHeading}>
-                Seamless Payment
-              </Typography>
-              <Typography variant="body2" sx={styles.featureText}>
-                Choose from various secure payment methods for a worry-free transaction.
-              </Typography>
-            </Box>
-          </Grid>
+            {/* Feature 2 */}
+            <Grid item xs={12} md={4}>
+              <Box sx={styles.featureBox}>
+                <PaymentIcon sx={styles.featureIcon} />
+                <Typography variant="h6" sx={styles.featureHeading}>
+                  Seamless Payment
+                </Typography>
+                <Typography variant="body2" sx={styles.featureText}>
+                  Choose from various secure payment methods for a worry-free
+                  transaction.
+                </Typography>
+              </Box>
+            </Grid>
 
-          {/* Feature 3 */}
-          <Grid item xs={12} md={4}>
-            <Box sx={styles.featureBox}>
-              <CompareArrowsIcon sx={styles.featureIcon} />
-              <Typography variant="h6" sx={styles.featureHeading}>
-                Flexible Ride Options
-              </Typography>
-              <Typography variant="body2" sx={styles.featureText}>
-                Select from multiple ride options that suit your preferences and budget.
-              </Typography>
-              
-            </Box>
+            {/* Feature 3 */}
+            <Grid item xs={12} md={4}>
+              <Box sx={styles.featureBox}>
+                <CompareArrowsIcon sx={styles.featureIcon} />
+                <Typography variant="h6" sx={styles.featureHeading}>
+                  Flexible Ride Options
+                </Typography>
+                <Typography variant="body2" sx={styles.featureText}>
+                  Select from multiple ride options that suit your preferences
+                  and budget.
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
         </Box>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
 // Styles Object
 const styles = {
@@ -503,6 +509,6 @@ const styles = {
     color: "#4A5568",
     lineHeight: 1.6,
   },
-};
+}
 
-export default LandingPage;
+export default LandingPage

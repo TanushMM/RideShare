@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { IconButton, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
+import React, { useState, useEffect, useRef } from "react"
+import styled, { keyframes } from "styled-components"
+import { IconButton, Typography } from "@mui/material"
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import axios from "axios"
+import ReactMarkdown from "react-markdown"
 
 const slideUp = keyframes`
   from {
@@ -14,14 +14,14 @@ const slideUp = keyframes`
     transform: translateY(0);
     opacity: 1;
   }
-`;
+`
 
 const ChatbotContainer = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-`;
+`
 
 const ChatbotButton = styled.div`
   width: 60px;
@@ -39,7 +39,7 @@ const ChatbotButton = styled.div`
     background-color: #1e3a5f;
     transform: scale(1.05);
   }
-`;
+`
 
 const ChatbotPopup = styled.div`
   position: fixed;
@@ -50,12 +50,12 @@ const ChatbotPopup = styled.div`
   background: linear-gradient(145deg, #f9f9f9, #f1f1f1);
   border-radius: 15px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-  display: ${props => (props.open ? 'block' : 'none')};
+  display: ${(props) => (props.open ? "block" : "none")};
   overflow: hidden;
   z-index: 1000;
   animation: ${slideUp} 0.3s ease-out;
   transition: all 0.3s ease-in-out;
-`;
+`
 
 const ChatbotHeader = styled.div`
   background-color: #021526;
@@ -65,7 +65,7 @@ const ChatbotHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 
 const ChatbotBody = styled.div`
   padding: 15px;
@@ -76,7 +76,7 @@ const ChatbotBody = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   border-bottom: 1px solid #ddd;
-`;
+`
 
 const ChatbotInputContainer = styled.div`
   display: flex;
@@ -85,7 +85,7 @@ const ChatbotInputContainer = styled.div`
   background-color: #ffffff;
   border-radius: 0 0 15px 15px;
   box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
-`;
+`
 
 const ChatbotInput = styled.input`
   flex: 1;
@@ -106,11 +106,11 @@ const ChatbotInput = styled.input`
     border: 1px solid #2a85d7;
     box-shadow: 0 0 5px rgba(42, 133, 215, 0.5);
   }
-`;
+`
 
 const SendButton = styled.button`
   padding: 10px 20px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   color: black;
   border: none;
   border-radius: 20px;
@@ -122,54 +122,55 @@ const SendButton = styled.button`
     color: white;
     transform: scale(1.05);
   }
-`;
+`
 
 const MessageContainer = styled.div`
   display: flex;
-  justify-content: ${props => (props.isUser ? 'flex-end' : 'flex-start')};
+  justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   margin-bottom: 10px;
-`;
+`
 
 const MessageBubble = styled.div`
-  background-color: ${props => (props.isUser ? '#2a85d7' : '#f1f1f1')};
-  color: ${props => (props.isUser ? 'white' : 'black')};
+  background-color: ${(props) => (props.isUser ? "#2a85d7" : "#f1f1f1")};
+  color: ${(props) => (props.isUser ? "white" : "black")};
   padding: 10px 15px;
   border-radius: 15px;
   max-width: 60%;
   font-size: 0.9rem;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
   word-wrap: break-word;
-  white-space: pre-wrap; 
-`;
+  white-space: pre-wrap;
+`
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
-  const chatbotBodyRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const [message, setMessage] = useState("")
+  const [messages, setMessages] = useState([])
+  const chatbotBodyRef = useRef(null)
 
   useEffect(() => {
-    if (sessionStorage.getItem('jwt' === null)) {
-      alert('')
+    if (sessionStorage.getItem("jwt" === null)) {
+      alert("")
     }
-  });
+  })
 
   const toggleChatbot = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   useEffect(() => {
     if (chatbotBodyRef.current) {
-      chatbotBodyRef.current.scrollTop = chatbotBodyRef.current.scrollHeight;
+      chatbotBodyRef.current.scrollTop = chatbotBodyRef.current.scrollHeight
     }
-  }, [messages]);
+  }, [messages])
 
   const handleSendMessage = async () => {
     if (message.trim()) {
-      const newMessage = { text: message, isUser: true };
-      setMessages([...messages, newMessage]);
+      const newMessage = { text: message, isUser: true }
+      setMessages([...messages, newMessage])
 
-      try { // no need for JWT because, ChatBot must allows for user to access it irrespective of Login status
+      try {
+        // no need for JWT because, ChatBot must allows for user to access it irrespective of Login status
         // const token = sessionStorage.getItem('jwt');
 
         const response = await axios.post(
@@ -177,39 +178,43 @@ const Chatbot = () => {
           { text: message },
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        );
+        )
 
-        const botMessage = { text: response.data.data, isUser: false };
-        setMessages([...messages, newMessage, botMessage]);
+        const botMessage = { text: response.data.data, isUser: false }
+        setMessages([...messages, newMessage, botMessage])
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Error sending message:", error)
       }
 
-      setMessage('');
+      setMessage("")
     }
-  };
+  }
 
   const handleInputKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
+    if (e.key === "Enter") {
+      handleSendMessage()
     }
-  };
+  }
 
   return (
     <ChatbotContainer>
       <ChatbotButton onClick={toggleChatbot}>
-        <img src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/chatbot_icon.png" alt="Chatbot" width={40} />
+        <img
+          src="https://rideshare-s3.s3.ap-south-1.amazonaws.com/chatbot_icon.png"
+          alt="Chatbot"
+          width={40}
+        />
       </ChatbotButton>
       <ChatbotPopup open={isOpen}>
         <ChatbotHeader>
-          <Typography sx={{ fontFamily: 'Poppins', fontSize: '20px' }}>
+          <Typography sx={{ fontFamily: "Poppins", fontSize: "20px" }}>
             Chat with us
           </Typography>
           <IconButton onClick={toggleChatbot}>
-            <KeyboardArrowDownIcon style={{ color: 'white' }} />
+            <KeyboardArrowDownIcon style={{ color: "white" }} />
           </IconButton>
         </ChatbotHeader>
         <ChatbotBody ref={chatbotBodyRef}>
@@ -237,7 +242,7 @@ const Chatbot = () => {
         </ChatbotInputContainer>
       </ChatbotPopup>
     </ChatbotContainer>
-  );
-};
+  )
+}
 
-export default Chatbot;
+export default Chatbot

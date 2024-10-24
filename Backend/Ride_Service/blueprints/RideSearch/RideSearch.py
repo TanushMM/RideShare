@@ -48,8 +48,6 @@ def post():
         request_body['email'] = email
                 
         collection.insert_one(request_body)
-        print(request_body)
-
         return "Success" , 200
         
     except Exception as e:

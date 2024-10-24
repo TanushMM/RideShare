@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import bcrypt from "bcryptjs";
+import React, { useState, useEffect } from "react"
+import bcrypt from "bcryptjs"
 import {
   Container,
   Box,
@@ -12,29 +12,30 @@ import {
   Alert,
   InputAdornment,
   IconButton,
-} from "@mui/material";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../Layout/Header";
-import { styled } from "@mui/system";
-import { motion } from "framer-motion";
+  CircularProgress,
+} from "@mui/material"
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration"
+import Visibility from "@mui/icons-material/Visibility"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
+import axios from "axios"
+import { useLocation, useNavigate } from "react-router-dom"
+import Header from "../Layout/Header"
+import { styled } from "@mui/system"
+import { motion } from "framer-motion"
 
 const GradientBackground = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
   display: "flex",
   flexDirection: "column",
-}));
+}))
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   flexGrow: 1,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-}));
+}))
 
 const StyledBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -43,7 +44,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
   maxWidth: "500px",
   width: "100%",
-}));
+}))
 
 const Heading = styled(Typography)(({ theme }) => ({
   fontSize: "2rem",
@@ -52,7 +53,7 @@ const Heading = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   textAlign: "center",
   fontFamily: "'Roboto Slab', serif",
-}));
+}))
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(3),
@@ -74,7 +75,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
     transform: "translateY(0)",
     boxShadow: "0 6px 15px rgba(15, 23, 42, 0.2)",
   },
-}));
+}))
 
 const Register = () => {
   const [data, setData] = useState({
@@ -82,93 +83,93 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-  });
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [message, setMessage] = useState("");
-  const [isTokenFetched, setIsTokenFetched] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [message, setMessage] = useState("")
+  const [isTokenFetched, setIsTokenFetched] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const fetchToken = async () => {
     if (sessionStorage.getItem("jwt") !== null) {
-      navigate("/home");
+      navigate("/home")
     }
-    setIsTokenFetched(true);
-  };
+    setIsTokenFetched(true)
+  }
 
   useEffect(() => {
-    fetchToken();
-  }, []);
+    fetchToken()
+  }, [])
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+    const { name, value } = e.target
+    setData({ ...data, [name]: value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!data.name || !data.email || !data.password) {
-      setMessage("Please fill in all required fields.");
-      setOpenSnackbar(true);
-      return;
+      setMessage("Please fill in all required fields.")
+      setOpenSnackbar(true)
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
     try {
-      const hashedPassword = await bcrypt.hash(data.password, 10);
+      const hashedPassword = await bcrypt.hash(data.password, 10)
       const res = await axios.post(
         `http://${import.meta.env.VITE_SERVER_IP}:8000/authentication/register`,
         { ...data, password: hashedPassword }
-      );
+      )
       const tokenResponse = await axios.post(
         `http://${import.meta.env.VITE_SERVER_IP}:8000/authorization/getJWT`,
         { jwt: data.email }
-      );
-      const token = tokenResponse.data.total_server_access_token;
+      )
+      const token = tokenResponse.data.total_server_access_token
 
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      };
+      }
 
-      data._id = res.data._id;
+      data._id = res.data._id
       if (res.status === 201) {
         await axios.post(
           `http://${import.meta.env.VITE_SERVER_IP}:8000/user/user/addUser`,
           { ...data, password: hashedPassword },
           config
-        );
+        )
       }
 
-      setMessage("Registration successful!");
-      setOpenSnackbar(true);
+      setMessage("Registration successful!")
+      setOpenSnackbar(true)
 
       setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+        navigate("/login")
+      }, 2000)
     } catch (err) {
-      console.error("Error during registration:", err);
-      setMessage("Error during registration. Please try again.");
-      setOpenSnackbar(true);
+      console.error("Error during registration:", err)
+      setMessage("Error during registration. Please try again.")
+      setOpenSnackbar(true)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+    setOpenSnackbar(false)
+  }
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   return (
     <GradientBackground>
@@ -178,7 +179,7 @@ const Register = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{ width: "100%" }}
+          style={{ width: "40%" }}
         >
           <StyledBox>
             <Box
@@ -301,7 +302,7 @@ const Register = () => {
         </Alert>
       </Snackbar>
     </GradientBackground>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
